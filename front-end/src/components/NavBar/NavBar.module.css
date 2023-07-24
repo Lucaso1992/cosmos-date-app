@@ -1,0 +1,35 @@
+.navbar{
+  color: white;
+  background-color: transparent;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 0 6px rgb(255, 255, 255);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.navbarBrand > .brand_icon {
+  font-size: 1.2rem;
+  margin-right: 0.3rem;
+}
+.navbarBrand{
+  border-bottom: 0.125rem solid transparent;
+  font-weight: bold;
+  transition-duration: 0.3s;
+}
+.navbarBrand:hover{
+  border-bottom: 0.125rem solid #ffffff;
+}
+
+.nav_item{
+  margin-right: 0.7rem;
+}
+.view_icon {
+  vertical-align: unset;
+  margin-right: 0.2rem;
+  font-size: 0.9rem;
+}
+.login_icon{
+  margin-right: 0.2rem;
+  font-size: 1.2rem;
+}

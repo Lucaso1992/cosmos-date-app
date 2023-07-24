@@ -2,12 +2,14 @@ import os
 from dotenv import load_dotenv
 from flask import Flask
 from flask_jwt_extended import JWTManager
+from flask_cors import CORS
 
 from utils.db import db
 from routes.api import api
 
 
 app = Flask(__name__)
+CORS(app)
 
 load_dotenv()
 
