@@ -9,7 +9,8 @@ import { deleteUser } from '../../Services/deleteUser'
 import style from "./Login.module.css"
 import { IoIosMail } from "react-icons/io";
 import { AiOutlineClose } from "react-icons/ai";
-import { BiSolidLock, BiSolidUser } from "react-icons/bi";
+import { BiSolidLock, BiSolidUser, BiLogOutCircle } from "react-icons/bi";
+import { BsTrash3Fill } from "react-icons/bs";
 
 export const Login = () => {
   const value = useAppContext();
@@ -90,11 +91,11 @@ export const Login = () => {
                   <>
                   <h2>Welcome {value.store.userData.user_name}!!</h2>
                   <button className={style.log_out} onClick={logOut}>
-                    <ion-icon name="log-out-outline"></ion-icon>
+                    <BiLogOutCircle />
                     Log out
                   </button>
                   <button className={style.delete_user} onClick={deleteUserFunction}>
-                  <ion-icon name="trash-outline"></ion-icon>
+                    <BsTrash3Fill />
                     Delete user
                   </button>
                   </>

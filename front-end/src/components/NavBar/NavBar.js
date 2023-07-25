@@ -55,7 +55,7 @@ export const NavBar = () => {
               ):('')
             }
             <li className="nav-item">
-              <button className="nav-link" data-bs-toggle="modal" data-bs-target="#loginModal">
+              <button className={`${style.login_button} nav-link`} data-bs-toggle="modal" data-bs-target="#loginModal">
                 {
                   value.store.token?
                   (

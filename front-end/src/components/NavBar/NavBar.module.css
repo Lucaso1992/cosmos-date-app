@@ -23,7 +23,13 @@
 
 .nav_item{
   margin-right: 0.7rem;
+  text-align: center;
 }
+
+.login_button{
+  width: 100%;
+}
+
 .view_icon {
   vertical-align: unset;
   margin-right: 0.2rem;
