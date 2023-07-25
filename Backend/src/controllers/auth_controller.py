@@ -15,8 +15,11 @@ def login_authentication():
     if user is None:
         return 'User not found!', 404
     
+    # elif user.is_active == False:
+    #     return 'User not validated', 401
+    
     elif bcrypt.checkpw(password_user.encode('utf-8'), user.password):
         refresh_token = create_refresh_token(identity=user.serialize())
-        return jsonify(refresh_token=refresh_token), 200
+        return jsonify(refresh_token=refresh_token), 200.0
     else:
         return 'Wrong password!!', 401
