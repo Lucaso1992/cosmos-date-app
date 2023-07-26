@@ -1,6 +1,6 @@
 export const deleteUser = (token) => {
   return(
-    fetch(`${process.env.REACT_APP_API_URL}/api/users/`, {
+    fetch(`${process.env.REACT_APP_API_URL}/api/users`, {
       method: 'DELETE',
       headers: {
         'Authorization': 'Bearer '+ token,

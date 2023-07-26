@@ -4,13 +4,12 @@ import { useNavigate } from "react-router-dom";
 import { useAppContext } from '../../flux/AppContext'
 import { getAutentication } from '../../Services/getAutentication'
 import { createUser } from '../../Services/createUser'
-import { deleteUser } from '../../Services/deleteUser'
 
 import style from "./Login.module.css"
 import { IoIosMail } from "react-icons/io";
 import { AiOutlineClose } from "react-icons/ai";
-import { BiSolidLock, BiSolidUser, BiLogOutCircle } from "react-icons/bi";
-import { BsTrash3Fill } from "react-icons/bs";
+import { BiSolidLock, BiSolidUser } from "react-icons/bi";
+
 
 export const Login = () => {
   const value = useAppContext();
@@ -42,37 +41,27 @@ export const Login = () => {
 
     if (loginMode===true){
       getAutentication(email, password, value.actions.setToken)
-      .then(()=>{
-        navigate('/');
-        setPassword('');
+      .then((resp)=>{
+        if (resp){
+          navigate('/Home');
+          setPassword('');
+        }
+        else return
       });
     }
     else {
       createUser(userName, email, password)
-      .then(()=>{
-        getAutentication(email, password, value.actions.setToken)
-      })
-      .then(()=>{
-        navigate('/');
-        setPassword('');
+      .then((resp)=>{
+        if (resp){
+          navigate('/');
+          setPassword('');
+          alert("Check your inbox for verify your email address.");
+        }
+        else return
       })
     }
   }
 
-  const logOut = () =>{
-    sessionStorage.removeItem("token");
-    value.actions.setToken('');
-    value.actions.setUserData({});
-    navigate('/');
-  }
-
-  const deleteUserFunction = () =>{
-    deleteUser(token);
-    sessionStorage.removeItem("token");
-    value.actions.setToken('');
-    value.actions.setUserData({});
-    navigate('/');
-  }
 
   return (
     <div className='modal fade' id={`loginModal`} data-bs-backdrop="static">
@@ -89,15 +78,8 @@ export const Login = () => {
                 token && token!=="" && token!==undefined ?
                 (
                   <>
-                  <h2>Welcome {value.store.userData.user_name}!!</h2>
-                  <button className={style.log_out} onClick={logOut}>
-                    <BiLogOutCircle />
-                    Log out
-                  </button>
-                  <button className={style.delete_user} onClick={deleteUserFunction}>
-                    <BsTrash3Fill />
-                    Delete user
-                  </button>
+                    <h2>Welcome,</h2>
+                    <h2>{value.store.userData.user_name}!</h2>
                   </>
                 ):(
                   <>
