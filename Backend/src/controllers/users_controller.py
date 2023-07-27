@@ -8,6 +8,7 @@ from utils.mail import mail
 from models.users import User
 from models.token import Token
 from templates.activation_mjs import email_text, email_html
+from templates.recovery_password import recovery_text, recovery_html
 
 
 def post_user():
@@ -62,6 +63,57 @@ def set_active(token):
             Token.query.filter_by(token=token).delete()
             db.session.commit()
             return jsonify({"message": "User activated"}), 200
+
+
+
+def forgot_password():
+    user_email = request.json.get('email')
+
+    if user_email is None:
+        return jsonify({"message": "Missing email"}), 400
+    else:
+        user_db = User.query.filter_by(email=user_email).first()
+
+        if user_db is None:
+            return jsonify({"message": "User not found in database"}), 404
+        else:
+            token_db = Token(user_id=user_db.id)
+            db.session.add(token_db)
+            db.session.commit()
+
+            msg = Message(
+                subject='COSMOS Password-recovery',
+                sender='noreply@demo.com',
+                recipients=[user_db.email],
+                body=recovery_text(user_db.user_name, token_db.token),
+                html=recovery_html(user_db.user_name, token_db.token)
+            )   
+            mail.send(msg)
+            return jsonify({"message": "Email sent"}), 200
+
+
+
+def new_password(token):
+    token_data = Token.query.filter_by(token=token).first()
+    if not token_data:
+        return jsonify({"message": "Invalid token"}), 404
+
+    elif (token_data.token_exp < datetime.datetime.now()):
+        Token.query.filter_by(token=token).delete()
+        db.session.commit()
+        return jsonify({"message": "Token expired"}), 403
+
+    else:
+        new_password = request.json.get("password")
+        user_db = User.query.filter_by(id=token_data.user_id).first()
+
+        if user_db is None:
+            return jsonify({"message": "User not found"}), 404
+        else:
+            user_db.password = bcrypt.hashpw(new_password.encode('utf-8'), bcrypt.gensalt())
+            Token.query.filter_by(token=token).delete()
+            db.session.commit()
+            return jsonify({"message": "Password updated"}), 200
 
 
 
