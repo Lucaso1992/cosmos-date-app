@@ -20,6 +20,6 @@ def login_authentication():
     
     elif bcrypt.checkpw(password_user.encode('utf-8'), user.password):
         refresh_token = create_refresh_token(identity=user.serialize())
-        return jsonify(refresh_token=refresh_token), 200.0
+        return jsonify(refresh_token=refresh_token), 200
     else:
         return 'Wrong password!!', 401
