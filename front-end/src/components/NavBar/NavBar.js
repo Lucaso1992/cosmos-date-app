@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 
 import {Login} from "../Login/Login"
+import {AccountSettings} from "../Account_Settings/AccountSettings"
 import { useAppContext } from '../../flux/AppContext'
 
 import style from "./NavBar.module.css"
@@ -8,7 +9,6 @@ import { BiSolidLogInCircle } from "react-icons/bi";
 import { BsMoonStars, BsArrowThroughHeartFill } from "react-icons/bs";
 import { IoHome } from "react-icons/io5";
 import { FaUserTie } from "react-icons/fa";
-import { MdManageAccounts } from "react-icons/md";
 
 export const NavBar = () => {
   const value = useAppContext();
@@ -20,7 +20,7 @@ export const NavBar = () => {
 
         <Link className={`${style.navbarBrand} navbar-brand`} to="/">
           <BsMoonStars className={style.brand_icon}/>
-          Dating Stars
+          Cosmos
         </Link>
 
         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#favoritesDropdown">
@@ -34,19 +34,19 @@ export const NavBar = () => {
               (
                 <>
                 <li className={`${style.nav_item} nav-item`}>
-                  <Link className={`${style.nav_link} nav-link`} to='/Home'>
+                  <Link className="nav-link" to='/Home'>
                     <IoHome className={style.view_icon}/>
                     Home
                   </Link>
                 </li>
                 <li className={`${style.nav_item} nav-item`}>
-                  <Link className={`${style.nav_link} nav-link`} to='/Match'>
+                  <Link className="nav-link" to='/Match'>
                     <BsArrowThroughHeartFill className={style.view_icon} />
                     Match
                   </Link>
                 </li>
                 <li className={`${style.nav_item} nav-item`}>
-                  <Link className={`${style.nav_link} nav-link`} to='/Porfile'>
+                  <Link className="nav-link" to='/Porfile'>
                   <FaUserTie className={style.view_icon} />
                     Porfile
                   </Link>
@@ -55,22 +55,17 @@ export const NavBar = () => {
               ):('')
             }
             <li className="nav-item">
-              <button className={`${style.login_button} nav-link`} data-bs-toggle="modal" data-bs-target="#loginModal">
-                {
-                  value.store.token?
-                  (
-                    <>
-                      <MdManageAccounts className={style.login_icon}/>
-                      Account
-                    </>
-                    ):(
-                    <>
-                      <BiSolidLogInCircle className={style.login_icon}/>
-                      Login
-                    </>
-                  )
-                }
-              </button>
+              {
+                value.store.token?
+                (
+                  <AccountSettings />
+                ):(
+                  <button className={`${style.login_button} nav-link`} data-bs-toggle="modal" data-bs-target="#loginModal">
+                    <BiSolidLogInCircle className={style.login_icon}/>
+                    Login
+                  </button>
+                )
+              }
             </li>
 
           </ul>

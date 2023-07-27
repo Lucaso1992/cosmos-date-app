@@ -12,6 +12,7 @@ class User(db.Model):
     updated_at = db.Column(db.DateTime,
                            default=db.func.current_timestamp(),
                            onupdate=db.func.current_timestamp())
+    token = db.relationship("Token", backref="users", lazy=True)
 
     def __repr__(self):
         return f'<User {self.email}>'
@@ -21,6 +22,7 @@ class User(db.Model):
             "id": self.id,
             "user_name": self.user_name,
             "email": self.email,
+            "is_active": self.is_active,
             "created_at": self.created_at,
             "updated_at": self.updated_at
         }

@@ -1,6 +1,6 @@
 export const createUser = (username ,email, password) => {
   return(
-    fetch(`${process.env.REACT_APP_API_URL}/api/users/`, {
+    fetch(`${process.env.REACT_APP_API_URL}/api/users`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -12,10 +12,13 @@ export const createUser = (username ,email, password) => {
       })
     })
     .then(resp =>{
-      if (resp.status<200 && resp.status>=300){
+      if (resp.status===400){
+        alert("This email already exist on data base");
+      }
+      else if (resp.status!==201){
         alert("There has been an error creating user");
       }
-      else return resp.json();
+      else return true;
     })
     .catch(error => {
       console.log("Error:" + error);
