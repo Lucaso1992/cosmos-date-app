@@ -68,15 +68,21 @@ def set_active(token):
 
 def forgot_password():
     user_email = request.json.get('email')
+    user_db = User.query.filter_by(email=user_email).first()
 
-    if user_email is None:
-        return jsonify({"message": "Missing email"}), 400
-    else:
-        user_db = User.query.filter_by(email=user_email).first()
+    if user_db is None:
+        return jsonify({"message": "User not found in database"}), 404
 
-        if user_db is None:
-            return jsonify({"message": "User not found in database"}), 404
+    elif user_db:
+        existing_token = Token.query.filter_by(user_id=user_db.id).first()
+
+        if existing_token and (existing_token.token_exp > datetime.datetime.now()):
+            return jsonify({"message": "Token already exist and is available."}), 400
+
         else:
+            if existing_token and (existing_token.token_exp < datetime.datetime.now()):
+                db.session.delete(Token.query.get(existing_token.id))
+            
             token_db = Token(user_id=user_db.id)
             db.session.add(token_db)
             db.session.commit()

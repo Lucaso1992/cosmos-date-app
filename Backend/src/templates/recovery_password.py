@@ -5,7 +5,7 @@ def recovery_text(username, token):
     Estimado/a {username}
     ¿Necesitas cambiar tu contraseña?
     Haz clic en el siguiente enlace para recuperarla:
-    {os.getenv('BACKEND_SERVER')}/api/users/forgot-password/{token}
+    {os.getenv('FRONTEND_SERVER')}/Change-password/{token}
     """
 
 def recovery_html(username, token):
@@ -26,7 +26,7 @@ def recovery_html(username, token):
                 <p style="text-align:center; color: white">
                     Haz clic en el siguiente enlace para recuperarla:
                 </p>
-                  <a href="{f"{os.getenv('BACKEND_SERVER')}/api/users/forgot-password/{token}"}" style="text-decoration:none; border: 1px; padding: 8px; background:#dfdfdf; border-radius: 10px;color: black; text-align: center; display: block; margin: 0 9rem">
+                  <a href="{f"{os.getenv('FRONTEND_SERVER')}/Change-password/{token}"}" style="text-decoration:none; border: 1px; padding: 8px; background:#dfdfdf; border-radius: 10px;color: black; text-align: center; display: block; margin: 0 9rem">
                       Recupera tu cuenta
                   </a>
                 <p style="color: white; text-align:center">
@@ -34,7 +34,7 @@ def recovery_html(username, token):
                 </p>
                 <p style="color: white; text-align:center"> 
                     Si no puedes acceder al enlace, copia y pega la siguiente dirección en tu navegador:<br>
-                    {f"{os.getenv('BACKEND_SERVER')}/api/users/forgot-password/{token}"}
+                    {f"{os.getenv('FRONTEND_SERVER')}/Change-password/{token}"}
                 </p>
             </div>
         </body>    

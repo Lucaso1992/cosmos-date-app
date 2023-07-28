@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useNavigate } from "react-router-dom";
 
 import { useAppContext } from '../../flux/AppContext'
 import { getAutentication } from '../../Services/getAutentication'
 import { createUser } from '../../Services/createUser'
+import { ForgotPassword } from '../Forgot_Password/ForgotPassword';
 
 import style from "./Login.module.css"
 import { IoIosMail } from "react-icons/io";
@@ -14,6 +15,7 @@ import { BiSolidLock, BiSolidUser } from "react-icons/bi";
 export const Login = () => {
   const value = useAppContext();
   const [loginMode, setLoginMode] = useState(true);
+  const [forgotPassword, setForgotPassword] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [userName, setUserName] = useState('');
@@ -25,6 +27,11 @@ export const Login = () => {
   const changeLoginForm = () => {
     setLoginMode(!loginMode);
   }
+  const changeForgetMode = () => {
+    setForgotPassword(!forgotPassword);
+    setLoginMode(false);
+  }
+
   const handleEmailInput = (e) =>{
     setEmail(e.target.value)
   }
@@ -33,6 +40,14 @@ export const Login = () => {
   }
   const handleUserNameInput = (e) =>{
     setUserName(e.target.value)
+  }
+
+  const resetModal = () =>{
+    setLoginMode(true);
+    setForgotPassword(false);
+    setEmail('');
+    setPassword('');
+    setUserName('');
   }
 
 
@@ -53,8 +68,7 @@ export const Login = () => {
       createUser(userName, email, password)
       .then((resp)=>{
         if (resp){
-          navigate('/');
-          setPassword('');
+          resetModal();
           alert("Check your inbox for verify your email address.");
         }
         else return
@@ -69,23 +83,27 @@ export const Login = () => {
         <div className={`${style.modal_content} modal-content`}>
 
           <div className={`col-12`}>
-            <button className={style.icon_close} type='button' data-bs-dismiss="modal">
+            <button className={style.icon_close} type='button' onClick={resetModal} data-bs-dismiss="modal">
               <AiOutlineClose />
             </button>
 
-            <div className={style.login}>
+            <div className={style.modal_body}>
               {
-                token && token!=="" && token!==undefined ?
+                forgotPassword?
                 (
-                  <>
-                    <h2>Welcome,</h2>
-                    <h2>{value.store.userData.user_name}!</h2>
-                  </>
+                  <ForgotPassword handle_ForgotMode={changeForgetMode}/>
                 ):(
-                  <>
-                  <h2>{loginMode?'Login':'Sing In'}</h2>
-                  
-                  <form onSubmit={submitFuntion}>
+                  token && token!=="" && token!==undefined ?
+                  (
+                    <>
+                      <h2>Welcome,</h2>
+                      <h2>{value.store.userData.user_name}!</h2>
+                    </>
+                  ):(
+                    <>
+                    <h2>{loginMode?'Login':'Sing In'}</h2>
+                    
+                    <form onSubmit={submitFuntion}>
 
                     {loginMode?
                       '':
@@ -98,42 +116,51 @@ export const Login = () => {
                       </div>
                     }
 
-                    <div className={style.input_box}>
-                      <span className={style.icon}>
-                        <IoIosMail />
-                      </span>
-                      <input type='email' value={email} onChange={handleEmailInput} required/>
-                      <label>Email:</label>
-                    </div>
+                      <div className={style.input_box}>
+                        <span className={style.icon}>
+                          <IoIosMail />
+                        </span>
+                        <input type='email' value={email} onChange={handleEmailInput} required/>
+                        <label>Email:</label>
+                      </div>
 
-                    <div className={style.input_box}>
-                      <span className={style.icon}>
-                        <BiSolidLock />
-                      </span>
-                      <input type='password' value={password} onChange={handlePasswordInput} required/> 
-                      <label>Password:</label>
-                    </div>
+                      <div className={style.input_box}>
+                        <span className={style.icon}>
+                          <BiSolidLock />
+                        </span>
+                        <input type='password' value={password} onChange={handlePasswordInput} required/> 
+                        <label>Password:</label>
+                      </div>
 
-                    <div className={style.remember_forgot}>
-                      <label>
-                        <input type='checkbox' />
-                        {loginMode?'Remember me':'I agreed to the terms & conditions'}
-                      </label>
-                      {loginMode?(<a className={style.forgot_link} href='#'>Forgot Password?</a>):''}
-                    </div>
+                      <div className={style.remember_forgot}>
+                        <label>
+                          <input type='checkbox' />
+                          {loginMode?'Remember me':'I agreed to the terms & conditions'}
+                        </label>
+                        {loginMode?
+                          (
+                            <button className={style.forgot_link} onClick={changeForgetMode}>
+                              Forgot Password?
+                            </button>
+                          ):''
+                        }
+                      </div>
 
-                    <button type='submit' className={style.submit_btn}>{loginMode?'Login':'Register'}</button>
-                    
-                    <div className={style.login_register}>
-                      <p>
-                        {loginMode?"Don't have an account?":"You already have an account?"}
-                        <button type='button' className={style.register_link} onClick={changeLoginForm}>
-                          {loginMode?'Sing in':'Login'}
-                        </button>
-                      </p>
-                    </div>
-                  </form>
-                  </>
+                      <button type='submit' className={style.submit_btn}>
+                        {loginMode?'Login':'Register'}
+                      </button>
+                      
+                      <div className={style.login_register}>
+                        <p>
+                          {loginMode?"Don't have an account?":"You already have an account?"}
+                          <button type='button' className={style.register_link} onClick={changeLoginForm}>
+                            {loginMode?'Sing in':'Login'}
+                          </button>
+                        </p>
+                      </div>
+                    </form>
+                    </>
+                  )
                 )
               }
 
