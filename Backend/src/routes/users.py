@@ -1,10 +1,22 @@
 from flask import Blueprint, request, jsonify
 from sqlalchemy.exc import IntegrityError
-from flask_jwt_extended import jwt_required, get_jwt_identity
+from flask_jwt_extended import jwt_required, get_jwt_identity, create_refresh_token
 
+from models.users import User
 from controllers.users_controller import post_user, set_active, forgot_password, new_password, delete_user
+from controllers.porfile_like_controller import like_porfile
 
 users = Blueprint('users',__name__)
+
+
+
+@users.route('/api/users/all', methods=['GET'])
+def get_all_user():
+    users = User.query.all()
+    list_users = [user.serialize_with_likes() for user in users]
+    return jsonify(list_users)
+
+
 
 @users.route("/api/users", methods=['POST'])
 def create_user():
@@ -15,7 +27,6 @@ def create_user():
             return post_user(), 201
     except IntegrityError:
         return {"message": "User with that email is already registered"}, 400
-
 
 
 @users.route("/api/users/activate/<token>", methods=['GET'])
@@ -60,13 +71,21 @@ def index_user():
         return jsonify(user)  
 
     
-@users.route('/api/users', methods=['DELETE'])
+@users.route('/api/users', methods=['PUT','DELETE'])
 @jwt_required(refresh=True)
 def update_user():
     user = get_jwt_identity()
 
     if request.method == 'PUT':
-        return jsonify(message="User updated"), 200
+        try:
+            if "user_likes" not in request.json:
+                return jsonify({"message": "missing an 'user_likes' keys in json"}), 400
+            else:
+                user_updated = like_porfile(user)
+                refresh_token = create_refresh_token(identity=user_updated)
+                return jsonify(refresh_token=refresh_token), 200
+        except Exception:
+            return jsonify({"message": "Internal server error"}), 500
     
     if request.method == 'DELETE':
         return delete_user(user), 200

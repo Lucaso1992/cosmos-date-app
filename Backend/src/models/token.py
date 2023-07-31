@@ -14,7 +14,7 @@ class Token(db.Model):
     def __init__(self, user_id):
         self.user_id = user_id
         self.token = uuid.uuid4().hex
-        self.token_exp = datetime.datetime.now() + datetime.timedelta(minutes=15)
+        self.token_exp = datetime.datetime.now() + datetime.timedelta(minutes=10)
     
     # def as_dict(self):
     #     return {col.name: getattr(self, col.name) for col in self.__table__.columns}

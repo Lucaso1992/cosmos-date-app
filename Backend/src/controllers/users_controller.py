@@ -1,6 +1,7 @@
+import os
 import datetime
 import bcrypt
-from flask import jsonify, request
+from flask import jsonify, request, redirect
 from flask_mail import Message
 
 from utils.db import db
@@ -31,7 +32,7 @@ def post_user():
 
     msg = Message(
         subject='COSMOS Authentication Email',
-        sender='noreply@demo.com',
+        sender='noreply@cosmos.com',
         recipients=[new_user.email],
         body=email_text(new_user.user_name, token_db.token),
         html=email_html(new_user.user_name, token_db.token)
@@ -62,7 +63,7 @@ def set_active(token):
             user_db.is_active = True
             Token.query.filter_by(token=token).delete()
             db.session.commit()
-            return jsonify({"message": "User activated"}), 200
+            return redirect(f"{os.getenv('FRONTEND_SERVER')}/"), 200
 
 
 
@@ -76,26 +77,22 @@ def forgot_password():
     elif user_db:
         existing_token = Token.query.filter_by(user_id=user_db.id).first()
 
-        if existing_token and (existing_token.token_exp > datetime.datetime.now()):
-            return jsonify({"message": "Token already exist and is available."}), 400
+        if existing_token and (existing_token.token_exp < datetime.datetime.now()):
+            db.session.delete(Token.query.get(existing_token.id))
+        
+        token_db = Token(user_id=user_db.id)
+        db.session.add(token_db)
+        db.session.commit()
 
-        else:
-            if existing_token and (existing_token.token_exp < datetime.datetime.now()):
-                db.session.delete(Token.query.get(existing_token.id))
-            
-            token_db = Token(user_id=user_db.id)
-            db.session.add(token_db)
-            db.session.commit()
-
-            msg = Message(
-                subject='COSMOS Password-recovery',
-                sender='noreply@demo.com',
-                recipients=[user_db.email],
-                body=recovery_text(user_db.user_name, token_db.token),
-                html=recovery_html(user_db.user_name, token_db.token)
-            )   
-            mail.send(msg)
-            return jsonify({"message": "Email sent"}), 200
+        msg = Message(
+            subject='COSMOS Password-recovery',
+            sender='noreply@cosmos.com',
+            recipients=[user_db.email],
+            body=recovery_text(user_db.user_name, token_db.token),
+            html=recovery_html(user_db.user_name, token_db.token)
+        )   
+        mail.send(msg)
+        return jsonify({"message": "Email sent"}), 200
 
 
 
