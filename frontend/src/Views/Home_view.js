@@ -4,7 +4,7 @@ import {Home} from "../components/Home/Home";
 // import RingLoader from "react-spinners/RingLoader";
 
 
-function Home_view() {
+function HomeView() {
   // const value = useAppContext();
 
   return (
@@ -19,4 +19,4 @@ function Home_view() {
     </>
   );
 }
-export default Home_view;
+export default HomeView;

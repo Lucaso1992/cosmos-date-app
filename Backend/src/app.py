@@ -5,11 +5,10 @@ from flask_jwt_extended import JWTManager
 from flask_cors import CORS
 from flask_migrate import Migrate
 
-
+# from models.porfile_likes import Porfile_Like
 from utils.db import db
 from utils.mail import mail
 from routes.api import api
-
 
 
 # static_file_dir = os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', 'front-end', 'build')
@@ -19,14 +18,12 @@ CORS(app)
 
 load_dotenv()
 
-
 app.config["MAIL_SERVER"] = "smtp.gmail.com"
 app.config["MAIL_PORT"] = 465
 app.config["MAIL_USERNAME"] = "datingstars23@gmail.com"
 app.config["MAIL_PASSWORD"] = os.getenv("MAIL_PASSWORD")
 app.config["MAIL_USE_TLS"] = False
 app.config["MAIL_USE_SSL"] = True
-
 
 
 app.config["JWT_SECRET_KEY"] = os.getenv('JWT_SECRET_KEY')

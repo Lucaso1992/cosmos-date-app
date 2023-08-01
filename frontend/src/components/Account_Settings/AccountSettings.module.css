@@ -1,0 +1,38 @@
+.dropdown_list{
+  color: white;
+  border: 1px solid rgba(232, 232, 232, 0.728);
+  background-color: rgba(0, 0, 0, 0.40);
+  overflow: hidden;
+  min-width: fit-content;
+  top: 140% !important;
+  transition: 1s;
+  /* backdrop-filter: blur(20px) !important; */
+}
+
+.account_button{
+  padding-top: 0.4rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.account_icon{
+  vertical-align: text-bottom;
+  margin-right: 0.1rem;
+  font-size: 1.6rem;
+}
+
+.dropdown_item{
+  margin: 0.4rem 0;
+}
+.dropdown_item:hover{
+  background-color: transparent;
+  box-shadow: 0 0 6px rgb(255, 255, 255);
+}
+
+.item_icon{
+  margin-right: 0.5rem;
+  font-size: 1.3rem;
+  vertical-align: text-bottom;
+}

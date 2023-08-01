@@ -1,6 +1,6 @@
 export const getUserData = (token, updateFunction) => {
   return(
-    fetch(`${process.env.REACT_APP_API_URL}/api/users/`, {
+    fetch(`${process.env.REACT_APP_API_URL}/api/users`, {
       headers: {
         'Authorization': 'Bearer '+ token
       }

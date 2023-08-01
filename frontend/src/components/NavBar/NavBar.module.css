@@ -31,11 +31,11 @@
 }
 
 .view_icon {
-  vertical-align: unset;
+  vertical-align: text-bottom;
   margin-right: 0.2rem;
-  font-size: 0.9rem;
+  font-size: 1.1rem;
 }
 .login_icon{
-  margin-right: 0.2rem;
+  margin-right: 0.3rem;
   font-size: 1.2rem;
 }
