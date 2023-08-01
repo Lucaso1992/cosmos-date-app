@@ -4,17 +4,17 @@ from flask_jwt_extended import jwt_required, get_jwt_identity, create_refresh_to
 
 from models.users import User
 from controllers.users_controller import post_user, set_active, forgot_password, new_password, delete_user
-from controllers.porfile_like_controller import like_porfile
+from controllers.profile_controller import like_profile, info_profile
 
 users = Blueprint('users',__name__)
 
 
 
-@users.route('/api/users/all', methods=['GET'])
-def get_all_user():
-    users = User.query.all()
-    list_users = [user.serialize_with_likes() for user in users]
-    return jsonify(list_users)
+# @users.route('/api/users/all', methods=['GET'])
+# def get_all_user():
+#     users = User.query.all()
+#     list_users = [user.serialize_with_profile() for user in users]
+#     return jsonify(list_users)
 
 
 
@@ -71,21 +71,40 @@ def index_user():
         return jsonify(user)  
 
     
-@users.route('/api/users', methods=['PUT','DELETE'])
+@users.route('/api/users', methods=['DELETE'])
 @jwt_required(refresh=True)
 def update_user():
     user = get_jwt_identity()
+    return delete_user(user), 200
 
-    if request.method == 'PUT':
-        try:
-            if "user_likes" not in request.json:
-                return jsonify({"message": "missing an 'user_likes' keys in json"}), 400
-            else:
-                user_updated = like_porfile(user)
-                refresh_token = create_refresh_token(identity=user_updated)
-                return jsonify(refresh_token=refresh_token), 200
-        except Exception:
-            return jsonify({"message": "Internal server error"}), 500
-    
-    if request.method == 'DELETE':
-        return delete_user(user), 200
+
+
+@users.route('/api/users/update-likes', methods=['PUT'])
+@jwt_required(refresh=True)
+def update_user_likes():
+    user = get_jwt_identity()
+    try:
+        if "user_likes" not in request.json:
+            return jsonify({"message": "missing an 'user_likes' keys in json"}), 400
+        else:
+            user_updated = like_profile(user)
+            refresh_token = create_refresh_token(identity=user_updated)
+            return jsonify(refresh_token=refresh_token), 200
+    except Exception:
+        return jsonify({"message": "Internal server error"}), 500
+
+
+@users.route('/api/users/update-profile', methods=['PUT'])
+@jwt_required(refresh=True)
+def update_user_profile():
+    user = get_jwt_identity()
+    try:
+        required_keys = ["profile_image","zodiac_sign","location","gender","love_interest","date_born"]
+        if not all(key in request.json for key in required_keys):
+            return jsonify({"message": "missing an 'profile_image', 'zodiac_sign', 'location', 'gender', 'love_interest', 'date_born' keys in json"}), 400
+        else:
+            user_updated = info_profile(user)
+            refresh_token = create_refresh_token(identity=user_updated)
+            return jsonify(refresh_token=refresh_token), 200
+    except Exception:
+        return jsonify({"message": "Internal server error"}), 500

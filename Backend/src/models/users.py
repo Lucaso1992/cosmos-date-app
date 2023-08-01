@@ -1,5 +1,5 @@
 from utils.db import db
-from models.porfile_likes import Porfile_Like
+from models.profile_likes import Profile_Like
 
 
 class User(db.Model):
@@ -15,17 +15,18 @@ class User(db.Model):
                            default=db.func.current_timestamp(),
                            onupdate=db.func.current_timestamp())
     token = db.relationship("Token", backref="users", cascade="all, delete", lazy=True)
+    profile = db.relationship("Profile", backref="user", uselist=False, cascade="all, delete", lazy=True)
 
     likes_from = db.relationship('User',
-                                  secondary='porfile_Likes',
-                                  primaryjoin=(id==Porfile_Like.user_to_id),
-                                  secondaryjoin=(id==Porfile_Like.user_from_id),
+                                  secondary='profile_Likes',
+                                  primaryjoin=(id==Profile_Like.user_to_id),
+                                  secondaryjoin=(id==Profile_Like.user_from_id),
                                   back_populates="likes_to",
                                   lazy=True)
     likes_to = db.relationship('User',
-                                secondary='porfile_Likes',
-                                primaryjoin=(id==Porfile_Like.user_from_id),
-                                secondaryjoin=(id==Porfile_Like.user_to_id),
+                                secondary='profile_Likes',
+                                primaryjoin=(id==Profile_Like.user_from_id),
+                                secondaryjoin=(id==Profile_Like.user_to_id),
                                 back_populates="likes_from",
                                 lazy=True)
     
@@ -43,6 +44,17 @@ class User(db.Model):
             "is_active": self.is_active,
             "created_at": self.created_at,
             "updated_at": self.updated_at
+        }
+    
+    def serialize_with_profile(self):
+        return {
+            "id": self.id,
+            "user_name": self.user_name,
+            "email": self.email,
+            "is_active": self.is_active,
+            "created_at": self.created_at,
+            "updated_at": self.updated_at,
+            "profile": self.profile.as_dict()
         }
     
     def serialize_with_likes(self):
