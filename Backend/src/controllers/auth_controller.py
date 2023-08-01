@@ -16,11 +16,7 @@ def login_authentication():
         return jsonify({"message": "User mail not validated"}), 403
     
     elif bcrypt.checkpw(password_user.encode('utf-8'), user.password):
-<<<<<<< HEAD
-        refresh_token = create_refresh_token(identity=user.serialize())
-=======
         refresh_token = create_refresh_token(identity=user.serialize_with_likes())
->>>>>>> ef57709715cf0005eaad1b567003d45d9cd3e076
         return jsonify(refresh_token=refresh_token), 200
     else:
         return 'Wrong password!!', 401
