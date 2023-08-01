@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 import { useAppContext } from '../../flux/AppContext'
 import { getAutentication } from '../../Services/getAutentication'
@@ -139,9 +139,9 @@ export const Login = () => {
                         </label>
                         {loginMode?
                           (
-                            <button className={style.forgot_link} onClick={changeForgetMode}>
+                            <Link className={style.forgot_link} onClick={changeForgetMode}>
                               Forgot Password?
-                            </button>
+                            </Link>
                           ):''
                         }
                       </div>
