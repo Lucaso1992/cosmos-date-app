@@ -5,18 +5,20 @@ from flask_jwt_extended import JWTManager
 from flask_cors import CORS
 from flask_migrate import Migrate
 
-# from models.porfile_likes import Porfile_Like
 from utils.db import db
 from utils.mail import mail
+from controllers.socket_io_controller import socketio
 from routes.api import api
+
 
 
 # static_file_dir = os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', 'front-end', 'build')
 
 app = Flask(__name__) #, static_folder=static_file_dir
 CORS(app)
-
 load_dotenv()
+
+app.config["DEBUG"] = True
 
 app.config["MAIL_SERVER"] = "smtp.gmail.com"
 app.config["MAIL_PORT"] = 465
@@ -33,6 +35,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('SQLALCHEMY_DATABASE_URI')
 
 mail.init_app(app)
 db.init_app(app)
+socketio.init_app(app, cors_allowed_origins='*')
 
 migrate = Migrate(app, db)
 
@@ -50,4 +53,4 @@ with app.app_context():
     db.create_all()
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    socketio.run(app)

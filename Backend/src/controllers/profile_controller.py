@@ -1,5 +1,5 @@
 import datetime
-from flask import request, jsonify
+from flask import request
 
 from models.users import User
 from models.profile_info import Profile

@@ -2,6 +2,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import { NavBar } from './components/NavBar/NavBar';
 import {routes} from './Routes/Routes'
+import {Chats} from './components/Chats/Chats'
 
 import './App.css';
 
@@ -14,7 +15,7 @@ function App() {
         { routes.map(route=> <Route {...route} key={route.path} />) }
       </Routes>
 
-      {/* <Footer text="Copyright © Geovanny Valladares 2023"/> */}
+      <Chats />
     </BrowserRouter>
   );
 }
