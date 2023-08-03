@@ -1,7 +1,5 @@
-import image1 from "./assets/person-img-1.png"
-
 export const userMatches = [{
-imageName: image1,
+imageName: "https://i.ibb.co/VgZttZT/person-img-1-2.png",
 user_name: "Laura",
 user_age: "27",
 user_city: "Paris, Francia",
