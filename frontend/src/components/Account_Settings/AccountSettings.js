@@ -14,9 +14,11 @@ export const AccountSettings = () => {
 
   const navigate = useNavigate()
   const token = value.store.token;
+  const socket = value.store.socket
 
   const logOut = () =>{
     sessionStorage.removeItem("token");
+    socket.disconnect();
     value.actions.setToken('');
     value.actions.setUserData({});
     navigate('/');
