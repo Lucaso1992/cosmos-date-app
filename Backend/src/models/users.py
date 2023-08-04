@@ -58,7 +58,7 @@ class User(db.Model):
             "is_active": self.is_active,
             "created_at": self.created_at,
             "updated_at": self.updated_at,
-            "profile": self.profile.as_dict()
+            "profile": self.profile.as_dict() if self.profile else {}
         }
     
     def serialize_with_likes(self):
@@ -69,7 +69,7 @@ class User(db.Model):
             "is_active": self.is_active,
             "created_at": self.created_at,
             "updated_at": self.updated_at,
-            "likes_from": [like_from.serialize() for like_from in self.likes_from],
+            "matches": [like_from.serialize() for like_from in self.likes_from if like_from in self.likes_to],
             "likes_to": [like_to.serialize() for like_to in self.likes_to]
         }
     

@@ -60,7 +60,7 @@
   padding: 1rem;
 
   height: 88dvh;
-  min-width: 75%;
+  width: 75%;
 
   background-color: transparent;
   border: 2px solid #ffffff70;
@@ -116,24 +116,44 @@
   overflow: auto;
 }
 
-.chat_sender{
-  margin: 0;
-  margin-bottom: 0.15rem;
-  margin-top: 0.6rem;
-  text-align: start;
-  font-size: 0.8rem;
-  color: rgba(202, 202, 202, 0.89)
-}
-.chat_text{
-  padding: 0.1rem 1rem;
-  border-radius: 1.5rem;
+
+.chat_recived{
+  margin-top: 0.4rem;
+  padding: 0rem 1.1rem 0.1rem 1.1rem;
+  border-radius: 1.4rem;
 
   max-width: fit-content;
   background-color: rgba(33, 43, 162, 0.637);
   text-align: start;
   font-weight: 600;
+  word-wrap: break-word;
   list-style: none;
 }
+.recived_name{
+  margin: 0;
+  font-size: 0.8rem;
+  color: rgba(202, 202, 202, 0.89);
+}
+.chat_sender{
+  margin-top: 0.4rem;
+  margin-left: auto;
+  padding: 0rem 1.1rem 0.1rem 1.1rem;
+  border-radius: 1.4rem;
+
+  max-width: fit-content;
+  color: black;
+  background-color: rgba(255, 255, 255, 0.637);
+  text-align: end;
+  font-weight: 600;
+  word-wrap: break-word;
+  list-style: none;
+}
+.sender_name{
+  margin: 0;
+  font-size: 0.8rem;
+  color: rgba(37, 37, 37, 0.89);
+}
+
 
 
 .chat_footer{

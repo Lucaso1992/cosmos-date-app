@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
 import { useAppContext } from '../../flux/AppContext'
 
@@ -11,33 +11,47 @@ export const Chats = () => {
   const [visibility, setVisibility] = useState(false);
   const [inputData, setInputData] = useState('');
   const [messages, setMessages] = useState([]);
+  const scrollableDivRef = useRef(null);
   const value = useAppContext();
 
   const socket = value.store.socket
+  const userData = value.store.userData
 
   
   const changeVisibility = () => {
     setVisibility(!visibility);
   }
-  const handleInputChange = (e) => {
-    setInputData(e.target.value);
-  }
   
+  
+
   const handleSendMessage = (e) => {
     e.preventDefault();
-    socket.emit('message', inputData); 
+    socket.emit('message', {'message': inputData, 'sender_id':userData.id, 'sendrer_name':userData.user_name}); 
     setInputData('');
   }
   const recivedMessage = (data) => {
     setMessages(prev => [...prev, data]);
   }
-
-
   useEffect(() => {
     if (socket){
       socket.on('chat', recivedMessage);
     }
   }, [socket]);
+  
+  
+  
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+  const scrollToBottom = () => {
+    const scrollableDiv = scrollableDivRef.current;
+    if (scrollableDiv) {
+      scrollableDiv.scrollTo({
+        top: scrollableDiv.scrollHeight,
+        behavior: 'smooth',
+      });
+    }
+  }
 
 
 
@@ -57,21 +71,34 @@ export const Chats = () => {
             <h1>Chats</h1>
 
             <div className={style.chat_body}>
-              <ul className={style.chat_message}>
+              <ul className={style.chat_message} ref={scrollableDivRef}>
                 {
                   messages.map((message, i) => (
-                    <div key={i}>
-                      <p className={style.chat_sender}>{message.sender}:</p>
-                      <li className={style.chat_text}>
-                        {message.message}
-                      </li>
-                    </div>
+                    <li
+                      className={
+                      userData.user_name===message.sendrer_name?
+                      style.chat_sender:
+                      style.chat_recived}
+                      key={i}>
+                      <p
+                        className={
+                        userData.user_name===message.sendrer_name?
+                        style.sender_name:
+                        style.recived_name}>
+                        {message.sendrer_name}:
+                      </p>
+                      {message.message}
+                    </li>
                   ))
                 }
               </ul>
 
               <form className={style.chat_footer} onSubmit={handleSendMessage}>
-                <input type="text" className={style.input} value={inputData} onChange={handleInputChange}/>
+                <input 
+                  type="text" 
+                  className={style.input} 
+                  value={inputData} 
+                  onChange={(e)=>setInputData(e.target.value)}/>
                 <button type="submit" className={style.send_btn} >
                   <MdSend />
                 </button>
