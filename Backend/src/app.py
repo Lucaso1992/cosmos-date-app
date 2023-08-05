@@ -18,8 +18,6 @@ app = Flask(__name__) #, static_folder=static_file_dir
 CORS(app)
 load_dotenv()
 
-app.config["DEBUG"] = True
-
 app.config["MAIL_SERVER"] = "smtp.gmail.com"
 app.config["MAIL_PORT"] = 465
 app.config["MAIL_USERNAME"] = "datingstars23@gmail.com"
@@ -53,4 +51,4 @@ with app.app_context():
     db.create_all()
 
 if __name__ == "__main__":
-    socketio.run(app)
+    socketio.run(app, debug=True)
