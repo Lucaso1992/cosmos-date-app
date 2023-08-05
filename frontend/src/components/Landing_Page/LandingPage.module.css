@@ -35,12 +35,18 @@
     font-size: 1.1rem;
     font-weight: 500;
     transition: 0.4s;
-    color: white;
+    color: #c2cad0;
     background-color: #063254;
 }
 
 .button:hover{
-  background-color: rgb(48, 99, 150);
   color: white;
-  border: 2px solid  #063254;
-} 
+  background-color: #144972;
+}
+
+@media(min-width:768px) { 
+
+  .phrase{
+    margin: 0 6rem 0 6rem;
+  }
+}
