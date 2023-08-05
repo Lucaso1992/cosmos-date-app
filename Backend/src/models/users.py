@@ -17,6 +17,10 @@ class User(db.Model):
     token = db.relationship("Token", backref="users", cascade="all, delete", lazy=True)
     profile = db.relationship("Profile", backref="user", uselist=False, cascade="all, delete", lazy=True)
 
+    # chats = db.relationship("Chat",
+    #                         secondary='users_chats',
+    #                         backref="users",
+    #                         lazy=True)
     likes_from = db.relationship('User',
                                   secondary='profile_Likes',
                                   primaryjoin=(id==Profile_Like.user_to_id),
@@ -54,7 +58,7 @@ class User(db.Model):
             "is_active": self.is_active,
             "created_at": self.created_at,
             "updated_at": self.updated_at,
-            "profile": self.profile.as_dict()
+            "profile": self.profile.as_dict() if self.profile else {}
         }
     
     def serialize_with_likes(self):
@@ -65,6 +69,17 @@ class User(db.Model):
             "is_active": self.is_active,
             "created_at": self.created_at,
             "updated_at": self.updated_at,
-            "likes_from": [like_from.serialize() for like_from in self.likes_from],
+            "matches": [like_from.serialize() for like_from in self.likes_from if like_from in self.likes_to],
             "likes_to": [like_to.serialize() for like_to in self.likes_to]
         }
+    
+    # def serialize_with_chats(self):
+    #     return {
+    #         "id": self.id,
+    #         "user_name": self.user_name,
+    #         "email": self.email,
+    #         "is_active": self.is_active,
+    #         "created_at": self.created_at,
+    #         "updated_at": self.updated_at,
+    #         "chats": [chat.as_dict() for chat in self.chats]
+    #     }

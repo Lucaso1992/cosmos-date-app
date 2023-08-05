@@ -12,6 +12,8 @@ flask-jwt-extended = "*"
 flask-cors = "*"
 flask-migrate = "*"
 flask-mail = "*"
+flask-socketio = "*"
+simple-websocket = "*"
 
 [dev-packages]
 
