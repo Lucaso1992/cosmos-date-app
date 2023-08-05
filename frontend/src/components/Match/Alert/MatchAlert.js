@@ -1,6 +1,6 @@
-import style from "./Alert.module.css";
+import style from "./MatchAlert.module.css";
 
-const Alert = () => {
+const MatchAlert = () => {
     return (
         <div className={style.alert_div}>
             <p className={style.message}> <strong>Oops... something went wrong. Please, try again later!</strong></p>

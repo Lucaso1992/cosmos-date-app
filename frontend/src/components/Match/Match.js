@@ -1,5 +1,5 @@
 import style from "./Match.module.css";
-import Alert from "./Alert/Alert.js";
+import Alert from "./Alert/MatchAlert.js";
 
 import React, { useEffect, useState } from 'react';
 import { AiFillLike, AiFillDislike, AiOutlineStar } from 'react-icons/ai';
