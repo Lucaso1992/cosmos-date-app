@@ -5,8 +5,8 @@ export const LandingPage = () => {
 <div className={style.landing_container}>
       <div className={style.landing_div}>
         <h1 className="mb-4"><strong>Welcome to Cosmos!</strong></h1>
-        <p className="card-text"><strong>
-Enter a world where the magic of astrology merges with the thrill of arranged dating, offering you a unique experience in love. We are delighted to welcome you to Cosmos, where the planets are our allies in connecting like-minded hearts.</strong></p>
+        <p className={`${style.phrase} card-text`}><strong>
+        Enter a world where astrology's magic meets arranged dating's thrill, offering a unique love experience. Welcome to Cosmos, where planets connect like-minded hearts.</strong></p>
         <div>
           <button type="button" data-bs-toggle="modal" data-bs-target="#loginModal" className={`${style.button}`}>Tell me more</button>
         </div>
