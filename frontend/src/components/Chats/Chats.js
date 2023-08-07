@@ -1,68 +1,54 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 
 import { useAppContext } from '../../flux/AppContext'
+import { ChatList } from './Chat_list/ChatList';
+import { ChatMessage } from './Chat_message/ChatMessage';
+
 
 import style from "./Chats.module.css"
 import { AiOutlineClose } from "react-icons/ai";
-import { MdSend } from "react-icons/md";
 import { PiWechatLogoFill } from "react-icons/pi";
+
+
 
 export const Chats = () => {
   const [visibility, setVisibility] = useState(false);
-  const [inputData, setInputData] = useState('');
   const [codeRoom, setCodeRoom] = useState('');
+  const [rooms, setRooms] = useState([]);
   const [messages, setMessages] = useState([]);
-  const scrollableDivRef = useRef(null);
   const value = useAppContext();
 
   const socket = value.store.socket
-  const userData = value.store.userData
+  // const userData = value.store.userData
 
   
   const changeVisibility = () => {
     setVisibility(!visibility);
   }
-
   
 
-  const handleSendMessage = (e) => {
-    e.preventDefault();
-    socket.emit('join_room', {'room': codeRoom, 'message': inputData, 'sender_id':userData.id, 'sendrer_name':userData.user_name}); 
-    setInputData('');
-  }
-  const recivedMessage = (data) => {
-    console.log(data);
-    setMessages(prev => [...prev, data]);
-  }
+
   useEffect(() => {
-    console.log(socket);
     if (socket){
-      socket.on('room_joined', recivedMessage);
+      socket.on('room_created', (data) => {
+        setRooms(prev =>{
+          if (prev.includes(data.room)) return prev;
+          else return [...prev, data.room]
+        });
+        setCodeRoom(data.room);
+        setMessages(data.messages);
+      });
+      socket.on('room_joined', (data) => {
+        setRooms(prev =>{
+          if (prev.includes(data.room)) return prev;
+          else return [...prev, data.room]
+        });
+        setCodeRoom(data.room);
+        setMessages(data.messages);
+      });
+      socket.on('chat_message', setMessages);
     }
   }, [socket]);
-  
-
-
-  const handleCreateChat = () => {
-    socket.emit('create_room', {'room': codeRoom, 'message': inputData, 'sender_id':userData.id, 'sendrer_name':userData.user_name});
-  }
-  const handleJoinChat = () => {
-    socket.emit('join_room', {'room': codeRoom, 'message': inputData, 'sender_id':userData.id, 'sendrer_name':userData.user_name});
-  }
-  
-  
-  useEffect(() => {
-    scrollToBottom();
-  }, [messages]);
-  const scrollToBottom = () => {
-    const scrollableDiv = scrollableDivRef.current;
-    if (scrollableDiv) {
-      scrollableDiv.scrollTo({
-        top: scrollableDiv.scrollHeight,
-        behavior: 'smooth',
-      });
-    }
-  }
 
 
 
@@ -81,65 +67,26 @@ export const Chats = () => {
 
             <h1>Chats</h1>
             <div className={style.body_container}>
+              <ChatList
+                rooms={rooms} 
+                setRooms={setRooms}
+                codeRoom={codeRoom}
+                setCodeRoom={setCodeRoom}
+                setMessages={setMessages} />
 
-              <div className={style.chats_list}>
-                <h5>Chats List</h5>
-
-                <form>
-                  <div className={style.find_chat}>
-                    <input 
-                      type='text' 
-                      className={style.find_chat_input} 
-                      value={codeRoom} 
-                      onChange={(e)=>setCodeRoom(e.target.value)}/>
-                    <button type='button' onClick={handleJoinChat}>Join</button>
-                  </div>
-                  <button type='button'>Create Room</button>
-                </form>
-              </div>
-
-              <div className={style.chat_body}>
-                <ul className={style.chat_message} ref={scrollableDivRef}>
-                  {
-                    messages.map((message, i) => (
-                      <li
-                        className={
-                        userData.user_name===message.sendrer_name?
-                        style.chat_sender:
-                        style.chat_recived}
-                        key={i}>
-                        <p
-                          className={
-                          userData.user_name===message.sendrer_name?
-                          style.sender_name:
-                          style.recived_name}>
-                          {message.sendrer_name}:
-                        </p>
-                        {message.message}
-                      </li>
-                    ))
-                  }
-                </ul>
-
-                <form className={style.chat_footer} onSubmit={handleSendMessage}>
-                  <input 
-                    type="text" 
-                    className={style.input} 
-                    value={inputData} 
-                    onChange={(e)=>setInputData(e.target.value)}/>
-                  <button type="submit" className={style.send_btn} >
-                    <MdSend />
-                  </button>
-                </form>
-              </div>
-
+              <ChatMessage
+                codeRoom={codeRoom}
+                messages={messages}/>
             </div>
           </div>
 
         </div>
         
 
-        <button className={visibility? style.hide : style.chat_btn} type='button' onClick={changeVisibility}>
+        <button 
+          className={visibility? style.hide : style.chat_btn}
+          type='button' 
+          onClick={changeVisibility}>
           <PiWechatLogoFill />
         </button>
         </>
