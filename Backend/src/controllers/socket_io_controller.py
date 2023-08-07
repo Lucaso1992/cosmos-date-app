@@ -1,17 +1,70 @@
 from flask import request
 from utils.socket_io import socketio
-from flask_socketio import emit
+from flask_socketio import emit, join_room, leave_room
+import random
 
 @socketio.on('connect')
 def handle_connect():
   print("Connected")
 
-@socketio.on('message')
-def handle_message(mjsData):
-  
-  print(mjsData)
-  emit("chat", mjsData, broadcast=True)
 
+rooms = {}
+
+@socketio.on('create_room')
+def handle_create(userData):
+  if userData['room'] in rooms:
+    leave_room(userData['room'])
+
+  room = str(random.randint(1000, 9999))
+  rooms[room] = {"members": 1, "messages": []}
+
+  join_room(room)
+  userData['room'] = room
+
+  emit("room_created", {"room": room, "messages": []}, room=room)
+
+
+@socketio.on('join_room')
+def handle_join(userData):
+  room = userData['room']
+
+  if room not in rooms:
+    return print("Room not found")
+  else:
+    join_room(room)
+    rooms[room]['members'] += 1
+    messages = rooms[room]["messages"]
+
+    emit('room_joined', {"room": room, "messages": messages}, room=room)
+
+
+@socketio.on('message')
+def handle_message(userData):
+  room = userData['room']
+  if room is None:
+    return
+  elif room not in rooms:
+    return print("Room not found")
+  else:
+    rooms[room]["messages"].append(userData)
+    message = rooms[room]["messages"]
+    
+    socketio.emit('chat_message', message, room=room)
+  # send(userData, to=room)
+
+
+@socketio.on('leave_room')
+def handle_leave(userData):
+  room = userData['room']
+
+  if room not in rooms:
+    return print("Room not found")
+  else:
+    leave_room(room)
+    rooms[room]['members'] -= 1
+
+    if rooms[room]['members'] == 0:
+      del rooms[room]
 
 
 

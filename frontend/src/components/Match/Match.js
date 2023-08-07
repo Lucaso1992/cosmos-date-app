@@ -1,9 +1,11 @@
-import style from "./Match.module.css";
-import Alert from "./Alert/MatchAlert.js";
+import { useEffect, useState } from 'react';
 
-import React, { useEffect, useState } from 'react';
-import { AiFillLike, AiFillDislike, AiOutlineStar } from 'react-icons/ai';
 import  user_Matches  from "./../../flux/DataProvisional.js";
+import MatchAlert from "./Alert/MatchAlert.js";
+
+import style from "./Match.module.css";
+import { AiFillLike, AiFillDislike, AiOutlineStar } from 'react-icons/ai';
+
 
 export const Match = () => {
   const [matchIndex, setMatchIndex] = useState(0);
@@ -27,15 +29,15 @@ export const Match = () => {
   }
   if (!matchData) {
     return <div className={style.alert_div}>
-      <Alert/>
+      <MatchAlert/>
       </div>
   }
   
   return (
     <div className={style.match_container}>
       <div className={style.match_card}>
-        <div className={`${style.img_div} col-md-4`} h-100>
-          <img className={style.img_card} src={matchData.imageName} />
+        <div className={`${style.img_div} col-md-4`}>
+          <img className={style.img_card} src={matchData.imageName} alt=''/>
         </div>
         <div className="d-flex flex-column">
           <div className={style.first_div}>

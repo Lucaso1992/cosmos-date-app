@@ -8,4 +8,4 @@ const MatchAlert = () => {
     )
 }
 
-export default Alert;
+export default MatchAlert;
