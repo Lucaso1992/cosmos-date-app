@@ -5,12 +5,12 @@ from flask_socketio import emit
 @socketio.on('connect')
 def handle_connect():
   print("Connected")
-  print(request.sid)
 
 @socketio.on('message')
-def handle_message(mjs):
-  print(mjs)
-  emit("chat",{'message':mjs, 'sender':request.sid}, broadcast=True)
+def handle_message(mjsData):
+  
+  print(mjsData)
+  emit("chat", mjsData, broadcast=True)
 
 
 
