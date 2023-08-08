@@ -19,17 +19,25 @@ export const Chats = () => {
   const value = useAppContext();
 
   const socket = value.store.socket
-  // const userData = value.store.userData
-
+  const userData = value.store.userData
   
   const changeVisibility = () => {
     setVisibility(!visibility);
+    socket.emit('get_chats', {
+      'sender_id':userData.id,
+      'sender_name':userData.user_name
+    });
   }
+
   
+
 
 
   useEffect(() => {
     if (socket){
+      socket.on('got_chats', (data) => {
+        setRooms(data)
+      });
       socket.on('room_created', (data) => {
         setRooms(prev =>{
           if (prev.includes(data.room)) return prev;

@@ -24,8 +24,8 @@ export const ChatMessage = ({codeRoom, messages}) => {
       socket.emit('message', {
         'room': codeRoom,
         'message': inputData,
-        'sender_id':userData.id,
-        'sendrer_name':userData.user_name
+        'sender_id': userData.id,
+        'sender_name': userData.user_name
       });
       setInputData('');
     }
@@ -71,18 +71,18 @@ export const ChatMessage = ({codeRoom, messages}) => {
               messages.map((message, i) => (
                 <li
                   className={
-                  userData.user_name===message.sendrer_name?
+                  userData.id===message.user_id?
                   style.chat_sender:
                   style.chat_recived}
                   key={i}>
                   <p
                     className={
-                    userData.user_name===message.sendrer_name?
+                    userData.id===message.user_id?
                     style.sender_name:
                     style.recived_name}>
-                    {message.sendrer_name}:
+                    {message.user_name}:
                   </p>
-                  {message.message}
+                  {message.text}
                 </li>
               ))
             }

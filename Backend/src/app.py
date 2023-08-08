@@ -8,6 +8,7 @@ from flask_migrate import Migrate
 from utils.db import db
 from utils.mail import mail
 from controllers.socket_io_controller import socketio
+from models.user_chat import User_chat
 from routes.api import api
 
 

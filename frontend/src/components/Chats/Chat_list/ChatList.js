@@ -15,10 +15,11 @@ export const ChatList = ({rooms, setRooms, codeRoom, setCodeRoom, setMessages}) 
 
 
   const handleCreateChat = () => {
+    setCodeRoom('');
     socket.emit('create_room', {
       'sender_id':userData.id,
-      'sendrer_name':userData.user_name,
-      'room': codeRoom
+      'sender_name':userData.user_name,
+      'chats': rooms
     });
   }
 
@@ -26,9 +27,10 @@ export const ChatList = ({rooms, setRooms, codeRoom, setCodeRoom, setMessages}) 
     setCodeRoom(room);
     setInputRoom('');
     socket.emit('join_room', {
+      'chats': rooms,
       'room': room,
       'sender_id':userData.id,
-      'sendrer_name':userData.user_name
+      'sender_name':userData.user_name
     });
   }
 
@@ -41,7 +43,7 @@ export const ChatList = ({rooms, setRooms, codeRoom, setCodeRoom, setMessages}) 
     socket.emit('leave_room', {
       'room': room,
       'sender_id':userData.id,
-      'sendrer_name':userData.user_name
+      'sender_name':userData.user_name
     });
     setCodeRoom('');
     setMessages([]);
