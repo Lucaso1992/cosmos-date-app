@@ -5,6 +5,7 @@ import { useAppContext } from '../../../flux/AppContext'
 import style from "./ChatMessage.module.css"
 import { MdSend } from "react-icons/md";
 import { BiPhoneCall } from "react-icons/bi";
+import { SlOptionsVertical } from "react-icons/sl";
 
 
 export const ChatMessage = ({codeRoom, messages}) => {
@@ -59,7 +60,10 @@ export const ChatMessage = ({codeRoom, messages}) => {
                 src='https://static.wixstatic.com/media/4151a5_7706b6198d164a3e947f4548166228ad~mv2.png' alt='' />
             </div>
             <span>Chat: {codeRoom}</span>
-            <BiPhoneCall className={style.icon_header}/>
+            <div className={style.icon_div}>
+              <BiPhoneCall className={style.icon_header}/>
+              <SlOptionsVertical className={style.icon_header}/>
+            </div>
           </div>
           
           <ul className={style.chat_message} ref={scrollableDivRef}>

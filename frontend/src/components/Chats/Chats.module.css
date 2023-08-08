@@ -70,6 +70,11 @@
 
   /* transition: 1s; */
 }
+@media screen and (max-width: 1150px) {
+  .chat_container{
+    min-width: 90%;
+  }
+}
 @media screen and (max-width: 575px) {
   .chat_container{
     min-width: 100%;
