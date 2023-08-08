@@ -85,13 +85,21 @@ export const Porfile = () => {
         </div>
         <div className={style.about_photos}>
           <div className={style.photos}>
-            <h4 className="p-3">Photos</h4>
+            <h4 className="d-flex flex-row p-3">
+              Photos <button className="btn">Edit</button>
+            </h4>
           </div>
           <div className={style.about}>
             <h4 className="p-3">About Me</h4>
-            </div>
+            <textarea
+              className="ms-1"
+              name="textarea"
+              rows="5"
+              cols="50"
+            ></textarea>
           </div>
         </div>
       </div>
+    </div>
   );
 };
