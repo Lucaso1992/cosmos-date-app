@@ -2,17 +2,20 @@ import React from 'react'
 import { useNavigate } from "react-router-dom";
 
 import { useAppContext } from '../../flux/AppContext'
+import { recoverPassword } from '../../Services/recoverPassword'
 import { deleteUser } from '../../Services/deleteUser'
 
 import style from "./AccountSettings.module.css"
 import { MdManageAccounts } from "react-icons/md";
 import { BiLogOutCircle } from "react-icons/bi";
 import { HiOutlineTrash } from "react-icons/hi";
+import { BsShieldLockFill } from "react-icons/bs";
 
 export const AccountSettings = () => {
   const value = useAppContext();
 
   const navigate = useNavigate()
+  const userData = value.store.userData
   const token = value.store.token;
   const socket = value.store.socket
 
@@ -22,6 +25,21 @@ export const AccountSettings = () => {
     value.actions.setToken('');
     value.actions.setUserData({});
     navigate('/');
+  }
+
+  const changePassword = () =>{
+    recoverPassword(userData.email)
+    .then((resp)=>{
+      if (resp){
+        alert("Check your inbox for recovery your password.");
+        sessionStorage.removeItem("token");
+        socket.disconnect();
+        value.actions.setToken('');
+        value.actions.setUserData({});
+        navigate('/');
+      }
+      else return
+    });
   }
 
   const deleteUserFunction = () =>{
@@ -46,6 +64,12 @@ export const AccountSettings = () => {
           <a className={`${style.dropdown_item} dropdown-item`} role="button" onClick={logOut}>
             <BiLogOutCircle className={style.item_icon} />
             Log out
+          </a>
+        </li>
+        <li>
+          <a className={`${style.dropdown_item} dropdown-item`} role="button" onClick={changePassword}>
+            <BsShieldLockFill className={style.item_icon} />
+            Change password
           </a>
         </li>
         <li>
