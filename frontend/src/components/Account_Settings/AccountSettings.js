@@ -105,7 +105,7 @@ export const AccountSettings = () => {
       showLogout?
       <ConfirmModal 
         showModal={()=>setShowLogOut(!showLogout)}
-        logoutFunction={logOut}
+        modalFunction={logOut}
         titleText="Log Out"
         textModal="Are you sure you want to log out? Come soon, we will miss you!"
         iconText={<FaRegFaceSadTear />}
@@ -117,7 +117,7 @@ export const AccountSettings = () => {
       showChangePassword?
       <ConfirmModal 
         showModal={()=>setShowChangePassword(!showChangePassword)}
-        logoutFunction={changePassword}
+        modalFunction={changePassword}
         titleText="Change Password"
         textModal="Are you sure you want to change your password?"
         iconText={<BsPersonFillLock />}
