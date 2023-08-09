@@ -7,6 +7,7 @@ import { createUser } from '../../Services/createUser'
 import { ForgotPassword } from '../Forgot_Password/ForgotPassword';
 
 import style from "./Login.module.css"
+import RingLoader from "react-spinners/RingLoader";
 import { IoIosMail } from "react-icons/io";
 import { AiOutlineClose } from "react-icons/ai";
 import { BiSolidLock, BiSolidUser } from "react-icons/bi";
@@ -14,6 +15,7 @@ import { BiSolidLock, BiSolidUser } from "react-icons/bi";
 
 export const Login = () => {
   const value = useAppContext();
+  const [showSpiner, setShowSpiner] = useState(false);
   const [loginMode, setLoginMode] = useState(true);
   const [forgotPassword, setForgotPassword] = useState(false);
   const [email, setEmail] = useState('');
@@ -32,15 +34,6 @@ export const Login = () => {
     setLoginMode(false);
   }
 
-  const handleEmailInput = (e) =>{
-    setEmail(e.target.value)
-  }
-  const handlePasswordInput = (e) =>{
-    setPassword(e.target.value)
-  }
-  const handleUserNameInput = (e) =>{
-    setUserName(e.target.value)
-  }
 
   const resetModal = () =>{
     setLoginMode(true);
@@ -55,6 +48,7 @@ export const Login = () => {
     e.preventDefault();
 
     if (loginMode===true){
+      setShowSpiner(true);
       getAutentication(email, password, value.actions.setToken)
       .then((resp)=>{
         if (resp){
@@ -62,9 +56,13 @@ export const Login = () => {
           setPassword('');
         }
         else return
-      });
+      })
+      .then(()=>{
+        setShowSpiner(false);
+      })
     }
     else {
+      setShowSpiner(true);
       createUser(userName, email, password)
       .then((resp)=>{
         if (resp){
@@ -73,8 +71,12 @@ export const Login = () => {
         }
         else return
       })
+      .then(()=>{
+        setShowSpiner(false);
+      })
     }
   }
+
 
 
   return (
@@ -89,77 +91,92 @@ export const Login = () => {
 
             <div className={style.modal_body}>
               {
-                forgotPassword?
-                (
-                  <ForgotPassword handle_ForgotMode={changeForgetMode}/>
+                showSpiner?(
+                  <RingLoader
+                    className={style.loader}
+                    color={"#fff"}
+                    size={140}
+                  />
                 ):(
-                  token && token!=="" && token!==undefined ?
-                  (
-                    <>
-                      <h2>Welcome,</h2>
-                      <h2>{value.store.userData.user_name}!</h2>
-                    </>
+                  forgotPassword?(
+                    <ForgotPassword handle_ForgotMode={changeForgetMode}/>
                   ):(
-                    <>
-                    <h2>{loginMode?'Login':'Sing In'}</h2>
-                    
-                    <form onSubmit={submitFuntion}>
-
-                    {loginMode?
-                      '':
-                      <div className={style.input_box}>
-                        <span className={style.icon}>
-                          <BiSolidUser />
-                        </span>
-                        <input type='text' value={userName} onChange={handleUserNameInput} required/> 
-                        <label>Username:</label>
-                      </div>
-                    }
-
-                      <div className={style.input_box}>
-                        <span className={style.icon}>
-                          <IoIosMail />
-                        </span>
-                        <input type='email' value={email} onChange={handleEmailInput} required/>
-                        <label>Email:</label>
-                      </div>
-
-                      <div className={style.input_box}>
-                        <span className={style.icon}>
-                          <BiSolidLock />
-                        </span>
-                        <input type='password' value={password} onChange={handlePasswordInput} required/> 
-                        <label>Password:</label>
-                      </div>
-
-                      <div className={style.remember_forgot}>
-                        <label>
-                          <input type='checkbox' />
-                          {loginMode?'Remember me':'I agreed to the terms & conditions'}
-                        </label>
-                        {loginMode?
-                          (
-                            <Link className={style.forgot_link} onClick={changeForgetMode}>
-                              Forgot Password?
-                            </Link>
-                          ):''
-                        }
-                      </div>
-
-                      <button type='submit' className={style.submit_btn}>
-                        {loginMode?'Login':'Register'}
-                      </button>
+                    token && token!=="" && token!==undefined ?
+                    (
+                      <>
+                        <h2>Welcome,</h2>
+                        <h2>{value.store.userData.user_name}!</h2>
+                      </>
+                    ):(
+                      <>
+                      <h2>{loginMode?'Login':'Sing In'}</h2>
                       
-                      <div className={style.login_register}>
-                        <p>
-                          {loginMode?"Don't have an account?":"You already have an account?"}
-                          <button type='button' className={style.register_link} onClick={changeLoginForm}>
-                            {loginMode?'Sing in':'Login'}
-                          </button>
-                        </p>
-                      </div>
-                    </form>
-                    </>
+                      <form onSubmit={submitFuntion}>
+  
+                      {loginMode?
+                        '':
+                        <div className={style.input_box}>
+                          <span className={style.icon}>
+                            <BiSolidUser />
+                          </span>
+                          <input type='text' value={userName} onChange={(e)=>setUserName(e.target.value)} required/> 
+                          <label>Username:</label>
+                        </div>
+                      }
+  
+                        <div className={style.input_box}>
+                          <span className={style.icon}>
+                            <IoIosMail />
+                          </span>
+                          <input 
+                            type='email' 
+                            value={email} 
+                            onChange={(e)=>setEmail(e.target.value)} 
+                            required/>
+                          <label>Email:</label>
+                        </div>
+  
+                        <div className={style.input_box}>
+                          <span className={style.icon}>
+                            <BiSolidLock />
+                          </span>
+                          <input 
+                            type='password' 
+                            value={password} 
+                            onChange={(e)=>setPassword(e.target.value)} 
+                            required/> 
+                          <label>Password:</label>
+                        </div>
+  
+                        <div className={style.remember_forgot}>
+                          <label>
+                            <input type='checkbox' />
+                            {loginMode?'Remember me':'I agreed to the terms & conditions'}
+                          </label>
+                          {loginMode?
+                            (
+                              <Link className={style.forgot_link} onClick={changeForgetMode}>
+                                Forgot Password?
+                              </Link>
+                            ):''
+                          }
+                        </div>
+  
+                        <button type='submit' className={style.submit_btn}>
+                          {loginMode?'Login':'Register'}
+                        </button>
+                        
+                        <div className={style.login_register}>
+                          <p>
+                            {loginMode?"Don't have an account?":"You already have an account?"}
+                            <button type='button' className={style.register_link} onClick={changeLoginForm}>
+                              {loginMode?'Sing in':'Login'}
+                            </button>
+                          </p>
+                        </div>
+                      </form>
+                      </>
+                    )
                   )
                 )
               }
