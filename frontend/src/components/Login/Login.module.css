@@ -42,12 +42,14 @@
   border: 2px solid white;
 }
 
+.loader{
+  margin: auto;
+}
 
 .modal_body{
   width: 100%;
   padding: 1.5rem;
 }
-
 .modal_body h2{
   font-size: 2rem;
   text-align: center;
