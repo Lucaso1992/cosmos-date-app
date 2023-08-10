@@ -3,20 +3,21 @@ from flask import request
 
 from models.users import User
 from models.profile_info import Profile
+from models.profile_likes import Profile_Like
 from utils.db import db
 
 def like_profile(user):
-    user_likes = request.json.get('user_likes')
+    user_like = request.json.get('user_like')
     user_db = User.query.get(user["id"])
 
-    liked_user_db = []
+    liked_user = User.query.get(user_like)
+    user_db.likes_to.append(liked_user)
 
-    for liked in user_likes:
-        liked_user = User.query.get(liked)
-        if liked_user:
-            liked_user_db.append(liked_user)
+    matched_user = Profile_Like.query.filter_by(user_from_id=liked_user.id, user_to_id=user_db.id).first()
+    if matched_user:
+       pass 
+        
 
-    user_db.likes_to = liked_user_db
     db.session.commit()
 
     return user_db.serialize_with_likes()

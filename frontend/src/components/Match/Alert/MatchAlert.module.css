@@ -1,0 +1,19 @@
+.alert_div{
+    max-width: 600px;
+    height: 200px;
+    border-radius: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(232, 230, 230, 0.982);
+    box-shadow: 0 0 1.2rem white;
+    border: 2px solid #ffffff70;    
+}
+
+.message{
+    text-align: center;
+    font-size: 18px;
+    margin-bottom: 0;
+    padding: 2rem;
+    color: #063254;
+}

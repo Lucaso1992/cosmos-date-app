@@ -8,6 +8,7 @@ from flask_migrate import Migrate
 from utils.db import db
 from utils.mail import mail
 from controllers.socket_io_controller import socketio
+from models.user_chat import User_chat
 from routes.api import api
 
 
@@ -17,8 +18,6 @@ from routes.api import api
 app = Flask(__name__) #, static_folder=static_file_dir
 CORS(app)
 load_dotenv()
-
-app.config["DEBUG"] = True
 
 app.config["MAIL_SERVER"] = "smtp.gmail.com"
 app.config["MAIL_PORT"] = 465
@@ -53,4 +52,4 @@ with app.app_context():
     db.create_all()
 
 if __name__ == "__main__":
-    socketio.run(app)
+    socketio.run(app, debug=True)
