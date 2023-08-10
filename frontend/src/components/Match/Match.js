@@ -50,7 +50,7 @@ export const MatchTwo = () => {
     return (
         <div className={style.general_div}>
             <div className={style.img_div}>
-                <img className={style.img} src={matchData.imageName} />
+                <img className={style.img} src={matchData.imageName} alt=""/>
             </div>
             <div className={style.infocontainer_div}>
                 <div className={style.first_infodiv}>

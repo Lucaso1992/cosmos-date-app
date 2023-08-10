@@ -68,7 +68,7 @@ def index_user():
     user = get_jwt_identity()
 
     if request.method == 'GET':
-        return jsonify(user)  
+        return jsonify(user) , 200
 
     
 @users.route('/api/users', methods=['DELETE'])
@@ -83,8 +83,8 @@ def update_user():
 def update_user_likes():
     user = get_jwt_identity()
     try:
-        if "user_likes" not in request.json:
-            return jsonify({"message": "missing an 'user_likes' keys in json"}), 400
+        if "user_like" not in request.json:
+            return jsonify({"message": "missing an 'user_like' keys in json"}), 400
         else:
             user_updated = like_profile(user)
             refresh_token = create_refresh_token(identity=user_updated)
