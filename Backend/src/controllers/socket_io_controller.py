@@ -15,48 +15,29 @@ def get_chats(userData):
   user_chats = User_chat.query.filter_by(user_id=user_db.id).all()
   chats = []
 
-  for chat in user_chats:
-    messages_db = Message.query.filter_by(chat_id=chat.chat_id).all()
-    messages = []
-    for message in messages_db:
-      messages.append(message.serialize())
-    
-    users_chat_db = User_chat.query.filter_by(chat_id=chat.chat_id).all()
-    for user in users_chat_db:
-      if user.user_id != user_db.id:
-        reciverUserName = User.query.get(user.user_id).user_name
-
-    chats.append({
-      "chat": chat.chat_id, 
-      "messages": messages, 
-      "user_name": reciverUserName
-      })
-
-  return jsonify(chats)
-
-
-
-# @socketio.on('create_room')
-# def handle_create(userData):
-#   user_db = User.query.get(userData['sender_id'])
-#   user_chats = userData["chats"]
-#   user_chats_db = []
-
-#   for chat_id in user_chats:
-#       user_chat = Chat.query.get(chat_id)
-#       if user_chat:
-#           user_chats_db.append(user_chat)
+  if len(user_chats) == 0:
+    return jsonify(chats)
   
-#   new_chat = Chat()
-#   db.session.add(new_chat)
+  else:
+    for chat in user_chats:
+      messages_db = Message.query.filter_by(chat_id=chat.chat_id).all()
+      users_chat_db = User_chat.query.filter_by(chat_id=chat.chat_id).all()
+      messages = []
 
-#   user_chats_db.append(new_chat)
-#   user_db.chats = user_chats_db
-  
-#   db.session.commit()
-#   join_room(new_chat.id)
+      for message in messages_db:
+        messages.append(message.serialize())
+      
+      for user in users_chat_db:
+        if user.user_id != user_db.id:
+          reciverUserName = User.query.get(user.user_id).user_name
 
-#   emit("room_created", {"room": new_chat.id, "messages": []}, room=new_chat.id)
+      chats.append({
+        "chat": chat.chat_id, 
+        "messages": messages, 
+        "user_name": reciverUserName
+        })
+
+    return jsonify(chats)
 
 
 
@@ -82,36 +63,6 @@ def handle_join(userData):
         "receiver_name":userData['receiver_name']
       }, room=chat_db.id)
 
-
-
-# @socketio.on('join_room')
-# def handle_join(userData):
-#   user_db = User.query.get(userData['sender_id'])
-#   chat_db = Chat.query.get(userData['room'])
-#   user_chats = userData["chats"]
-#   user_chats_db = []
-
-#   if chat_db is None:
-#     return jsonify({"message": "Chat not found in database"})
-#   else:
-#     for chat_id in user_chats:
-#       user_chat = Chat.query.get(chat_id)
-#       if user_chat:
-#           user_chats_db.append(user_chat)
-      
-#     user_chats_db.append(chat_db)
-#     user_db.chats = user_chats_db
-
-#     db.session.commit()
-#     join_room(chat_db.id)
-
-#     messages_db = Message.query.filter_by(chat_id=chat_db.id).all()
-#     messages = []
-
-#     for message in messages_db:
-#       messages.append(message.serialize())
-
-#     emit('room_joined', {"room": chat_db.id, "messages": messages}, room=chat_db.id)
 
 
 @socketio.on('message')

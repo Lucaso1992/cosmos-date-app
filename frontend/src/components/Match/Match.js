@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 
+import { useAppContext } from '../../flux/AppContext'
 import user_Matches from "../../flux/DataProvisional.js";
 import { updateLikes } from "../../Services/updateLikes";
 import MatchAlert from "./Alert/MatchAlert.js";
-// import { mapZodiacSign } from './utills/mapZodiacSign.js';
+import { mapZodiacSign } from './utills/mapZodiacSign.js';
 
 import style from "./Match.module.css";
 import { AiOutlineLike, AiOutlineDislike } from 'react-icons/ai';
@@ -13,9 +14,11 @@ export const MatchTwo = () => {
     const [matchIndex, setMatchIndex] = useState(0);
     const [matchData, setMatchData] = useState({});
     const [usersList, setUsersList] = useState([]);
-    const [userLikedId, setUserLikedId] = useState([]);
+    const [userLikedId, setUserLikedId] = useState('');
+    const value = useAppContext();
 
-    const localToken = sessionStorage.getItem("token");
+    
+    const token = value.store.token
 
     
     useEffect(() => {
@@ -27,7 +30,11 @@ export const MatchTwo = () => {
         setMatchData(usersList[matchIndex])
     }, [matchIndex, usersList])
 
-    useEffect(() => {updateLikes(localToken, userLikedId)}, [userLikedId])
+    useEffect(() => {
+        if (userLikedId!=='' && userLikedId!==undefined){
+            updateLikes(token, userLikedId)
+        }
+    }, [userLikedId])
 
     const handleInteraction = (status) => {
         setMatchIndex((prevIndex) => {
@@ -39,12 +46,12 @@ export const MatchTwo = () => {
             return index === usersList.length ? index = 0 : index;
         });
     }
+
     if (!matchData) {
         return <div className={style.alert_div}>
             <MatchAlert />
         </div>
     }
-
 
     return (
         <div className={style.general_div}>
@@ -60,7 +67,7 @@ export const MatchTwo = () => {
                         <p className={style.user_distance}>{matchData.user_city} - {matchData.user_distance}</p>
                     </div>
                     <div className={style.symbol_div}>
-                        {/* <div className={style.symbol}>{mapZodiacSign[matchData.zodiac_sign]}</div> */}
+                        <div className={style.symbol}>{mapZodiacSign[matchData.zodiac_sign]}</div>
                         <p className={style.sign}>{matchData.zodiac_sign}</p>
                     </div>
                 </div>
