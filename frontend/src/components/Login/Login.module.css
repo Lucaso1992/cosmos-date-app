@@ -85,13 +85,20 @@
   color: white;
   font-weight: 600;
 }
-
 .input_box .icon{
   position: absolute;
   right: 1.5rem;
   font-size: 1.5rem;
   line-height: 2.5rem;
 }
+
+.input_error,
+select.input_error{
+  color: rgb(164, 0, 0);
+  border-bottom: 2px solid rgb(123, 0, 0);
+  /* background-color: rgba(249, 0, 0, 0.261); */
+}
+
 
 
 .remember_forgot{

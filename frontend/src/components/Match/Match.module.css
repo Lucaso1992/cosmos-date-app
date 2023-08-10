@@ -1,104 +1,140 @@
-.match_container{
-  display:flex;
-  justify-content: center;
-  border-radius: 100px;
-  margin-top: 0.5rem;
-  }
-  
-  .match_card{
-    background-color: white;
-    border-radius: 100px;
+.general_div{
     display: flex;
     flex-direction: column;
     box-shadow: 0 0 1.2rem white;
     border: 2px solid #ffffff70;
-    background-color: transparent;
     width: 100%;
-    height: auto;
-  }
-  /* .img_div{
-    height: 250px;
-  } */
-  
-  .img_card{
-  height: 100%;
-  background-color: rgb(215, 215, 215);
-  border-radius: 100px 100px 0 0;
-  width: 100%;
-  object-fit: cover;
-  }
-  
-  .info_div{
-  background-color: rgb(171, 171, 171);
-  width: 70%;
-  height: 100%;
-  }
-  
-  .first_div{
-  width: 100%;
-  height: 25%;
-  background-color: rgba(232, 230, 230, 0.982); 
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  color: #063254;
-  }
-  
-  .second_div{
-  width: 100%;
-  height: 50%;
-  background-color: rgb(237, 237, 237);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  color: #063254;
-  }
-  
-  .third_div{
-  width: 100%;
-  height: 25%;
-  background-color: rgba(232, 230, 230, 0.982);
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  align-items: center;
-  border-radius: 0 0 100px 100px;
-  color: #063254;
-  }
-  
-  .alert_div{
+    border-radius: 40px;
+    overflow: hidden;
+}
+.data_div{
+    display: none;
+}
+
+.img_div{
+    width: 100%;
+    height: 24rem;
+}
+
+.img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.interactive_div{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    background-color: #e8e6e6fa;
+    padding-top: 1rem;
+    padding-bottom: .5rem;
+}
+
+.icons{
+    font-size: 2rem;
+    color: #063254;
+}
+
+.icons_div{
+    display: flex;
+    justify-content: space-around;
+}
+
+.first_infodiv{
+    background-color: rgb(237, 237, 237);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 1rem;
+}
+
+.button_div{
+    width: 100%;
+    height: 100%;
     display: flex;
     justify-content: center;
-    width: 100%;
-    align-items: center;
-  }
+    padding-top: 0.5rem;
+}
+.modal_button{
+    width: 8rem;
+    height: 2.5rem;
+    border-radius: 25px;
+    background-color: #063254;
+}
 
-  @media(min-width:768px) { 
-  
-  .match_container{
-      margin-top: 0;
-      align-items: center;
-      margin-top: 0;
-  }
-  .match_card{
-    flex-direction: row;
-    border-radius: 100px;
-    height: 70%;
-    width: 90%;
-  }
-  
-  .img_div{
-    height: auto;
-  }
-  .img_card{
-    border-radius: 100px 0 0 100px;
-  }
-  
-  .first_div{
-    border-radius: 0 100px 0 0;
-  }
-  
-  .third_div{
-    border-radius: 0 0 100px 0;
-  }
-  }
+.dislike{
+    font-size: 2rem;
+    color: #063254;
+    transform: scaleX(-1);
+}
+
+.user_name{
+    color: #063254;
+    margin-top: .5rem;
+}
+
+.user_distance{
+    color: #063254;
+    margin-bottom: 0;
+}
+
+.name_zodiac_div{
+display: flex;
+flex-direction: column;
+margin-left: 1rem;
+justify-content: center;
+}
+
+.symbol_div{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #063254; 
+    margin-right: 1rem;
+    margin-top: .5rem;
+
+}
+
+.symbol{
+    font-size: 2rem;
+}
+
+.sign{
+margin-bottom: 0;
+}
+
+@media(min-width:768px) { 
+    .general_div{
+        flex-direction: row;
+        max-width: 80%;
+    }
+    .data_div{
+        display: flex;
+        flex-direction: column;
+        background-color: rgba(232, 230, 230, 0.982);
+        height: 50%;
+        color: #063254;
+        padding-left: 1rem;
+        justify-content: center;
+    }
+    .modal_button{
+        display: none;
+    }
+
+    .first_infodiv{
+        height: 30%;
+    }
+    .img_div{
+        height: 30rem;
+    }
+    .interactive_div{
+        background-color: rgb(237, 237, 237);
+        min-height: 20%;
+        justify-content: center;
+    }
+    .symbol_div{
+        margin-right: 4rem;
+    }
+}
