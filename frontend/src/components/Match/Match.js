@@ -83,8 +83,8 @@ export const MatchTwo = () => {
                     </div>
                 </div>
             </div>
-            <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div className="modal-dialog">
+            <div className={`${ style.modal_div} modal fade`}id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div className={`${style.modal_last} modal-dialog`}>
                     <div className="modal-content">
                         <div className="modal-header">
                             <div className="d-flex flex-column">
@@ -94,7 +94,7 @@ export const MatchTwo = () => {
                             </div>
                             <button type="button" className="btn-close mb-auto" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <div className="modal-body">
+                        <div className={`${style.modal_info} modal-body`}>
                             <h5 >ASTROLOGICAL DATA</h5>
                             <p >{matchData.astro_data}</p>
                             <h5>GENERAL INFORMATION</h5>
