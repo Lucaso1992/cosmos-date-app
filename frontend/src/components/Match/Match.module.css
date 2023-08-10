@@ -53,6 +53,7 @@
     justify-content: space-between;
     align-items: center;
     padding-bottom: 1rem;
+
 }
 
 .button_div{
@@ -60,10 +61,10 @@
     height: 100%;
     display: flex;
     justify-content: center;
-    padding-top: 0.5rem;
+    padding-top: 1rem;
 }
 .modal_button{
-    width: 8rem;
+    width: 7rem;
     height: 2.5rem;
     border-radius: 25px;
     background-color: #063254;
@@ -104,10 +105,22 @@ justify-content: center;
 margin-bottom: 0;
 }
 
+.modal_info{
+    background-color: #e8e6e6fa;
+}
+
+.modal_last{
+    box-shadow: 0 0 1.2rem white;
+    border: 2px solid #ffffff70;
+    color: #063254;
+    border-radius: 20px;
+    overflow: hidden;
+    margin-top: 6rem;
+}
 @media(min-width:768px) { 
     .general_div{
         flex-direction: row;
-        max-width: 80%;
+        max-width: 90%;
     }
     .data_div{
         display: flex;
@@ -135,5 +148,11 @@ margin-bottom: 0;
     }
     .symbol_div{
         margin-right: 2rem;
+    }
+}
+
+@media(min-width:1024px) {
+    .general_div{
+        max-width: 80%;
     }
 }
