@@ -24,5 +24,3 @@ pipenv run migrate -> registrar los cambios de la db
 pipenv run upgrade -> aplicar los cambios en la db
 pipenv run downgrade -> deshacer el ultimo cambio de la db
 ```
-## Comando git
-git push -u origin (nombre de la rama)
