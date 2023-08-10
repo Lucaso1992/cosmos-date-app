@@ -78,7 +78,6 @@ def update_user():
     return delete_user(user), 200
 
 
-
 @users.route('/api/users/update-likes', methods=['PUT'])
 @jwt_required(refresh=True)
 def update_user_likes():
