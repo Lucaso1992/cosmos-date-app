@@ -1,19 +1,23 @@
-import style from "./Match.module.css";
-import MatchAlert from "./Alert/MatchAlert.js";
-
 import React, { useEffect, useState } from 'react';
+
+import user_Matches from "../../flux/DataProvisional.js";
+import { updateLikes } from "../../Services/updateLikes";
+import MatchAlert from "./Alert/MatchAlert.js";
+import { mapZodiacSign } from './utills/mapZodiacSign.js';
+
+import style from "./Match.module.css";
 import { AiOutlineLike, AiOutlineDislike } from 'react-icons/ai';
 import { GiBeveledStar } from 'react-icons/gi';
-import user_Matches from "../../flux/DataProvisional.js";
-
 
 export const MatchTwo = () => {
     const [matchIndex, setMatchIndex] = useState(0);
     const [matchData, setMatchData] = useState({});
     const [usersList, setUsersList] = useState([]);
-    const [usersAlreadyWatched, setUsersAlreadyWatched] = useState([]);
-    const [userLikesId, setUserLikesId] = useState([]);
+    const [userLikedId, setUserLikedId] = useState([]);
 
+    const localToken = sessionStorage.getItem("token");
+
+    
     useEffect(() => {
         setUsersList(user_Matches);
     }, [])
@@ -23,12 +27,14 @@ export const MatchTwo = () => {
         setMatchData(usersList[matchIndex])
     }, [matchIndex, usersList])
 
+    useEffect(() => {updateLikes(localToken, userLikedId)}, [userLikedId])
+
     const handleInteraction = (status) => {
         setMatchIndex((prevIndex) => {
             let index = prevIndex + 1;
-            setUsersAlreadyWatched([...usersAlreadyWatched, matchData.id]);
             if (status === "like") {
-                setUserLikesId([...userLikesId, matchData.id]);
+                setUserLikedId(matchData.id);
+                
             }
             return index === usersList.length ? index = 0 : index;
         });
@@ -38,6 +44,8 @@ export const MatchTwo = () => {
             <MatchAlert />
         </div>
     }
+
+
     return (
         <div className={style.general_div}>
             <div className={style.img_div}>
@@ -52,7 +60,7 @@ export const MatchTwo = () => {
                         <p className={style.user_distance}>{matchData.user_city} - {matchData.user_distance}</p>
                     </div>
                     <div className={style.symbol_div}>
-                        <div className={style.symbol}>{matchData.zodiac_simbol}</div>
+                        <div className={style.symbol}>{mapZodiacSign[matchData.zodiac_sign]}</div>
                         <p className={style.sign}>{matchData.zodiac_sign}</p>
                     </div>
                 </div>
@@ -64,7 +72,7 @@ export const MatchTwo = () => {
                 </div>
                 <div className={style.interactive_div}>
                     <div className={style.icons_div}>
-                        <AiOutlineDislike className={style.dislike} type="button" onClick={() => handleInteraction("dislike")} />
+                        <AiOutlineDislike className={style.icons} type="button" onClick={() => handleInteraction("dislike")} />
                         <GiBeveledStar className={style.icons} />
                         <AiOutlineLike className={style.icons} type="button" onClick={() => handleInteraction("like")} />
                     </div>

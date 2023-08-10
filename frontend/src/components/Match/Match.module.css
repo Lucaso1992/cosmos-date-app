@@ -34,6 +34,11 @@
 .icons{
     font-size: 2rem;
     color: #063254;
+    transition: transform 0.3s; 
+}
+
+.icons:hover{
+    transform: scale(1.2);
 }
 
 .icons_div{
@@ -62,12 +67,6 @@
     height: 2.5rem;
     border-radius: 25px;
     background-color: #063254;
-}
-
-.dislike{
-    font-size: 2rem;
-    color: #063254;
-    transform: scaleX(-1);
 }
 
 .user_name{
@@ -114,7 +113,7 @@ margin-bottom: 0;
         display: flex;
         flex-direction: column;
         background-color: rgba(232, 230, 230, 0.982);
-        height: 50%;
+        height: 65%;
         color: #063254;
         padding-left: 1rem;
         justify-content: center;
@@ -124,17 +123,17 @@ margin-bottom: 0;
     }
 
     .first_infodiv{
-        height: 30%;
+        height: 20%;
     }
     .img_div{
         height: 30rem;
     }
     .interactive_div{
         background-color: rgb(237, 237, 237);
-        min-height: 20%;
+        min-height: 15%;
         justify-content: center;
     }
     .symbol_div{
-        margin-right: 4rem;
+        margin-right: 2rem;
     }
 }
