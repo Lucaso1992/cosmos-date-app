@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { AiOutlineLike, AiOutlineDislike } from 'react-icons/ai';
 import { GiBeveledStar } from 'react-icons/gi';
 import user_Matches from "../../flux/DataProvisional.js";
-
+import { updateLikes } from "../../Services/updateLikes";
 
 export const MatchTwo = () => {
     const [matchIndex, setMatchIndex] = useState(0);
@@ -14,6 +14,9 @@ export const MatchTwo = () => {
     const [usersAlreadyWatched, setUsersAlreadyWatched] = useState([]);
     const [userLikesId, setUserLikesId] = useState([]);
 
+    const localToken = sessionStorage.getItem("token");
+
+    
     useEffect(() => {
         setUsersList(user_Matches);
     }, [])
@@ -23,13 +26,17 @@ export const MatchTwo = () => {
         setMatchData(usersList[matchIndex])
     }, [matchIndex, usersList])
 
+    useEffect(() => {updateLikes(localToken, userLikesId)}, [userLikesId])
+
     const handleInteraction = (status) => {
         setMatchIndex((prevIndex) => {
             let index = prevIndex + 1;
             setUsersAlreadyWatched([...usersAlreadyWatched, matchData.id]);
-            if (status === "like") {
+            if (status === "like" && !userLikesId.includes(matchData.id)) {
                 setUserLikesId([...userLikesId, matchData.id]);
+                
             }
+            
             return index === usersList.length ? index = 0 : index;
         });
     }
@@ -38,6 +45,8 @@ export const MatchTwo = () => {
             <MatchAlert />
         </div>
     }
+
+
     return (
         <div className={style.general_div}>
             <div className={style.img_div}>
@@ -64,7 +73,7 @@ export const MatchTwo = () => {
                 </div>
                 <div className={style.interactive_div}>
                     <div className={style.icons_div}>
-                        <AiOutlineDislike className={style.dislike} type="button" onClick={() => handleInteraction("dislike")} />
+                        <AiOutlineDislike className={style.icons} type="button" onClick={() => handleInteraction("dislike")} />
                         <GiBeveledStar className={style.icons} />
                         <AiOutlineLike className={style.icons} type="button" onClick={() => handleInteraction("like")} />
                     </div>
