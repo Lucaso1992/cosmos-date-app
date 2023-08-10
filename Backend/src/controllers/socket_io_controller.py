@@ -37,27 +37,27 @@ def get_chats(userData):
 
 
 
-@socketio.on('create_room')
-def handle_create(userData):
-  user_db = User.query.get(userData['sender_id'])
-  user_chats = userData["chats"]
-  user_chats_db = []
+# @socketio.on('create_room')
+# def handle_create(userData):
+#   user_db = User.query.get(userData['sender_id'])
+#   user_chats = userData["chats"]
+#   user_chats_db = []
 
-  for chat_id in user_chats:
-      user_chat = Chat.query.get(chat_id)
-      if user_chat:
-          user_chats_db.append(user_chat)
+#   for chat_id in user_chats:
+#       user_chat = Chat.query.get(chat_id)
+#       if user_chat:
+#           user_chats_db.append(user_chat)
   
-  new_chat = Chat()
-  db.session.add(new_chat)
+#   new_chat = Chat()
+#   db.session.add(new_chat)
 
-  user_chats_db.append(new_chat)
-  user_db.chats = user_chats_db
+#   user_chats_db.append(new_chat)
+#   user_db.chats = user_chats_db
   
-  db.session.commit()
-  join_room(new_chat.id)
+#   db.session.commit()
+#   join_room(new_chat.id)
 
-  emit("room_created", {"room": new_chat.id, "messages": []}, room=new_chat.id)
+#   emit("room_created", {"room": new_chat.id, "messages": []}, room=new_chat.id)
 
 
 
