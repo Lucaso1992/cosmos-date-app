@@ -1,7 +1,9 @@
 
-export const updateLikes = (token, likesArray) => {
+export const updateLikes = (token, likeId) => {
     return (
-        fetch(`${process.env.REACT_APP_API_URL}/api/users/update-likes`, { method:"PUT", body:JSON.stringify({"user_likes": likesArray}),
+        fetch(`${process.env.REACT_APP_API_URL}/api/users/update-likes`, 
+        { method:"PUT",
+            body:JSON.stringify({"user_like": likeId}),
             headers: {
                 'Authorization': 'Bearer ' + token,
                 'Content-Type': 'application/json'
