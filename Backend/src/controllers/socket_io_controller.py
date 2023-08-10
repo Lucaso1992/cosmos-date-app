@@ -22,7 +22,6 @@ def get_chats(userData):
       messages.append(message.serialize())
     
     users_chat_db = User_chat.query.filter_by(chat_id=chat.chat_id).all()
-
     for user in users_chat_db:
       if user.user_id != user_db.id:
         reciverUserName = User.query.get(user.user_id).user_name

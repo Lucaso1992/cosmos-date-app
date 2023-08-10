@@ -1,11 +1,12 @@
 import datetime
 from flask import request
-from flask_socketio import join_room
+# from flask_socketio import join_room
 
 from models.users import User
 from models.profile_info import Profile
 from models.profile_likes import Profile_Like
 from models.chats import Chat
+from models.user_chat import User_chat
 from utils.db import db
 
 def like_profile(user):
@@ -17,13 +18,16 @@ def like_profile(user):
 
     matched_user = Profile_Like.query.filter_by(user_from_id=liked_user.id, user_to_id=user_db.id).first()
     if matched_user:
+       user_chats = User_chat.query.filter_by(user_id=user_db.id).all()
+       reciever_chats = User_chat.query.filter_by(user_id=liked_user.id).all()
+    
+    else:   
        new_chat = Chat()
        db.session.add(new_chat)
 
        user_db.chats.append(new_chat)
        liked_user.chats.append(new_chat)
-       
-    db.session.commit()
+       db.session.commit()
 
     return user_db.serialize_with_likes()
 

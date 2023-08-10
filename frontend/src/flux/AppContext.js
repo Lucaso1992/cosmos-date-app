@@ -1,8 +1,7 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import io from "socket.io-client";
 
-import { getUserData } from '../Services/getUserData'
-
+import { getUserData } from '../Services/getUserData';
 
 const AppContext = createContext();
 
