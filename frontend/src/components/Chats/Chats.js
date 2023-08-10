@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import { useAppContext } from '../../flux/AppContext'
 import { ChatList } from './Chat_list/ChatList';
 import { ChatMessage } from './Chat_message/ChatMessage';
+import { getChatsUser } from '../../Services/getChatsUser'
 
 
 import style from "./Chats.module.css"
@@ -13,45 +14,36 @@ import { PiWechatLogoFill } from "react-icons/pi";
 
 export const Chats = () => {
   const [visibility, setVisibility] = useState(false);
+  const [chats, setChats] = useState([]);
   const [codeRoom, setCodeRoom] = useState('');
-  const [rooms, setRooms] = useState([]);
+  const [chatName, setChatName] = useState('');
   const [messages, setMessages] = useState([]);
   const value = useAppContext();
 
   const socket = value.store.socket
-  const userData = value.store.userData
+  // const userData = value.store.userData
+  const token = value.store.token
   
   const changeVisibility = () => {
     setVisibility(!visibility);
-    socket.emit('get_chats', {
-      'sender_id':userData.id,
-      'sender_name':userData.user_name
-    });
+    getChatsUser(token, setChats);
   }
-
-  
 
 
 
   useEffect(() => {
     if (socket){
-      socket.on('got_chats', (data) => {
-        setRooms(data)
-      });
-      socket.on('room_created', (data) => {
-        setRooms(prev =>{
-          if (prev.includes(data.room)) return prev;
-          else return [...prev, data.room]
-        });
-        setCodeRoom(data.room);
-        setMessages(data.messages);
-      });
+      // socket.on('room_created', (data) => {
+      //   setChats(prev =>{
+      //     if (prev.includes(data.room)) return prev;
+      //     else return [...prev, data.room]
+      //   });
+      //   setCodeRoom(data.room);
+      //   setMessages(data.messages);
+      // });
       socket.on('room_joined', (data) => {
-        setRooms(prev =>{
-          if (prev.includes(data.room)) return prev;
-          else return [...prev, data.room]
-        });
         setCodeRoom(data.room);
+        setChatName(data.receiver_name);
         setMessages(data.messages);
       });
       socket.on('chat_message', setMessages);
@@ -76,14 +68,15 @@ export const Chats = () => {
             <h1>Chats</h1>
             <div className={style.body_container}>
               <ChatList
-                rooms={rooms} 
-                setRooms={setRooms}
+                rooms={chats} 
+                setRooms={setChats}
                 codeRoom={codeRoom}
                 setCodeRoom={setCodeRoom}
                 setMessages={setMessages} />
 
               <ChatMessage
                 codeRoom={codeRoom}
+                chatName={chatName}
                 messages={messages}/>
             </div>
           </div>
