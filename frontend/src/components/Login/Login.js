@@ -6,7 +6,7 @@ import { useAppContext } from '../../flux/AppContext'
 import { getAutentication } from '../../Services/getAutentication'
 import { createUser } from '../../Services/createUser'
 import { ForgotPassword } from '../Forgot_Password/ForgotPassword';
-import { loginSchema } from '../../Schemas/loginSchema';
+import { loginSchema, singInSchema } from '../../Schemas/loginSchema';
 
 import style from "./Login.module.css"
 import RingLoader from "react-spinners/RingLoader";
@@ -65,7 +65,7 @@ export const Login = () => {
         password: '',
         userName: ''
       },
-      validationSchema: loginSchema,
+      validationSchema:  loginMode?loginSchema:singInSchema,
       onSubmit,
     });
 
@@ -134,6 +134,9 @@ export const Login = () => {
                         onBlur={handleBlur}
                         required/> 
                       <label htmlFor='userName'>Username:</label>
+                      {errors.userName && touched.userName &&(
+                        <p className={style.error_text}>{errors.userName}</p>
+                      )}
                     </div>
                   }
 
@@ -149,6 +152,9 @@ export const Login = () => {
                         onBlur={handleBlur}
                         required/>
                       <label htmlFor='email'>Email:</label>
+                      {errors.email && touched.email &&(
+                        <p className={style.error_text}>{errors.email}</p>
+                      )}
                     </div>
 
                     <div className={`${style.input_box}  ${errors.password&&touched.password?`${style.input_error}`:''}`}>
@@ -163,6 +169,9 @@ export const Login = () => {
                         onBlur={handleBlur}
                         required/> 
                       <label htmlFor='email'>Password:</label>
+                      {errors.password && touched.password &&(
+                        <p className={style.error_text}>{errors.password}</p>
+                      )}
                     </div>
 
                     <div className={style.remember_forgot}>
