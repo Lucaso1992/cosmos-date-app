@@ -1,12 +1,16 @@
 import { useState } from 'react';
 
 import { useAppContext } from '../../../flux/AppContext'
+import { ConfirmModal } from '../Confirm_Modal/ConfirmModal';
 
 import style from "./ChatList.module.css"
 import { BiSearchAlt } from "react-icons/bi";
 import { BsFillTrash2Fill } from "react-icons/bs";
+import { IoSadOutline } from "react-icons/io5";
 
 export const ChatList = ({rooms, setRooms, setCodeRoom, setMessages}) => {
+  const [showDelete, setShowDelete] = useState(false)
+  const [chat, setChat] = useState('');
   const [inputRoom, setInputRoom] = useState('');
   const value = useAppContext();
 
@@ -24,7 +28,12 @@ export const ChatList = ({rooms, setRooms, setCodeRoom, setMessages}) => {
     });
   }
 
-  const handleLeaveChat = (chat) => {
+  const handleShowDelete = (chat_id) => {
+    setShowDelete(!showDelete)
+    setChat(chat_id)
+  }
+
+  const handleDeleteMatch = () => {
     socket.emit('leave_room', {
       'room': chat,
       'sender_id':userData.id,
@@ -35,6 +44,7 @@ export const ChatList = ({rooms, setRooms, setCodeRoom, setMessages}) => {
     setRooms(prev =>{
       return prev.filter(item => item.chat !== chat)
     })
+    setShowDelete(!showDelete)
   }
 
 
@@ -69,11 +79,24 @@ export const ChatList = ({rooms, setRooms, setCodeRoom, setMessages}) => {
               <span className={style.room_name} onClick={()=>handleSwitchRoom(room)}>
                 {room.user_name}
               </span>
-              <BsFillTrash2Fill className={style.trash_icon} onClick={()=>handleLeaveChat(room.chat)}/>
+              <BsFillTrash2Fill className={style.trash_icon} onClick={()=>handleShowDelete(room.chat)}/>
+
             </div>
           ))
         } 
       </div>
+      {
+        showDelete?
+        <ConfirmModal
+          showModal={()=>setShowDelete(!showDelete)}
+          modalFunction={handleDeleteMatch}
+          titleText="Delete Match"
+          textModal="Are you sure you want to delete this match?"
+          iconText={<IoSadOutline />}
+          greenTextBtn="Cancel"
+          redTextBtn="Delete"/>
+        :''
+      }
     </div>
   )
 }

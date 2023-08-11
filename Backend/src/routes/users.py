@@ -4,7 +4,7 @@ from flask_jwt_extended import jwt_required, get_jwt_identity, create_refresh_to
 
 from models.users import User
 from controllers.users_controller import post_user, set_active, forgot_password, new_password, delete_user
-from controllers.profile_controller import like_profile, info_profile
+from controllers.profile_controller import dislike_profile, like_profile, info_profile
 
 users = Blueprint('users',__name__)
 
@@ -78,21 +78,6 @@ def update_user():
     return delete_user(user), 200
 
 
-@users.route('/api/users/update-likes', methods=['PUT'])
-@jwt_required(refresh=True)
-def update_user_likes():
-    user = get_jwt_identity()
-    try:
-        if "user_like" not in request.json:
-            return jsonify({"message": "missing an 'user_like' keys in json"}), 400
-        else:
-            user_updated = like_profile(user)
-            refresh_token = create_refresh_token(identity=user_updated)
-            return jsonify(refresh_token=refresh_token), 200
-    except Exception:
-        return jsonify({"message": "Internal server error"}), 500
-
-
 @users.route('/api/users/update-profile', methods=['PUT'])
 @jwt_required(refresh=True)
 def update_user_profile():
@@ -103,6 +88,36 @@ def update_user_profile():
             return jsonify({"message": "missing an 'profile_image', 'zodiac_sign', 'location', 'gender', 'love_interest', 'date_born' keys in json"}), 400
         else:
             user_updated = info_profile(user)
+            refresh_token = create_refresh_token(identity=user_updated)
+            return jsonify(refresh_token=refresh_token), 200
+    except Exception:
+        return jsonify({"message": "Internal server error"}), 500
+
+
+@users.route('/api/users/update-dislikes', methods=['PUT'])
+@jwt_required(refresh=True)
+def update_user_dislikes():
+    user = get_jwt_identity()
+    try:
+        if "user_dislike" not in request.json:
+            return jsonify({"message": "missing an 'user_dislike' keys in json"}), 400
+        else:
+            user_updated = dislike_profile(user)
+            refresh_token = create_refresh_token(identity=user_updated)
+            return jsonify(refresh_token=refresh_token), 200
+    except Exception:
+        return jsonify({"message": "Internal server error"}), 500
+
+
+@users.route('/api/users/update-likes', methods=['PUT'])
+@jwt_required(refresh=True)
+def update_user_likes():
+    user = get_jwt_identity()
+    try:
+        if "user_like" not in request.json:
+            return jsonify({"message": "missing an 'user_like' keys in json"}), 400
+        else:
+            user_updated = like_profile(user)
             refresh_token = create_refresh_token(identity=user_updated)
             return jsonify(refresh_token=refresh_token), 200
     except Exception:

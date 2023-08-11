@@ -59,7 +59,7 @@ export const ChatMessage = ({codeRoom, chatName, messages}) => {
                 className={style.img}
                 src='https://static.wixstatic.com/media/4151a5_7706b6198d164a3e947f4548166228ad~mv2.png' alt='' />
             </div>
-            <span>{chatName}: {codeRoom}</span>
+            <span>{chatName}</span>
             <div className={style.icon_div}>
               <BiPhoneCall className={style.icon_header}/>
               <SlOptionsVertical className={style.icon_header}/>

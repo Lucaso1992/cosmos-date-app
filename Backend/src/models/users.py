@@ -1,5 +1,6 @@
 from utils.db import db
 from models.profile_likes import Profile_Like
+from models.profile_dislikes import Profile_Dislike
 
 
 class User(db.Model):
@@ -22,6 +23,7 @@ class User(db.Model):
                             backref="users",
                             cascade="all, delete",
                             lazy=True)
+    
     likes_from = db.relationship('User',
                                   secondary='profile_Likes',
                                   primaryjoin=(id==Profile_Like.user_to_id),
@@ -33,6 +35,19 @@ class User(db.Model):
                                 primaryjoin=(id==Profile_Like.user_from_id),
                                 secondaryjoin=(id==Profile_Like.user_to_id),
                                 back_populates="likes_from",
+                                lazy=True)
+    
+    dislikes_from = db.relationship('User',
+                                secondary='profile_Dislikes',
+                                primaryjoin=(id==Profile_Dislike.user_to_id),
+                                secondaryjoin=(id==Profile_Dislike.user_from_id),
+                                back_populates="dislikes_to",
+                                lazy=True)
+    dislikes_to = db.relationship('User',
+                                secondary='profile_Dislikes',
+                                primaryjoin=(id==Profile_Dislike.user_from_id),
+                                secondaryjoin=(id==Profile_Dislike.user_to_id),
+                                back_populates="dislikes_from",
                                 lazy=True)
     
     
