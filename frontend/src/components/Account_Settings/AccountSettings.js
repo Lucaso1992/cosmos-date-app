@@ -10,10 +10,8 @@ import style from "./AccountSettings.module.css"
 import { MdManageAccounts } from "react-icons/md";
 import { BiLogOutCircle } from "react-icons/bi";
 import { HiOutlineTrash } from "react-icons/hi";
-import { BsShieldLockFill } from "react-icons/bs";
-import { BsFillHeartbreakFill } from "react-icons/bs";
 import { FaRegFaceSadTear } from "react-icons/fa6";
-import { BsPersonFillLock } from "react-icons/bs";
+import { BsFillHeartbreakFill, BsShieldLockFill, BsPersonFillLock } from "react-icons/bs";
 
 
 export const AccountSettings = () => {

@@ -9,6 +9,18 @@ from models.chats import Chat
 from models.user_chat import User_chat
 from utils.db import db
 
+
+def dislike_profile(user):
+    user_dislike = request.json.get('user_dislike')
+    user_db = User.query.get(user["id"])
+
+    disliked_user = User.query.get(user_dislike)
+    user_db.dislikes_to.append(disliked_user)
+
+    db.session.commit()
+    return user_db.serialize_with_likes()
+
+
 def like_profile(user):
     user_like = request.json.get('user_like')
     user_db = User.query.get(user["id"])
@@ -39,7 +51,6 @@ def like_profile(user):
     else:
         db.session.commit()
         return user_db.serialize_with_likes()
-
 
 
 def info_profile(user):
