@@ -42,7 +42,7 @@ export const ChatList = ({rooms, setRooms, setCodeRoom, setMessages}) => {
 
   return (
     <div className={style.chats_list}>
-      <h5>Chats List</h5>
+      <h5>Match List</h5>
 
       <form>
         <div className={style.find_chat}>

@@ -21,8 +21,8 @@ export const Chats = () => {
   const value = useAppContext();
 
   const socket = value.store.socket
-  // const userData = value.store.userData
   const token = value.store.token
+  // const userData = value.store.userData
   
   const changeVisibility = () => {
     setVisibility(!visibility);
@@ -33,14 +33,6 @@ export const Chats = () => {
 
   useEffect(() => {
     if (socket){
-      // socket.on('room_created', (data) => {
-      //   setChats(prev =>{
-      //     if (prev.includes(data.room)) return prev;
-      //     else return [...prev, data.room]
-      //   });
-      //   setCodeRoom(data.room);
-      //   setMessages(data.messages);
-      // });
       socket.on('room_joined', (data) => {
         setCodeRoom(data.room);
         setChatName(data.receiver_name);
