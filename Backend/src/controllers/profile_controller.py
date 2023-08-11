@@ -64,6 +64,9 @@ def info_profile(user):
         profile_data.gender = request.json.get("gender")
         profile_data.love_interest = request.json.get("love_interest")
         profile_data.date_born = born_date
+        profile_data.description = request.json.get("description")
+        profile_data.location = request.json.get("location")
+        profile_data.height = request.json.get("height")
         db.session.commit()
         
         user_updated = User.query.get(user["id"])

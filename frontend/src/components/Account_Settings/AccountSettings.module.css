@@ -5,8 +5,8 @@
   overflow: hidden;
   min-width: fit-content;
   top: 140% !important;
-  transition: 1s;
-  /* backdrop-filter: blur(20px) !important; */
+  
+  transition: 0.5s;
 }
 
 .account_button{

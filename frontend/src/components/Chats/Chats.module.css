@@ -1,5 +1,5 @@
 .hide{
-  display: none;
+  transform:scale(0);
 }
 
 .chat_btn{
@@ -23,6 +23,7 @@
   border-radius: 50%;
   border: 2px solid #ffffff70;
   box-shadow: 0 0 1.2rem white;
+  transform:scale(1);
 
   transition: 0.4s;
 }
@@ -46,7 +47,8 @@
   min-width: 100vw;
   min-height: 100vh;
 
-  /* transition: 1s; */
+  transform:scale(1);
+  transition: 0.4s;
 }
 
 
