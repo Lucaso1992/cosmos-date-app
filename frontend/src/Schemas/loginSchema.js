@@ -8,14 +8,34 @@ export const loginSchema = yup.object().shape({
   email: yup
     .string()
     .email("Please enter a valid email")
-    .required("Required"),
+    .required("Email is required"),
   password: yup
     .string()
     .min(4)
-    .matches(passwordRules, {message: "Please enter a valid password"})
-    .required("Required"),
+    .matches(passwordRules, {message: "Enter a password with min. 1 number"})
+    .required("Password is required")
+})
+
+export const singInSchema = yup.object().shape({
+  email: yup
+    .string()
+    .email("Please enter a valid email")
+    .required("Email is required"),
+  password: yup
+    .string()
+    .min(4)
+    .matches(passwordRules, {message: "Enter a password with min. 1 number"})
+    .required("Password is required"),
   userName: yup
     .string()
     .min(2)
-    // .required("Required")
+    .required("User name is required")
 })
+
+export const forgotPasswordSchema = yup.object().shape({
+  email: yup
+    .string()
+    .email("Please enter a valid email")
+    .required("Email is required"),
+})
+

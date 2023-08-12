@@ -13,6 +13,9 @@ export const changePassword = (token, password) => {
       if (resp.status===404){
         alert("Token for changing password don't exist!");
       }
+      else if (resp.status===403){
+        alert("Token for changing password expired!");
+      }
       else if (resp.status===200){
         alert("Password successfully changed!");
         return true;

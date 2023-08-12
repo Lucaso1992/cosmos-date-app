@@ -55,7 +55,7 @@ def like_profile(user):
 
 def info_profile(user):
     profile_data = Profile.query.filter_by(user_id=user["id"]).first()
-    born_date = datetime.datetime.strptime(request.json.get("date_born"), "%Y-%m-%dT%H:%M:%S")
+    born_date = datetime.datetime.strptime(request.json.get("date_born"), "%Y-%m-%dT%H:%M")
 
     if profile_data:
         profile_data.profile_image = request.json.get("profile_image")
@@ -64,6 +64,9 @@ def info_profile(user):
         profile_data.gender = request.json.get("gender")
         profile_data.love_interest = request.json.get("love_interest")
         profile_data.date_born = born_date
+        profile_data.description = request.json.get("description")
+        profile_data.location = request.json.get("location")
+        profile_data.height = request.json.get("height")
         db.session.commit()
         
         user_updated = User.query.get(user["id"])
