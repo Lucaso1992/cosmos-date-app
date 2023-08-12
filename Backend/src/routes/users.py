@@ -83,9 +83,9 @@ def update_user():
 def update_user_profile():
     user = get_jwt_identity()
     try:
-        required_keys = ["profile_image","zodiac_sign","location","gender","love_interest","date_born"]
+        required_keys = ["profile_image","zodiac_sign","location","gender","love_interest","date_born","description", "location_born", "height"]
         if not all(key in request.json for key in required_keys):
-            return jsonify({"message": "missing an 'profile_image', 'zodiac_sign', 'location', 'gender', 'love_interest', 'date_born' keys in json"}), 400
+            return jsonify({"message": "missing an 'profile_image', 'zodiac_sign', 'location', 'gender', 'love_interest', 'date_born','description', 'location_born', 'height' keys in json"}), 400
         else:
             user_updated = info_profile(user)
             refresh_token = create_refresh_token(identity=user_updated)

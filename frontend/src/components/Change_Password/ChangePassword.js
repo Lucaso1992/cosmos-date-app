@@ -1,48 +1,42 @@
 import { useState } from 'react'
-import { useParams } from 'react-router-dom';
-import { useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from 'react-router-dom';
+// import { useNavigate } from "react-router-dom";
+import { useFormik } from 'formik';
 
 import { changePassword } from '../../Services/changePassword'
+import { changePasswordSchema } from '../../Schemas/changePasswordSchema';
 
 import style from "./ChangePassword.module.css"
 import { BiSolidLock } from "react-icons/bi";
 import { BsEyeFill, BsEyeSlashFill } from "react-icons/bs";
 
 export const ChangePassword = () => {
-  const [password, setPassword] = useState('');
-  const [passwordConfirm, setPasswordConfirm] = useState('');
   const [viewPassword, setViewPassword] = useState(false);
 
   const params = useParams();
   const navigate = useNavigate()
 
-  const handlePassword = (e) =>{
-    setPassword(e.target.value)
-  }
-  const handlePasswordConfirm = (e) =>{
-    setPasswordConfirm(e.target.value)
+
+  const onSubmit = async(values, actions)=>{
+    changePassword(params.token, values.password)
+    .then((resp)=>{
+      if (resp){
+        navigate('/');
+        actions.resetForm();
+      }
+      else return
+    })
   }
 
-  const handleviewPassword = ()=>{
-    setViewPassword(!viewPassword)
-  }
-
-
-  const submitFuntion = async(e)=>{
-    e.preventDefault();
-    if(password!== passwordConfirm){
-      alert('Passwords do not match!')
-    }
-    else{
-      changePassword(params.token, password)
-      .then((resp)=>{
-        if (resp){
-          navigate('/');
-        }
-        else return
-      })
-    }
-  }
+  const {values, errors, touched, handleBlur, handleChange, handleSubmit } = 
+  useFormik({
+    initialValues: {
+      password: '',
+      confirmPassword: ''
+    },
+    validationSchema:  changePasswordSchema,
+    onSubmit,
+  });
 
 
   return (
@@ -52,22 +46,40 @@ export const ChangePassword = () => {
           
           <h2>Change password</h2>
           
-          <form onSubmit={submitFuntion}>
+          <form onSubmit={handleSubmit}>
 
-            <div className={style.input_box}>
-              <span className={style.icon} onClick={handleviewPassword}>
+            <div className={`${style.input_box}  ${errors.password&&touched.password?`${style.input_error}`:''}`}>
+              <span className={style.icon} onClick={()=>setViewPassword(!viewPassword)}>
                 {viewPassword?<BsEyeFill />:<BsEyeSlashFill />}
               </span>
-              <input type={viewPassword?'text':'password'} value={password} onChange={handlePassword} required/>
+              <input 
+                type={viewPassword?'text':'password'} 
+                id="password"
+                value={values.password} 
+                onChange={handleChange}
+                onBlur={handleBlur}
+                required/> 
               <label>New Password:</label>
+              {errors.password && touched.password &&(
+                <p className={style.error_text}>{errors.password}</p>
+              )}
             </div>
 
-            <div className={style.input_box}>
+            <div className={`${style.input_box}  ${errors.confirmPassword&&touched.confirmPassword?`${style.input_error}`:''}`}>
               <span className={style.icon}>
                 <BiSolidLock />
               </span>
-              <input type='password' value={passwordConfirm} onChange={handlePasswordConfirm} required/> 
+              <input 
+                type='password' 
+                id="confirmPassword"
+                value={values.confirmPassword} 
+                onChange={handleChange}
+                onBlur={handleBlur}
+                required/> 
               <label>Confirm Password:</label>
+              {errors.confirmPassword && touched.confirmPassword &&(
+                <p className={style.error_text}>{errors.confirmPassword}</p>
+              )}
             </div>
 
             <button type='submit' className={style.submit_btn}>
