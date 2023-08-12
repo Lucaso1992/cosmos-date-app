@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useAppContext } from '../../flux/AppContext'
 import user_Matches from "../../flux/DataProvisional.js";
 import { updateLikes } from "../../Services/updateLikes";
+import { updateDislikes } from '../../Services/updateDislikes';
 import MatchAlert from "./Alert/MatchAlert.js";
 import { mapZodiacSign } from './utills/mapZodiacSign.js';
 
@@ -10,16 +11,15 @@ import style from "./Match.module.css";
 import { AiOutlineLike, AiOutlineDislike } from 'react-icons/ai';
 import { GiBeveledStar } from 'react-icons/gi';
 
-export const MatchTwo = () => {
+export const Match = () => {
     const [matchIndex, setMatchIndex] = useState(0);
     const [matchData, setMatchData] = useState({});
     const [usersList, setUsersList] = useState([]);
     const [userLikedId, setUserLikedId] = useState('');
+    const [userDislikedId, setUserDislikedId] = useState("");
     const value = useAppContext();
 
-    
     const token = value.store.token
-
     
     useEffect(() => {
         setUsersList(user_Matches);
@@ -36,13 +36,21 @@ export const MatchTwo = () => {
         }
     }, [userLikedId])
 
-    const handleInteraction = (status) => {
+    
+    useEffect(() => {
+        if (userDislikedId!=='' && userDislikedId!==undefined){
+            updateDislikes(token, userDislikedId)
+        }
+    }, [userDislikedId])
+
+
+    const handleLike = (status) => {
         setMatchIndex((prevIndex) => {
             let index = prevIndex + 1;
             if (status === "like") {
                 setUserLikedId(matchData.id);
-                
             }
+            if (status === "dislike") { setUserDislikedId(matchData.id)}
             return index === usersList.length ? index = 0 : index;
         });
     }
@@ -79,9 +87,9 @@ export const MatchTwo = () => {
                 </div>
                 <div className={style.interactive_div}>
                     <div className={style.icons_div}>
-                        <AiOutlineDislike className={style.icons} type="button" onClick={() => handleInteraction("dislike")} />
+                        <AiOutlineDislike className={style.icons} type="button" onClick={() => handleLike("dislike")} />
                         <GiBeveledStar className={style.icons} />
-                        <AiOutlineLike className={style.icons} type="button" onClick={() => handleInteraction("like")} />
+                        <AiOutlineLike className={style.icons} type="button" onClick={() => handleLike("like")} />
                     </div>
                     <div className={style.button_div}>
                         <button type="button" className={`${style.modal_button} btn btn-primary`} data-bs-toggle="modal" data-bs-target="#exampleModal">
