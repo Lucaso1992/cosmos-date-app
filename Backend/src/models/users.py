@@ -99,3 +99,10 @@ class User(db.Model):
             "updated_at": self.updated_at,
             "chats": [chat.as_dict() for chat in self.chats]
         }
+    
+    def serialize_for_match(self):
+        return {
+            "id": self.id,
+            "user_name": self.user_name,
+            "profile": self.profile.as_dict() if self.profile else {}
+        }

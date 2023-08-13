@@ -29,12 +29,17 @@ def get_chats(userData):
       
       for user in users_chat_db:
         if user.user_id != user_db.id:
-          reciverUserName = User.query.get(user.user_id).user_name
+          recieverUserName = User.query.get(user.user_id).user_name
+        else:
+          for message in messages_db:
+            if message.user_name != user_db.user_name:
+              recieverUserName = message.user_name
+              break
 
       chats.append({
         "chat": chat.chat_id, 
         "messages": messages, 
-        "user_name": reciverUserName
+        "user_name": recieverUserName
         })
 
     return jsonify(chats)

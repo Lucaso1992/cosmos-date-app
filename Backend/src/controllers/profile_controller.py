@@ -1,6 +1,5 @@
 import datetime
-from flask import request
-# from flask_socketio import join_room
+from flask import request, jsonify
 
 from models.users import User
 from models.profile_info import Profile
@@ -28,29 +27,33 @@ def like_profile(user):
     liked_user = User.query.get(user_like)
     user_db.likes_to.append(liked_user)
 
-    matched_user = Profile_Like.query.filter_by(
-            user_from_id=liked_user.id, 
-            user_to_id=user_db.id
-        ).first()
-    if matched_user:
-        user_chats = User_chat.query.filter_by(user_id=user_db.id).all()
-        reciever_chats = User_chat.query.filter_by(user_id=liked_user.id).all()
-        
-        if any(chat in reciever_chats for chat in user_chats):
-            db.session.commit()
-            return user_db.serialize_with_likes()
-
-        else:
-            new_chat = Chat()
-            db.session.add(new_chat)
-
-            user_db.chats.append(new_chat)
-            liked_user.chats.append(new_chat)
-            db.session.commit()
-            return user_db.serialize_with_likes()
+    if liked_user.id == user_db.id:
+        return jsonify({"message": "You can't like yourself"}), 400
+    
     else:
-        db.session.commit()
-        return user_db.serialize_with_likes()
+        matched_user = Profile_Like.query.filter_by(
+                user_from_id=liked_user.id, 
+                user_to_id=user_db.id
+            ).first()
+        if matched_user:
+            user_chats = User_chat.query.filter_by(user_id=user_db.id).all()
+            reciever_chats = User_chat.query.filter_by(user_id=liked_user.id).all()
+            
+            if any(chat in reciever_chats for chat in user_chats):
+                db.session.commit()
+                return user_db.serialize_with_likes()
+
+            else:
+                new_chat = Chat()
+                db.session.add(new_chat)
+
+                user_db.chats.append(new_chat)
+                liked_user.chats.append(new_chat)
+                db.session.commit()
+                return user_db.serialize_with_likes()
+        else:
+            db.session.commit()
+            return user_db.serialize_with_likes()
 
 
 def info_profile(user):
