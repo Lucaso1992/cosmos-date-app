@@ -1,8 +1,11 @@
-import React, { useState } from "react";
-import style from "./Porfile.module.css";
-import CloudinaryUploadWidget from "./CloudinaryUploadWidget";
-import { createProfile } from "../../Services/createProfile.js";
+import { useState } from "react";
+
 import { useAppContext } from '../../flux/AppContext'
+import CloudinaryUploadWidget from "./CloudinaryUploadWidget";
+import { updateProfile } from "../../Services/updateProfile.js";
+
+import style from "./Porfile.module.css";
+
 
 export const Porfile = () => {
   const value = useAppContext();
@@ -19,6 +22,7 @@ export const Porfile = () => {
   });
 
   const token = value.store.token
+  const setToken = value.actions.setToken
 
   const onHandlChange = (e) => {
     const { id, value } = e.target;
@@ -31,7 +35,7 @@ export const Porfile = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    createProfile(token, profileData);
+    updateProfile(token, profileData, setToken);
   };
 
   
@@ -61,18 +65,6 @@ export const Porfile = () => {
                       onChange={onHandlChange}
                     />
                   </div>
-
-                  {/* <div className="input-group my-2">
-                    <label for="form-lastname" class="form-label"></label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="lastname"
-                      placeholder="Lastname"
-                      value={profileData.lastname}
-                      onChange={onHandlChange}
-                    />
-                  </div> */}
 
                   <div className="input-group my-2">
                     <select
