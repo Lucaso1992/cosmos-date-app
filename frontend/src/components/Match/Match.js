@@ -21,20 +21,20 @@ export const Match = () => {
     
     useEffect(() => {
         getMatch(token, setMatchData)
-    }, [])
+    }, [token])
 
     
     useEffect(() => {
         if (userLikedId!=='' && userLikedId!==undefined){
             updateLikes(token, userLikedId)
         }
-    }, [userLikedId])
+    }, [userLikedId, token])
     
     useEffect(() => {
         if (userDislikedId!=='' && userDislikedId!==undefined){
             updateDislikes(token, userDislikedId)
         }
-    }, [userDislikedId])
+    }, [userDislikedId, token])
 
 
     const handleLike = (status) => {
