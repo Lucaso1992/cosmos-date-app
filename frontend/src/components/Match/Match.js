@@ -1,20 +1,18 @@
 import React, { useEffect, useState } from 'react';
 
 import { useAppContext } from '../../flux/AppContext'
-import user_Matches from "../../flux/DataProvisional.js";
+import { getMatch } from '../../Services/getMatch';
 import { updateLikes } from "../../Services/updateLikes";
 import { updateDislikes } from '../../Services/updateDislikes';
-import MatchAlert from "./Alert/MatchAlert.js";
 import { mapZodiacSign } from './utills/mapZodiacSign.js';
 
 import style from "./Match.module.css";
+import RingLoader from "react-spinners/RingLoader";
 import { AiOutlineLike, AiOutlineDislike } from 'react-icons/ai';
 import { GiBeveledStar } from 'react-icons/gi';
 
 export const Match = () => {
-    const [matchIndex, setMatchIndex] = useState(0);
     const [matchData, setMatchData] = useState({});
-    const [usersList, setUsersList] = useState([]);
     const [userLikedId, setUserLikedId] = useState('');
     const [userDislikedId, setUserDislikedId] = useState("");
     const value = useAppContext();
@@ -22,20 +20,15 @@ export const Match = () => {
     const token = value.store.token
     
     useEffect(() => {
-        setUsersList(user_Matches);
+        getMatch(token, setMatchData)
     }, [])
 
-    useEffect(() => {
-        if (!usersList.length) return;
-        setMatchData(usersList[matchIndex])
-    }, [matchIndex, usersList])
-
+    
     useEffect(() => {
         if (userLikedId!=='' && userLikedId!==undefined){
             updateLikes(token, userLikedId)
         }
     }, [userLikedId])
-
     
     useEffect(() => {
         if (userDislikedId!=='' && userDislikedId!==undefined){
@@ -45,45 +38,56 @@ export const Match = () => {
 
 
     const handleLike = (status) => {
-        setMatchIndex((prevIndex) => {
-            let index = prevIndex + 1;
-            if (status === "like") {
-                setUserLikedId(matchData.id);
-            }
-            if (status === "dislike") { setUserDislikedId(matchData.id)}
-            return index === usersList.length ? index = 0 : index;
-        });
+        if (status === "like") {
+            setUserLikedId(matchData.id);
+        }
+        if (status === "dislike") {
+            setUserDislikedId(matchData.id)
+        }
+        return getMatch(token, setMatchData)
     }
 
-    if (!matchData) {
-        return <div className={style.alert_div}>
-            <MatchAlert />
-        </div>
+    // if (!matchData) {
+    //     return <div className={style.alert_div}>
+    //         <MatchAlert />
+    //     </div>
+    // }
+    if (Object.keys(matchData).length === 0) {
+        return (
+            <div>
+                <RingLoader
+                    className={style.loader}
+                    color={"#fff"}
+                    size={140}
+                />
+            </div>
+            
+        )
     }
 
     return (
         <div className={style.general_div}>
             <div className={style.img_div}>
-                <img className={style.img} src={matchData.imageName} alt=""/>
+                <img className={style.img} src={matchData.profile.profile_image} alt=""/>
             </div>
             <div className={style.infocontainer_div}>
                 <div className={style.first_infodiv}>
                     <div className={style.name_zodiac_div}>
                         <h1 className={style.user_name}>
-                            <strong>{matchData.user_name},</strong> {matchData.user_age}
+                            <strong>{matchData.user_name},</strong> {matchData.profile.age}
                         </h1>
-                        <p className={style.user_distance}>{matchData.user_city} - {matchData.user_distance}</p>
+                        <p className={style.user_distance}>{matchData.profile.location}</p>
                     </div>
                     <div className={style.symbol_div}>
-                        <div className={style.symbol}>{mapZodiacSign[matchData.zodiac_sign]}</div>
-                        <p className={style.sign}>{matchData.zodiac_sign}</p>
+                        <div className={style.symbol}>{mapZodiacSign[matchData.profile.zodiac_sign]}</div>
+                        <p className={style.sign}>{matchData.profile.zodiac_sign}</p>
                     </div>
                 </div>
                 <div className={style.data_div}>
-                    <h5>ASTROLOGICAL DATA</h5>
-                    <p>{matchData.astro_data}</p>
+                    {/* <h5>ASTROLOGICAL DATA</h5> */}
+                    {/* <p>{matchData.astro_data}</p> */}
                     <h5>GENERAL INFORMATION</h5>
-                    <p>{matchData.general_information}</p>
+                    <p>{matchData.profile.description}</p>
                 </div>
                 <div className={style.interactive_div}>
                     <div className={style.icons_div}>
@@ -103,17 +107,17 @@ export const Match = () => {
                     <div className="modal-content">
                         <div className="modal-header">
                             <div className="d-flex flex-column">
-                                <h1 className="modal-title fs-1" id="exampleModalLabel"><strong>{matchData.user_name}</strong>, {matchData.user_age}</h1>
-                                <p className="card-text">{matchData.user_city}</p>
-                                <p className="card-text">{matchData.user_distance}</p>
+                                <h1 className="modal-title fs-1" id="exampleModalLabel"><strong>{matchData.user_name}</strong>, {matchData.profile.age}</h1>
+                                <p className="card-text">{matchData.profile.location}</p>
+                                {/* <p className="card-text">{matchData.user_distance}</p> */}
                             </div>
                             <button type="button" className="btn-close mb-auto" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div className={`${style.modal_info} modal-body`}>
-                            <h5 >ASTROLOGICAL DATA</h5>
-                            <p >{matchData.astro_data}</p>
+                            {/* <h5 >ASTROLOGICAL DATA</h5>
+                            <p >{matchData.astro_data}</p> */}
                             <h5>GENERAL INFORMATION</h5>
-                            <p>{matchData.general_information}</p>
+                            <p>{matchData.profile.description}</p>
                         </div>
                     </div>
                 </div>
