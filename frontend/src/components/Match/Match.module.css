@@ -140,6 +140,7 @@ margin-bottom: 0;
     }
     .img_div{
         height: 30rem;
+        width: 40%;
     }
     .interactive_div{
         background-color: rgb(237, 237, 237);
@@ -148,6 +149,10 @@ margin-bottom: 0;
     }
     .symbol_div{
         margin-right: 2rem;
+    }
+
+    .infocontainer_div{
+        width: 60%;
     }
 }
 

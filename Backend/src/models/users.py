@@ -16,7 +16,11 @@ class User(db.Model):
                            default=db.func.current_timestamp(),
                            onupdate=db.func.current_timestamp())
     token = db.relationship("Token", backref="users", cascade="all, delete", lazy=True)
-    profile = db.relationship("Profile", backref="users", uselist=False, cascade="all, delete", lazy=True)
+    profile = db.relationship("Profile", 
+                              backref="users", 
+                              uselist=False, 
+                              cascade="all, delete", 
+                              lazy=True)
 
     chats = db.relationship("Chat",
                             secondary='users_chats',
@@ -98,4 +102,11 @@ class User(db.Model):
             "created_at": self.created_at,
             "updated_at": self.updated_at,
             "chats": [chat.as_dict() for chat in self.chats]
+        }
+    
+    def serialize_for_match(self):
+        return {
+            "id": self.id,
+            "user_name": self.user_name,
+            "profile": self.profile.as_dict() if self.profile else {}
         }
