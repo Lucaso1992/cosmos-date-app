@@ -42,6 +42,22 @@ max-width: 70%;
   border: 2px solid #ffffff70;
   border-radius: 40px;
 }
+
+.submit_button{
+  background-color: #063254;
+  color: white;
+  border-radius: 25px;
+  width: 6rem;
+  height: 2.5rem;
+}
+
+.submit_button:hover{
+  color: white;
+  background-color: #144972;
+}
+
+
+
 @media(min-width:1024px) { 
 .card_div{
   max-height: 600px;

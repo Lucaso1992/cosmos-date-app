@@ -38,8 +38,8 @@ export const Porfile = () => {
   };
 
   return (
-    <div className={`${style.container_div } container`}>
-      <div class={`${style.card_div } card `}>
+    <div className={`${style.container_div} container`}>
+      <div className={`${style.card_div} card `}>
         <div className="card-header main_header">
           <h2 className="ms-3 mb-0">Profile</h2>
         </div>
@@ -51,13 +51,13 @@ export const Porfile = () => {
                 <div className={style.personal_info}>
                   <h4 className="p-0 mb-0">Personal Info</h4>
                   <button className="btn p-0 mt-0 mb-3">Edit</button>
-                  <div class="input-group my-2">
-                    <label for="form-name" class="form-label"></label>
+                  <div className="input-group my-2">
+                    <label for="form-name" className="form-label"></label>
                     <input
                       type="number"
-                      class="form-control"
+                      className="form-control"
                       id="height"
-                      placeholder="cm" 
+                      placeholder="cm"
                       value={profileData.height}
                       onChange={onHandlChange}
                     />
@@ -65,7 +65,7 @@ export const Porfile = () => {
                   <div className="input-group my-2">
                     <select
                       id="zodiac_sign"
-                      class="form-select"
+                      className="form-select"
                       aria-label="Default select example"
                       value={profileData.zodiac_sign}
                       onChange={onHandlChange}
@@ -87,10 +87,10 @@ export const Porfile = () => {
                   </div>
 
                   <div className="input-group my-2">
-                    <label for="form-city" class="form-label"></label>
+                    <label for="form-city" className="form-label"></label>
                     <input
                       type="text"
-                      class="form-control"
+                      className="form-control"
                       id="location"
                       placeholder="City, Country"
                       value={profileData.location}
@@ -99,10 +99,10 @@ export const Porfile = () => {
                   </div>
 
                   <div className="input-group my-2">
-                    <label for="form-city" class="form-label"></label>
+                    <label for="form-city" className="form-label"></label>
                     <input
                       type="text"
-                      class="form-control"
+                      className="form-control"
                       id="location_born"
                       placeholder="Where have you been born?"
                       value={profileData.location_born}
@@ -113,7 +113,7 @@ export const Porfile = () => {
                   {/* <div className="input-group my-2">
                     <select
                       id="country"
-                      class="form-select"
+                      className="form-select"
                       aria-label="Default select example"
                       value={profileData.country}
                       onChange={onHandlChange}
@@ -130,7 +130,7 @@ export const Porfile = () => {
                   <div className="input-group my-2">
                     <select
                       id="gender"
-                      class="form-select"
+                      className="form-select"
                       aria-label="Default select example"
                       value={profileData.gender}
                       onChange={onHandlChange}
@@ -144,7 +144,7 @@ export const Porfile = () => {
 
                   <div className="input-group my-2">
                     <input
-                      class="form-control"
+                      className="form-control"
                       type="datetime-local"
                       id="date_born"
                       name="birthdate"
@@ -157,7 +157,7 @@ export const Porfile = () => {
                     <select
                       type="text"
                       id="love_interest"
-                      class="form-select"
+                      className="form-select"
                       aria-label="Default select example"
                       value={profileData.love_interest}
                       onChange={onHandlChange}
@@ -189,14 +189,14 @@ export const Porfile = () => {
                     </div>
                   </div>
 
-                  <div class="input-group p-3">
+                  <div className="input-group p-3">
                     <CloudinaryUploadWidget
                       onHandleImageUpload={onHandleImageUpload}
                     />
 
                     {/* <input
                     type="file"
-                    class="form-control"
+                    className="form-control"
                     id="inputGroupFile01"
                   /> */}
                   </div>
@@ -204,9 +204,9 @@ export const Porfile = () => {
 
                 <div className={style.about}>
                   <h4 className="pt-3 ps-3">About Me</h4>
-                  <div class="form-floating m-2">
+                  <div className="form-floating m-2">
                     <textarea
-                      class="form-control"
+                      className="form-control"
                       id="description"
                       style={{ minHeight: "100px" }}
                       value={profileData.description}
@@ -218,10 +218,10 @@ export const Porfile = () => {
               </div>
             </div>
           </div>
-          <div className="d-flex justify-content-center w-100 pb-3">
-          <button type="submit" class="btn btn-primary">
-            Send
-          </button>
+          <div className="d-flex justify-content-center pb-3">
+            <button type="submit" className={`${style.submit_button} btn`}>
+              Send
+            </button>
           </div>
         </form>
       </div>

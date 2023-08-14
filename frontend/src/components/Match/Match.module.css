@@ -70,6 +70,11 @@
     background-color: #063254;
 }
 
+.modal_button:hover{
+    color: white;
+    background-color: #144972;
+}
+
 .user_name{
     color: #063254;
     margin-top: .5rem;
