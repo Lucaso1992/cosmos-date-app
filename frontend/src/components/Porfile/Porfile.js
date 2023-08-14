@@ -1,36 +1,40 @@
-import React, { useState } from "react"; 
+import React, { useState } from "react";
 import style from "./Porfile.module.css";
 import CloudinaryUploadWidget from "./CloudinaryUploadWidget";
-import { createProfile } from "../../Services/createProfile.js"
-  
-  export const Porfile = () => {
-    const [profileData, setProfileData] = useState({
-      profile_image: "",
-      zodiac_sign: "",
-      location: "",
-      location_born: "",
-      gender: "",
-      date_born: "",
-      love_interest: "",
-      height: "",
-      description: "",
-    });
-    
-    console.log(profileData);
-    
-    const onHandlChange = (e) => {
-      const { id, value } = e.target;
-      setProfileData({ ...profileData, [id]: value });
-    };
+import { createProfile } from "../../Services/createProfile.js";
+import { useAppContext } from '../../flux/AppContext'
 
-    const onHandleImageUpload = (url) => {
-      setProfileData({ ...profileData, profile_image: url });
-    }
+export const Porfile = () => {
+  const value = useAppContext();
+  const [profileData, setProfileData] = useState({
+    profile_image: "",
+    zodiac_sign: "",
+    location: "",
+    location_born: "",
+    gender: "",
+    date_born: "",
+    love_interest: "",
+    height: "",
+    description: "",
+  });
+
+  const token = value.store.token
+
+  const onHandlChange = (e) => {
+    const { id, value } = e.target;
+    setProfileData({ ...profileData, [id]: value });
+  };
+
+  const onHandleImageUpload = (url) => {
+    setProfileData({ ...profileData, profile_image: url });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    createProfile(token, profileData);
+  };
+
   
-    const handleSubmit = (e) => {
-      e.preventDefault();
-      createProfile(profileData);
-    };
 
   return (
     <div className="container mt-4 m-auto">
@@ -38,14 +42,14 @@ import { createProfile } from "../../Services/createProfile.js"
         <div className="card-header main_header">
           <h2 className="ms-3 p-2">Profile</h2>
         </div>
-      
-      <form onSubmit={handleSubmit}>
-        <div className="card-body main_layout">
-          <div className="row d-flex justify-content-center">
-            <div className="col-lg-4 col-md-6 col-sm-12">
-              <div className={style.personal_info}>
-                <h4 className="p-0 mb-0">Personal Info</h4>
-                <button className="btn p-0 mt-0 mb-3">Edit</button>
+
+        <form onSubmit={handleSubmit}>
+          <div className="card-body main_layout">
+            <div className="row d-flex justify-content-center">
+              <div className="col-lg-4 col-md-6 col-sm-12">
+                <div className={style.personal_info}>
+                  <h4 className="p-0 mb-0">Personal Info</h4>
+                  <button className="btn p-0 mt-0 mb-3">Edit</button>
                   <div class="input-group my-2">
                     <label for="form-name" class="form-label"></label>
                     <input
@@ -176,59 +180,60 @@ import { createProfile } from "../../Services/createProfile.js"
                       <option value="Everyone">Everyone</option>
                     </select>
                   </div>
-                  
-                  
-                
-              </div>
-            </div>
-
-            <div className="col-lg-4 col-md-6 col-sm-12 m-1">
-              <div className={style.photos}>
-                <div className="d-flex pt-3 ps-3">
-                  <div>
-                    <h4 className="mb-0">Photos</h4>
-                    <button className="btn p-0 mt-0">Edit</button>
-                  </div>
-
-                  <div className="col-6 ms-auto">
-                    <img
-                      id="uploadedimage"
-                      src=""
-                      className="img-fluid ms-auto pe-3"
-                      alt="..."
-                    />
-                  </div>
                 </div>
+              </div>
 
-                <div class="input-group p-3">
-                  <CloudinaryUploadWidget onHandleImageUpload={onHandleImageUpload} />
+              <div className="col-lg-4 col-md-6 col-sm-12 m-1">
+                <div className={style.photos}>
+                  <div className="d-flex pt-3 ps-3">
+                    <div>
+                      <h4 className="mb-0">Photos</h4>
+                      <button className="btn p-0 mt-0">Edit</button>
+                    </div>
 
-                  {/* <input
+                    <div className="col-6 ms-auto">
+                      <img
+                        id="uploadedimage"
+                        src=""
+                        className="img-fluid ms-auto pe-3"
+                        alt="..."
+                      />
+                    </div>
+                  </div>
+
+                  <div class="input-group p-3">
+                    <CloudinaryUploadWidget
+                      onHandleImageUpload={onHandleImageUpload}
+                    />
+
+                    {/* <input
                     type="file"
                     class="form-control"
                     id="inputGroupFile01"
                   /> */}
+                  </div>
                 </div>
-              </div>
 
-              <div className={style.about}>
-                <h4 className="pt-3 ps-3">About Me</h4>
-                <div class="form-floating m-2">
-                  <textarea
-                    class="form-control"
-                    id="description"
-                    style={{ minHeight: "100px" }}
-                    value={profileData.description}
+                <div className={style.about}>
+                  <h4 className="pt-3 ps-3">About Me</h4>
+                  <div class="form-floating m-2">
+                    <textarea
+                      class="form-control"
+                      id="description"
+                      style={{ minHeight: "100px" }}
+                      value={profileData.description}
                       onChange={onHandlChange}
-                  ></textarea>
-                  <label for="floatingTextarea2"></label>
+                    ></textarea>
+                    <label for="floatingTextarea2"></label>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-        <button type="summit" class="btn btn-primary">Send</button>
-      </form> 
+          <button type="submit" class="btn btn-primary">
+            Send
+          </button>
+        </form>
       </div>
     </div>
   );
