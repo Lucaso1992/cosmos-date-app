@@ -5,22 +5,27 @@ import { createProfile } from "../../Services/createProfile.js"
   
   export const Porfile = () => {
     const [profileData, setProfileData] = useState({
-      profile_image: null,
-      // name: "",
-      // lastname: "",
+      profile_image: "",
       zodiac_sign: "",
       location: "",
-      // country: "",
+      location_born: "",
       gender: "",
       date_born: "",
       love_interest: "",
+      height: "",
       description: "",
     });
+    
+    console.log(profileData);
     
     const onHandlChange = (e) => {
       const { id, value } = e.target;
       setProfileData({ ...profileData, [id]: value });
     };
+
+    const onHandleImageUpload = (url) => {
+      setProfileData({ ...profileData, profile_image: url });
+    }
   
     const handleSubmit = (e) => {
       e.preventDefault();
@@ -41,19 +46,19 @@ import { createProfile } from "../../Services/createProfile.js"
               <div className={style.personal_info}>
                 <h4 className="p-0 mb-0">Personal Info</h4>
                 <button className="btn p-0 mt-0 mb-3">Edit</button>
-                  {/* <div class="input-group my-2">
+                  <div class="input-group my-2">
                     <label for="form-name" class="form-label"></label>
                     <input
-                      type="text"
+                      type="number"
                       class="form-control"
-                      id="name"
-                      placeholder="Name"
-                      value={profileData.name}
+                      id="height"
+                      placeholder="cm"
+                      value={profileData.height}
                       onChange={onHandlChange}
                     />
                   </div>
 
-                  <div className="input-group my-2">
+                  {/* <div className="input-group my-2">
                     <label for="form-lastname" class="form-label"></label>
                     <input
                       type="text"
@@ -97,6 +102,18 @@ import { createProfile } from "../../Services/createProfile.js"
                       id="location"
                       placeholder="City, Country"
                       value={profileData.location}
+                      onChange={onHandlChange}
+                    />
+                  </div>
+
+                  <div className="input-group my-2">
+                    <label for="form-city" class="form-label"></label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="location_born"
+                      placeholder="Where have you been born?"
+                      value={profileData.location_born}
                       onChange={onHandlChange}
                     />
                   </div>
@@ -176,7 +193,7 @@ import { createProfile } from "../../Services/createProfile.js"
                   <div className="col-6 ms-auto">
                     <img
                       id="uploadedimage"
-                      src="https://objetivoliga.com/wp-content/uploads/2017/03/blank-profile-picture-973460_1280.jpg"
+                      src=""
                       className="img-fluid ms-auto pe-3"
                       alt="..."
                     />
@@ -184,7 +201,7 @@ import { createProfile } from "../../Services/createProfile.js"
                 </div>
 
                 <div class="input-group p-3">
-                  <CloudinaryUploadWidget />
+                  <CloudinaryUploadWidget onHandleImageUpload={onHandleImageUpload} />
 
                   {/* <input
                     type="file"

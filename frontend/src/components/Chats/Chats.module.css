@@ -1,5 +1,6 @@
 .hide{
-  transform:scale(0);
+  transform:scale(0); 
+  position: absolute; 
 }
 
 .chat_btn{
