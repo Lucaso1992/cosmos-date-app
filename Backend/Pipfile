@@ -21,3 +21,7 @@ python-dateutil = "*"
 [requires]
 python_version = "3.11"
 python_full_version = "3.11.4"
+
+[scripts]
+start = "flask --app src/app.py run --host=0.0.0.0 --port=10000"
+build = "cd frontend && npm install && npm run build && cd .. && pip install --upgrade pip && cd Backend && pipenv install && pipenv shell"
