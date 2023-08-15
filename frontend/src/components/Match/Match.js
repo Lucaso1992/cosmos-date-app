@@ -28,13 +28,14 @@ export const Match = () => {
         if (userLikedId!=='' && userLikedId!==undefined){
             updateLikes(token, userLikedId)
         }
-    }, [userLikedId])
+    }, [userLikedId, token])
     
     useEffect(() => {
         if (userDislikedId!=='' && userDislikedId!==undefined){
             updateDislikes(token, userDislikedId)
         }
-    }, [token, userDislikedId])
+    }, [userDislikedId, token])
+
 
 
     const handleLike = (status) => {
