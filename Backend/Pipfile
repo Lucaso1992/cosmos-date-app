@@ -15,6 +15,7 @@ flask-mail = "*"
 flask-socketio = "*"
 simple-websocket = "*"
 python-dateutil = "*"
+gunicorn = "*"
 
 [dev-packages]
 
