@@ -21,7 +21,7 @@ export const Match = () => {
     
     useEffect(() => {
         getMatch(token, setMatchData)
-    }, [])
+    }, [token])
 
     
     useEffect(() => {
@@ -34,24 +34,25 @@ export const Match = () => {
         if (userDislikedId!=='' && userDislikedId!==undefined){
             updateDislikes(token, userDislikedId)
         }
-    }, [userDislikedId])
+    }, [token, userDislikedId])
 
 
     const handleLike = (status) => {
         if (status === "like") {
             setUserLikedId(matchData.id);
+            // if (userLikedId!=='' && userLikedId!==undefined){
+            //     updateLikes(token, userLikedId)
+            // }
         }
         if (status === "dislike") {
-            setUserDislikedId(matchData.id)
+            setUserDislikedId(matchData.id);
+            // if (userDislikedId!=='' && userDislikedId!==undefined){
+            //     updateDislikes(token, userDislikedId)
+            // }
         }
         return getMatch(token, setMatchData)
     }
 
-    // if (!matchData) {
-    //     return <div className={style.alert_div}>
-    //         <MatchAlert />
-    //     </div>
-    // }
     if (Object.keys(matchData).length === 0) {
         return (
             <div>

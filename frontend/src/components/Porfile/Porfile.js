@@ -78,11 +78,11 @@ export const Porfile = () => {
                       <option value="Leo">Leo</option>
                       <option value="Virgo">Virgo</option>
                       <option value="Libra">Libra</option>
-                      <option value="Scorpius">Scorpius</option>
+                      <option value="Scorpio">Scorpio</option>
                       <option value="Sagittarius">Sagittarius</option>
-                      <option value="Capricornus">Capricornus</option>
+                      <option value="Capricorn">Capricorn</option>
                       <option value="Aquarius">Aquarius</option>
-                      <option value="Pices">Pices</option>
+                      <option value="Pisces">Pisces</option>
                     </select>
                   </div>
 
