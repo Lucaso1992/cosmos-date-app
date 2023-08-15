@@ -11,7 +11,6 @@ export const AppProvider = ({children}) => {
   const [userData, setUserData] = useState({});
   const [socket, setSocket] = useState(null);
 
-  console.log(userData);
 
   useEffect(()=>{ 
     const localToken = sessionStorage.getItem("token");
