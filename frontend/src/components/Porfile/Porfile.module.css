@@ -59,7 +59,7 @@
   justify-content: space-around;
 
   min-height: 100%;
-  background-color: #007be049;
+  background-color: #008cff39;
   border-radius: 0.56rem;
 }
 
@@ -79,7 +79,7 @@ select.error_text{
   align-items: center;
   flex-direction: column;
 
-  background-color: #007be049;
+  background-color: #008cff39;
   border-radius: 0.56rem;
 }
 
