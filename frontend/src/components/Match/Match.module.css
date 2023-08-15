@@ -70,6 +70,11 @@
     background-color: #063254;
 }
 
+.modal_button:hover{
+    color: white;
+    background-color: #144972;
+}
+
 .user_name{
     color: #063254;
     margin-top: .5rem;
@@ -117,42 +122,9 @@ margin-bottom: 0;
     overflow: hidden;
     margin-top: 6rem;
 }
-@media(min-width:768px) { 
-    .general_div{
-        flex-direction: row;
-        max-width: 90%;
-    }
-    .data_div{
-        display: flex;
-        flex-direction: column;
-        background-color: rgba(232, 230, 230, 0.982);
-        height: 65%;
-        color: #063254;
-        padding-left: 1rem;
-        justify-content: center;
-    }
-    .modal_button{
-        display: none;
-    }
 
-    .first_infodiv{
-        height: 20%;
-    }
-    .img_div{
-        height: 30rem;
-    }
-    .interactive_div{
-        background-color: rgb(237, 237, 237);
-        min-height: 15%;
-        justify-content: center;
-    }
-    .symbol_div{
-        margin-right: 2rem;
-    }
+@media(min-width:768px) {
+.general_div{
+    max-width: 517px;
 }
-
-@media(min-width:1024px) {
-    .general_div{
-        max-width: 80%;
-    }
 }

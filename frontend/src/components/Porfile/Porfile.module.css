@@ -13,6 +13,7 @@
 
 .personal_info {
   padding: 1rem;
+  padding-bottom: 2.5rem;
   background-color: #D9D9D9;
   border-radius: 0.5625rem;
 
@@ -29,4 +30,43 @@
   min-height: 12rem;
   background-color: #D9D9D9;
   border-radius: 0.5625rem;
+}
+
+.container_div{
+max-width: 70%;
+}
+
+.card_div{
+  color: #063254;
+  box-shadow: 0 0 1.2rem white;
+  border: 2px solid #ffffff70;
+  border-radius: 40px;
+}
+
+.submit_button{
+  background-color: #063254;
+  color: white;
+  border-radius: 25px;
+  width: 6rem;
+  height: 2.5rem;
+}
+
+.submit_button:hover{
+  color: white;
+  background-color: #144972;
+}
+
+
+
+@media(min-width:1024px) { 
+  .card_div{
+    max-height: 600px;
+  }
+}
+
+
+.error_text,
+select.error_text{
+  font-size: 0.9rem;
+  color: rgb(192, 0, 0);
 }

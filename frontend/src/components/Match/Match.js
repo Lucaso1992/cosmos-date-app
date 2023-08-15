@@ -21,37 +21,39 @@ export const Match = () => {
     
     useEffect(() => {
         getMatch(token, setMatchData)
-    }, [])
+    }, [token])
 
     
     useEffect(() => {
         if (userLikedId!=='' && userLikedId!==undefined){
             updateLikes(token, userLikedId)
         }
-    }, [userLikedId])
+    }, [userLikedId, token])
     
     useEffect(() => {
         if (userDislikedId!=='' && userDislikedId!==undefined){
             updateDislikes(token, userDislikedId)
         }
-    }, [userDislikedId])
+    }, [userDislikedId, token])
+
 
 
     const handleLike = (status) => {
         if (status === "like") {
             setUserLikedId(matchData.id);
+            // if (userLikedId!=='' && userLikedId!==undefined){
+            //     updateLikes(token, userLikedId)
+            // }
         }
         if (status === "dislike") {
-            setUserDislikedId(matchData.id)
+            setUserDislikedId(matchData.id);
+            // if (userDislikedId!=='' && userDislikedId!==undefined){
+            //     updateDislikes(token, userDislikedId)
+            // }
         }
         return getMatch(token, setMatchData)
     }
 
-    // if (!matchData) {
-    //     return <div className={style.alert_div}>
-    //         <MatchAlert />
-    //     </div>
-    // }
     if (Object.keys(matchData).length === 0) {
         return (
             <div>
@@ -74,7 +76,7 @@ export const Match = () => {
                 <div className={style.first_infodiv}>
                     <div className={style.name_zodiac_div}>
                         <h1 className={style.user_name}>
-                            <strong>{matchData.user_name},</strong> {matchData.profile.age}
+                            <strong>{matchData.user_name}</strong>, {matchData.profile.age}
                         </h1>
                         <p className={style.user_distance}>{matchData.profile.location}</p>
                     </div>
