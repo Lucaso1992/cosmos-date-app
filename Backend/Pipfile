@@ -25,4 +25,4 @@ python_full_version = "3.11.4"
 
 [scripts]
 build = "cd .. && cd frontend && npm install && npm run build && cd .. && cd Backend && pipenv install"
-start = "pipenv shell && gunicorn app:app"
+start = "flask --app src/app.py run --host=0.0.0.0 --port=10000"
