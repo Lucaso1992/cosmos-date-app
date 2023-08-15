@@ -48,7 +48,7 @@ export const NavBar = () => {
                 <li className={`${style.nav_item} nav-item`}>
                   <Link className="nav-link" to='/Porfile'>
                   <FaUserTie className={style.view_icon} />
-                    Porfile
+                    Profile
                   </Link>
                 </li>
                 </>

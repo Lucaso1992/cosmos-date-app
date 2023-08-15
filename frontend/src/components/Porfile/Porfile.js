@@ -1,80 +1,91 @@
 import { useState } from "react";
+import { useFormik } from 'formik';
 
 import { useAppContext } from '../../flux/AppContext'
 import CloudinaryUploadWidget from "./CloudinaryUploadWidget";
 import { updateProfile } from "../../Services/updateProfile.js";
+import { profileSchema } from '../../Schemas/profileSchema';
 
 import style from "./Porfile.module.css";
 
-
 export const Porfile = () => {
   const value = useAppContext();
-  const [profileData, setProfileData] = useState({
-    profile_image: "",
-    zodiac_sign: "",
-    location: "",
-    location_born: "",
-    gender: "",
-    date_born: "",
-    love_interest: "",
-    height: "",
-    description: "",
-  });
+  const [urlImage, setUrlImage] = useState('');
+
 
   const token = value.store.token
   const setToken = value.actions.setToken
 
-  const onHandlChange = (e) => {
-    const { id, value } = e.target;
-    setProfileData({ ...profileData, [id]: value });
+
+  const onSubmit = (values, actions) => {
+    updateProfile(token, values, setToken);
+    actions.resetForm();
+    setUrlImage('');
   };
+
+  const {values, errors, touched, handleBlur, handleChange, handleSubmit} = 
+  useFormik({
+    initialValues: {
+      profile_image: '',
+      zodiac_sign: '',
+      location: '',
+      location_born: '',
+      gender: '',
+      date_born: '',
+      love_interest: '',
+      height: '',
+      description: ''
+    },
+    validationSchema:  profileSchema,
+    onSubmit,
+  });
 
   const onHandleImageUpload = (url) => {
-    setProfileData({ ...profileData, profile_image: url });
+    values.profile_image = url
+    setUrlImage(url);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    updateProfile(token, profileData, setToken);
-  };
 
-  
 
   return (
-    <div className="container mt-4 m-auto">
-      <div class="card">
+    <div className={`${style.container_div} container`}>
+      <div className={`${style.card_div} card `}>
         <div className="card-header main_header">
-          <h2 className="ms-3 p-2">Profile</h2>
+          <h2 className="ms-3 mb-0">Profile</h2>
         </div>
 
         <form onSubmit={handleSubmit}>
-          <div className="card-body main_layout">
-            <div className="row d-flex justify-content-center">
+          <div className="card-body main_layout ">
+            <div className="row d-flex justify-content-center ">
               <div className="col-lg-4 col-md-6 col-sm-12">
                 <div className={style.personal_info}>
                   <h4 className="p-0 mb-0">Personal Info</h4>
                   <button className="btn p-0 mt-0 mb-3">Edit</button>
-                  <div class="input-group my-2">
-                    <label for="form-name" class="form-label"></label>
+                  <div className="input-group my-2">
+
                     <input
                       type="number"
-                      class="form-control"
+                      className="form-control"
                       id="height"
                       placeholder="cm"
-                      value={profileData.height}
-                      onChange={onHandlChange}
-                    />
-                  </div>
+                      value={values.height}
+                      onChange={handleChange}
+                      onBlur={handleBlur} />
 
+                    {errors.height && touched.height &&(
+                      <p className={style.error_text}>{errors.height}</p>
+                    )}
+                  </div>
                   <div className="input-group my-2">
                     <select
                       id="zodiac_sign"
-                      class="form-select"
+                      className="form-select"
                       aria-label="Default select example"
-                      value={profileData.zodiac_sign}
-                      onChange={onHandlChange}
-                    >
-                      <option selected>Zodiac Sign</option>
+                      value={values.zodiac_sign}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      required >
+                      <option >Zodiac Sign</option>
                       <option value="Aries">Aries</option>
                       <option value="Taurus">Taurus</option>
                       <option value="Gemini">Gemini</option>
@@ -82,95 +93,94 @@ export const Porfile = () => {
                       <option value="Leo">Leo</option>
                       <option value="Virgo">Virgo</option>
                       <option value="Libra">Libra</option>
-                      <option value="Scorpius">Scorpius</option>
+                      <option value="Scorpio">Scorpio</option>
                       <option value="Sagittarius">Sagittarius</option>
-                      <option value="Capricornus">Capricornus</option>
+                      <option value="Capricorn">Capricorn</option>
                       <option value="Aquarius">Aquarius</option>
-                      <option value="Pices">Pices</option>
+                      <option value="Pisces">Pisces</option>
                     </select>
+                    {errors.zodiac_sign && touched.zodiac_sign &&(
+                      <p className={style.error_text}>{errors.zodiac_sign}</p>
+                    )}
                   </div>
 
                   <div className="input-group my-2">
-                    <label for="form-city" class="form-label"></label>
                     <input
                       type="text"
-                      class="form-control"
+                      className="form-control"
                       id="location"
                       placeholder="City, Country"
-                      value={profileData.location}
-                      onChange={onHandlChange}
-                    />
+                      value={values.location} 
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      required />
+                    {errors.location && touched.location &&(
+                      <p className={style.error_text}>{errors.location}</p>
+                    )}
                   </div>
 
                   <div className="input-group my-2">
-                    <label for="form-city" class="form-label"></label>
                     <input
                       type="text"
-                      class="form-control"
+                      className="form-control"
                       id="location_born"
                       placeholder="Where have you been born?"
-                      value={profileData.location_born}
-                      onChange={onHandlChange}
-                    />
+                      value={values.location_born} 
+                      onChange={handleChange}
+                      onBlur={handleBlur} />
                   </div>
-
-                  {/* <div className="input-group my-2">
-                    <select
-                      id="country"
-                      class="form-select"
-                      aria-label="Default select example"
-                      value={profileData.country}
-                      onChange={onHandlChange}
-                    >
-                      <option selected>Select a Country</option>
-                      <option value="Argentina">Argentina</option>
-                      <option value="Spain">Spain</option>
-                      <option value="Honduras">Honduras</option>
-                      <option value="Venezuela">Venezuela</option>
-                      <option value="Other">Other</option>
-                    </select>
-                  </div> */}
 
                   <div className="input-group my-2">
                     <select
                       id="gender"
-                      class="form-select"
+                      className="form-select"
                       aria-label="Default select example"
-                      value={profileData.gender}
-                      onChange={onHandlChange}
-                    >
-                      <option selected>Pick a Gender</option>
+                      value={values.gender} 
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      required>
+                      <option >Pick a Gender</option>
                       <option value="Female">Female</option>
                       <option value="Male">Male</option>
                       <option value="Prefer not say">Prefer not say</option>
                     </select>
+                    {errors.gender && touched.gender &&(
+                      <p className={style.error_text}>{errors.gender}</p>
+                    )}
                   </div>
 
                   <div className="input-group my-2">
                     <input
-                      class="form-control"
+                      className="form-control"
                       type="datetime-local"
                       id="date_born"
-                      name="birthdate"
-                      value={profileData.date_born}
-                      onChange={onHandlChange}
-                    />
+                      value={values.date_born}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      required />
+                    {errors.date_born && touched.date_born &&(
+                      <p className={style.error_text}>{errors.date_born}</p>
+                    )}
                   </div>
 
                   <div className="input-group my-2">
                     <select
                       type="text"
                       id="love_interest"
-                      class="form-select"
+                      className="form-select"
                       aria-label="Default select example"
-                      value={profileData.love_interest}
-                      onChange={onHandlChange}
-                    >
-                      <option selected>Interested in</option>
+                      value={values.love_interest}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      required >
+                      <option >Interested in</option>
                       <option value="Female">Female</option>
                       <option value="Male">Male</option>
-                      <option value="Everyone">Everyone</option>
+                      <option value="Indifferent">Indifferent</option>
                     </select>
+                    {errors.love_interest && touched.love_interest &&(
+                      <p className={style.error_text}>{errors.love_interest}</p>
+                    )}
                   </div>
                 </div>
               </div>
@@ -186,45 +196,41 @@ export const Porfile = () => {
                     <div className="col-6 ms-auto">
                       <img
                         id="uploadedimage"
-                        src=""
+                        src={urlImage}
                         className="img-fluid ms-auto pe-3"
                         alt="..."
                       />
                     </div>
                   </div>
 
-                  <div class="input-group p-3">
+                  <div className="input-group p-3">
                     <CloudinaryUploadWidget
                       onHandleImageUpload={onHandleImageUpload}
                     />
-
-                    {/* <input
-                    type="file"
-                    class="form-control"
-                    id="inputGroupFile01"
-                  /> */}
                   </div>
                 </div>
 
                 <div className={style.about}>
                   <h4 className="pt-3 ps-3">About Me</h4>
-                  <div class="form-floating m-2">
+                  <div className="form-floating m-2">
                     <textarea
-                      class="form-control"
+                      className="form-control"
                       id="description"
                       style={{ minHeight: "100px" }}
-                      value={profileData.description}
-                      onChange={onHandlChange}
+                      value={values.description}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
                     ></textarea>
-                    <label for="floatingTextarea2"></label>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <button type="submit" class="btn btn-primary">
-            Send
-          </button>
+          <div className="d-flex justify-content-center pb-3">
+            <button type="submit" className={`${style.submit_button} btn`}>
+              Send
+            </button>
+          </div>
         </form>
       </div>
     </div>
