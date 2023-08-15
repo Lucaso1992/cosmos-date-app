@@ -46,7 +46,6 @@ export const Porfile = () => {
   };
 
 
-
   return (
     <div className={`${style.container_div} container`}>
       <div className={`${style.card_div} card `}>
@@ -62,7 +61,6 @@ export const Porfile = () => {
                   <h4 className="p-0 mb-0">Personal Info</h4>
                   <button className="btn p-0 mt-0 mb-3">Edit</button>
                   <div className="input-group my-2">
-
                     <input
                       type="number"
                       className="form-control"
