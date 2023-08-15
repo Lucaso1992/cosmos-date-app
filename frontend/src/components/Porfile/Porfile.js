@@ -52,7 +52,7 @@ export const Porfile = () => {
                   <h4 className="p-0 mb-0">Personal Info</h4>
                   <button className="btn p-0 mt-0 mb-3">Edit</button>
                   <div className="input-group my-2">
-                    <label for="form-name" className="form-label"></label>
+                    <label htmlFor="form-name" className="form-label"></label>
                     <input
                       type="number"
                       className="form-control"
@@ -70,7 +70,7 @@ export const Porfile = () => {
                       value={profileData.zodiac_sign}
                       onChange={onHandlChange}
                     >
-                      <option selected>Zodiac Sign</option>
+                      <option >Zodiac Sign</option>
                       <option value="Aries">Aries</option>
                       <option value="Taurus">Taurus</option>
                       <option value="Gemini">Gemini</option>
@@ -87,7 +87,7 @@ export const Porfile = () => {
                   </div>
 
                   <div className="input-group my-2">
-                    <label for="form-city" className="form-label"></label>
+                    <label htmlFor="form-city" className="form-label"></label>
                     <input
                       type="text"
                       className="form-control"
@@ -99,7 +99,7 @@ export const Porfile = () => {
                   </div>
 
                   <div className="input-group my-2">
-                    <label for="form-city" className="form-label"></label>
+                    <label htmlFor="form-city" className="form-label"></label>
                     <input
                       type="text"
                       className="form-control"
@@ -135,7 +135,7 @@ export const Porfile = () => {
                       value={profileData.gender}
                       onChange={onHandlChange}
                     >
-                      <option selected>Pick a Gender</option>
+                      <option >Pick a Gender</option>
                       <option value="Female">Female</option>
                       <option value="Male">Male</option>
                       <option value="Prefer not say">Prefer not say</option>
@@ -162,7 +162,7 @@ export const Porfile = () => {
                       value={profileData.love_interest}
                       onChange={onHandlChange}
                     >
-                      <option selected>Interested in</option>
+                      <option >Interested in</option>
                       <option value="Female">Female</option>
                       <option value="Male">Male</option>
                       <option value="Everyone">Everyone</option>
@@ -212,7 +212,7 @@ export const Porfile = () => {
                       value={profileData.description}
                       onChange={onHandlChange}
                     ></textarea>
-                    <label for="floatingTextarea2"></label>
+                    <label htmlFor="floatingTextarea2"></label>
                   </div>
                 </div>
               </div>
