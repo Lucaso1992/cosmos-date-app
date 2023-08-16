@@ -20,7 +20,7 @@ def get_match(user):
         )
 
     posible_match_db = db.session.execute(query).scalars().first()
-    
+
 
     if posible_match_db is None:
         return jsonify({"message": "Match not found"}), 400
