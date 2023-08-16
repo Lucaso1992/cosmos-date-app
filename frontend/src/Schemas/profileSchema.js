@@ -1,9 +1,6 @@
 import * as yup from 'yup';
 
 
-// const passwordRules = /^(?=.*\d).{4,}$/;
-// const passwordRules = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}$/;
-
 export const profileSchema = yup.object().shape({
   height: yup
     .number()

@@ -63,7 +63,11 @@
   border-radius: 0.56rem;
 }
 
-
+.input_error,
+select.input_error{
+  border: 2px solid rgb(169, 0, 0);
+  background-color: rgba(255, 1, 1, 0.26);
+}
 .error_text,
 select.error_text{
   position: absolute;
@@ -116,6 +120,7 @@ select.error_text{
   width: 7rem;
   height: 2.5rem;
   font-weight: 500;
+  transition: 0.5s;
 }
 .submit_button:hover{
   color: white;
