@@ -8,10 +8,13 @@ import { updateDislikes } from '../../Services/updateDislikes';
 
 import style from "./Match.module.css";
 import RingLoader from "react-spinners/RingLoader";
-import { AiOutlineLike, AiOutlineDislike } from 'react-icons/ai';
-import { GiBeveledStar } from 'react-icons/gi';
+import ClipLoader from "react-spinners/ClipLoader";
+import { FaRegFaceTired } from 'react-icons/fa6';
+import { BsFillArrowThroughHeartFill } from 'react-icons/bs';
+import { RiHeartsFill } from 'react-icons/ri';
 
 export const Match = () => {
+  const [loading, setLoading] = useState(false);
   const [matchData, setMatchData] = useState({});
   const value = useAppContext();
 
@@ -28,17 +31,14 @@ export const Match = () => {
 
 
   const handleLike = (status) => {
+    setLoading(true)
     if (status === "like") {
-      updateLikes(token, matchData.id, setToken)
-      .then((resp) => {
-        getMatch(resp, setMatchData)
-      })
+      updateLikes(token, matchData.id, setToken, setMatchData)
+      .then(() => setLoading(false))
     }
     else if (status === "dislike") {
-      updateDislikes(token, matchData.id, setToken)
-      .then((resp) => {
-        getMatch(resp, setMatchData)
-      })
+      updateDislikes(token, matchData.id, setToken, setMatchData)
+      .then(() => setLoading(false))
     }
     return
   }
@@ -47,7 +47,6 @@ export const Match = () => {
     return (
       <div>
         <RingLoader
-          className={style.loader}
           color={"#fff"}
           size={140}
         />
@@ -57,6 +56,18 @@ export const Match = () => {
 
   return (
     <div className={style.general_div}>
+      <div className={loading ? style.loading:style.hide}>
+        <ClipLoader
+          color={"#fff"}
+          size={100}
+          speedMultiplier={0.7}
+        />
+      </div>
+      <BsFillArrowThroughHeartFill
+        className={style.icons_favorite}  
+        type="button" 
+        onClick={() => handleLike("like")}/>
+
       <div className={style.img_div}>
         <img className={style.img} src={matchData.profile.profile_image} alt=""/>
       </div>
@@ -83,9 +94,14 @@ export const Match = () => {
 
         <div className={style.interactive_div}>
           <div className={style.icons_div}>
-            <AiOutlineDislike className={style.icons} type="button" onClick={() => handleLike("dislike")} />
-            <GiBeveledStar className={style.icons} />
-            <AiOutlineLike className={style.icons} type="button" onClick={() => handleLike("like")} />
+              <FaRegFaceTired 
+                className={style.icons_dislike_div} 
+                type="button" 
+                onClick={() => handleLike("dislike")} />
+              <RiHeartsFill 
+                className={style.icons_like_div} 
+                type="button" 
+                onClick={() => handleLike("like")} />
           </div>
           <div className={style.button_div}>
             <button type="button" className={style.modal_button} data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -99,23 +115,27 @@ export const Match = () => {
       <div className={`${ style.modal_div} modal fade`} id="exampleModal" tabIndex="-1">
         <div className={`${style.modal_last} modal-dialog`}>
             <div className="modal-content">
-                <div className="modal-header">
-                    <div className="d-flex flex-column">
-                        <h1 className="modal-title fs-1" id="exampleModalLabel"><strong>{matchData.user_name}</strong>, {matchData.profile.age}</h1>
-                        <p className="card-text">{matchData.profile.location}</p>
-                        {/* <p className="card-text">{matchData.user_distance}</p> */}
-                    </div>
-                    <button type="button" className="btn-close mb-auto" data-bs-dismiss="modal" aria-label="Close"></button>
+
+              <div className="modal-header">
+                <div className="d-flex flex-column">
+                  <h1 className="modal-title fs-1" id="exampleModalLabel">
+                    <strong>{matchData.user_name}</strong>, {matchData.profile.age}
+                  </h1>
+                  <p className="card-text">
+                    {matchData.profile.location}
+                  </p>
                 </div>
-                <div className={`${style.modal_info} modal-body`}>
-                    {/* <h5 >ASTROLOGICAL DATA</h5>
-                    <p >{matchData.astro_data}</p> */}
-                    <h5>GENERAL INFORMATION</h5>
-                    <p>{matchData.profile.description}</p>
-                </div>
-            </div>
+                <button type="button" className="btn-close mb-auto" data-bs-dismiss="modal"></button>
+              </div>
+              <div className={`${style.modal_info} modal-body`}>
+                <h5>About Me</h5>
+                <p>{matchData.profile.description}</p>
+              </div>
+
+          </div>
         </div>
       </div>
+
     </div>
   );
 };

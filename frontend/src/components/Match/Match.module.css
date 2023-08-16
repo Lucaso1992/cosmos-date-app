@@ -1,21 +1,54 @@
 .general_div{
+    position: relative;
     display: flex;
     flex-direction: column;
+
     box-shadow: 0 0 1.2rem white;
     border: 2px solid #ffffff70;
     width: 100%;
     border-radius: 40px;
     overflow: hidden;
 }
-.data_div{
+
+
+.loading{
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: #0e4d7d50;
+
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.hide{
     display: none;
 }
+
+
+.icons_favorite{
+    position: absolute;
+    top: 0;
+    right: 0;
+
+    margin: 1.5rem;
+    font-size: 2rem;
+    color: #063254c1;
+    transition: transform 0.4s; 
+}
+.icons_favorite:hover{
+    transform: scale(1.2);
+    color: rgb(136, 118, 0);
+}
+
 
 .img_div{
     width: 100%;
     height: 24rem;
 }
-
 .img{
     width: 100%;
     height: 100%;
@@ -27,24 +60,31 @@
     flex-direction: column;
     width: 100%;
     background-color: #e8e6e6fa;
-    padding-top: 1rem;
-    padding-bottom: .5rem;
+    padding: 0.5rem 0;
 }
 
-.icons{
-    font-size: 2rem;
-    color: #063254;
-    transition: transform 0.3s; 
-}
-
-.icons:hover{
-    transform: scale(1.2);
-}
 
 .icons_div{
     display: flex;
     justify-content: space-around;
+    color: #063254;
+    font-size: 2.5rem;
 }
+.icons_like_div{
+    transition: transform 0.3s; 
+}
+.icons_like_div:hover{
+    color: rgb(0, 107, 2);
+    transform: scale(1.2);
+}
+.icons_dislike_div{
+    transition: transform 0.3s; 
+}
+.icons_dislike_div:hover{
+    color: rgb(105, 0, 0);
+    transform: scale(1.2);
+}
+
 
 .first_infodiv{
     background-color: rgb(237, 237, 237);
@@ -61,7 +101,7 @@
     height: 100%;
     display: flex;
     justify-content: center;
-    padding-top: 1rem;
+    padding-top: 0.5rem;
 }
 .modal_button{
     color: white;
@@ -130,7 +170,7 @@ margin-bottom: 0;
 }
 
 @media(min-width:768px) {
-.general_div{
-    max-width: 517px;
-}
+    .general_div{
+        max-width: 517px;
+    }
 }

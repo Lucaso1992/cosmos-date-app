@@ -5,6 +5,7 @@ from flask_jwt_extended import jwt_required, get_jwt_identity, create_refresh_to
 from models.users import User
 from controllers.users_controller import post_user, set_active, forgot_password, new_password, delete_user
 from controllers.profile_controller import dislike_profile, like_profile, info_profile
+from controllers.match_controller import get_match
 
 users = Blueprint('users',__name__)
 
@@ -103,8 +104,11 @@ def update_user_dislikes():
             return jsonify({"message": "missing an 'user_dislike' keys in json"}), 400
         else:
             user_updated = dislike_profile(user)
+            posible_match = get_match(user)
+            print(posible_match)
             refresh_token = create_refresh_token(identity=user_updated)
-            return jsonify(refresh_token=refresh_token), 200
+
+            return jsonify(refresh_token=refresh_token, posible_match=posible_match), 200
     except Exception:
         return jsonify({"message": "Internal server error"}), 500
 
@@ -118,7 +122,9 @@ def update_user_likes():
             return jsonify({"message": "missing an 'user_like' keys in json"}), 400
         else:
             user_updated = like_profile(user)
+            posible_match = get_match(user)
             refresh_token = create_refresh_token(identity=user_updated)
-            return jsonify(refresh_token=refresh_token), 200
+
+            return jsonify(refresh_token=refresh_token, posible_match=posible_match), 200
     except Exception:
         return jsonify({"message": "Internal server error"}), 500
