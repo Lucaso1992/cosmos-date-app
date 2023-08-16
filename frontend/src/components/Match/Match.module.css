@@ -64,15 +64,21 @@
     padding-top: 1rem;
 }
 .modal_button{
+    color: white;
+    background-color: #063254;
+    border: 1px solid transparent;
+    border-radius: 25px;
+
     width: 7rem;
     height: 2.5rem;
-    border-radius: 25px;
-    background-color: #063254;
+    font-weight: 500;
+    transition: 0.5s;
 }
 
 .modal_button:hover{
-    color: white;
-    background-color: #144972;
+    border: 1px solid white;
+    background-color: #195989;
+    box-shadow: 0 0 1rem #063254;
 }
 
 .user_name{
