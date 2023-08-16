@@ -13,7 +13,7 @@ function PorfileView() {
         color={"#fff"}
         size={200}
       /> */}
-      <div className='container'>
+      <div className='container d-flex justify-content-center align-items-center'>
         <Porfile />
       </div>
     </>
