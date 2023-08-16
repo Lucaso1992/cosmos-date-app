@@ -33,4 +33,4 @@ def get_match(user):
             )
         posible_match["profile"]["age"]=diference.years
 
-        return jsonify(posible_match), 200
+        return posible_match
