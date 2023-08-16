@@ -75,9 +75,9 @@ export const Match = () => {
         <div className={style.first_infodiv}>
           <div className={style.name_zodiac_div}>
 
-            <h1 className={style.user_name}>
+            <h2 className={style.user_name}>
               <strong>{matchData.user_name}</strong>, {matchData.profile.age}
-            </h1>
+            </h2>
             <p className={style.user_distance}>
               {matchData.profile.location}
             </p>
