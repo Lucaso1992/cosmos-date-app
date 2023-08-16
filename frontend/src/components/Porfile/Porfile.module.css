@@ -63,6 +63,7 @@
   border-radius: 0.56rem;
 }
 
+
 .input_error,
 select.input_error{
   border: 2px solid rgb(169, 0, 0);
@@ -75,6 +76,7 @@ select.error_text{
   font-size: 0.9rem;
   color: rgb(192, 0, 0);
 }
+
 
 .form_card_aside {
   padding: 1rem;
@@ -123,7 +125,6 @@ select.error_text{
   transition: 0.5s;
 }
 .submit_button:hover{
-  color: white;
   border: 1px solid white;
   background-color: #195989;
   box-shadow: 0 0 1rem #063254;
