@@ -13,9 +13,9 @@ from routes.api import api
 
 
 
-static_file_dir = os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', '..', 'Frontend', 'build')
+# static_file_dir = os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', '..', 'Frontend', 'build')
 
-app = Flask(__name__, static_folder=static_file_dir) #, static_folder=static_file_dir
+app = Flask(__name__) #, static_folder=static_file_dir
 CORS(app)
 load_dotenv()
 
@@ -42,11 +42,11 @@ app.register_blueprint(api)
 
 
 
-@app.route('/')
-@app.route('/<path:path>', methods=['GET'])
-def serve_any_other_file(path='index.html'):
-    response = send_from_directory(static_file_dir, path)
-    return response
+# @app.route('/')
+# @app.route('/<path:path>', methods=['GET'])
+# def serve_any_other_file(path='index.html'):
+#     response = send_from_directory(static_file_dir, path)
+#     return response
 
 with app.app_context():
     db.create_all()
