@@ -10,18 +10,17 @@ from models.profile_dislikes import Profile_Dislike
 
 def get_match(user):
     user_db = User.query.get(user["id"])
-    # posible_match_db = User.query.filter(User.id != user["id"]).\
-    #     filter(not_(User.id.in_(user_db.dislikes_to))).\
-    #     filter(not_(User.id.in_(user_db.likes_to))).first()
 
-    # posible_match_db = User.query.filter(User.id != user_db.id).\
-    #     filter(not_(Profile_Dislike.user_to_id == User.id)). \
-    #     filter(not_(Profile_Like.user_to_id == User.id)).first()
+    dislike_list = [User.id for User in user_db.dislikes_to]
+    like_list = [User.id for User in user_db.likes_to]
+    query = db.select(User).filter(
+            User.id != user_db.id, 
+            User.id.not_in(dislike_list), 
+            User.id.not_in(like_list)
+        )
 
-    posible_match_db = User.query.filter(User.id != user_db.id).\
-        filter(~User.dislikes_to.any(User.id == user["id"])).\
-        filter(~User.likes_to.any(User.id == user["id"])).first()
-    
+    posible_match_db = db.session.execute(query).scalars().first()
+
 
     if posible_match_db is None:
         return jsonify({"message": "Match not found"}), 400
