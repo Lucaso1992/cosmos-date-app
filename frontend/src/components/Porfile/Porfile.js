@@ -1,5 +1,6 @@
-import { useState } from "react";
-import { useFormik } from 'formik';
+import { useEffect, useState } from "react";
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+// import { useFormik } from 'formik';
 
 import { useAppContext } from '../../flux/AppContext'
 import CloudinaryUploadWidget from "./CloudinaryUploadWidget";
@@ -13,42 +14,64 @@ import { PiUserSquare } from "react-icons/pi";
 import { RiUserHeartLine } from "react-icons/ri";
 
 export const Porfile = () => {
-  const defaultImage = 'https://static.wixstatic.com/media/4151a5_7706b6198d164a3e947f4548166228ad~mv2.png'
-  const value = useAppContext();
+  const defaultImage = 'https://static.wixstatic.com/media/4151a5_7706b6198d164a3e947f4548166228ad~mv2.png';
+  const [formValues, setFormValues] = useState(null);
   const [urlImage, setUrlImage] = useState(defaultImage);
+  const value = useAppContext();
 
 
   const token = value.store.token
   const setToken = value.actions.setToken
+  const userData = value.store.userData
 
+
+  useEffect(() => {
+    if (userData.profile !== undefined) {
+      // setFormValues(userData.profile)
+    }
+  }, [userData])
+  
+  const initialValues = {
+    profile_image: '',
+    zodiac_sign: '',
+    location: '',
+    location_born: '',
+    gender: '',
+    date_born: '',
+    love_interest: '',
+    height: '',
+    description: ''
+  }
 
   const onSubmit = (values, actions) => {
-    updateProfile(token, values, setToken);
+    console.log(values);
+    // updateProfile(token, values, setToken);
     actions.resetForm();
     setUrlImage(defaultImage);
   };
 
-  const {values, errors, touched, handleBlur, handleChange, handleSubmit} = 
-  useFormik({
-    initialValues: {
-      profile_image: '',
-      zodiac_sign: '',
-      location: '',
-      location_born: '',
-      gender: '',
-      date_born: '',
-      love_interest: '',
-      height: '',
-      description: ''
-    },
-    validationSchema:  profileSchema,
-    onSubmit,
-  });
+  // const {values, errors, touched, handleBlur, handleChange, handleSubmit} = 
+  // useFormik({
+  //   initialValues: {
+  //     profile_image: '',
+  //     zodiac_sign: '',
+  //     location: '',
+  //     location_born: '',
+  //     gender: '',
+  //     date_born: '',
+  //     love_interest: '',
+  //     height: '',
+  //     description: ''
+  //   },
+  //   validationSchema:  profileSchema,
+  //   onSubmit
+  // });
 
   const onHandleImageUpload = (url) => {
-    values.profile_image = url
+    // values.profile_image = url
     setUrlImage(url);
   };
+
 
 
   return (
@@ -59,8 +82,13 @@ export const Porfile = () => {
         <GoGear className={style.gear_icon}/>
       </div>
 
-      <div>
-      <form onSubmit={handleSubmit}>
+      <Formik
+        initialValues={formValues || initialValues}
+        validationSchema={profileSchema}
+        onSubmit={onSubmit}
+        enableReinitialize
+      >
+      <Form>
         <div className={style.form_body}>
 
           <div className={style.form_div}> 
@@ -72,27 +100,22 @@ export const Porfile = () => {
               </h4>
 
               <div>
-                <input
+                <Field
                   type="number"
-                  className={`${errors.height&&touched.height?`${style.input_error}`:''} form-control`}
-                  id="height"
-                  placeholder="Height (cm)"
-                  value={values.height}
-                  onChange={handleChange}
-                  onBlur={handleBlur} />
-                {errors.height && touched.height &&(
+                  // className={`${errors.height&&touched.height?`${style.input_error}`:''} form-control`}
+                  name="height"
+                  placeholder="Height (cm)" />
+                <ErrorMessage name="height" className={style.error_text}/>
+                {/* {errors.height && touched.height &&(
                   <p className={style.error_text}>{errors.height}</p>
-                )}
+                )} */}
               </div>
 
               <div>
-                <select
-                  id="zodiac_sign"
-                  className={`${errors.zodiac_sign&&touched.zodiac_sign?`${style.input_error}`:''} form-select`}
-                  value={values.zodiac_sign}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                   >
+                <Field as="select"
+                  name="zodiac_sign"
+                  // className={`${errors.zodiac_sign&&touched.zodiac_sign?`${style.input_error}`:''} form-select`} 
+                  >
                   <option >Zodiac Sign</option>
                   <option value="Aries">Aries</option>
                   <option value="Taurus">Taurus</option>
@@ -106,88 +129,74 @@ export const Porfile = () => {
                   <option value="Capricorn">Capricorn</option>
                   <option value="Aquarius">Aquarius</option>
                   <option value="Pisces">Pisces</option>
-                </select>
-                {errors.zodiac_sign && touched.zodiac_sign &&(
+                </Field>
+                <ErrorMessage name="zodiac_sign" component='p' className={style.error_text}/>
+                {/* {errors.zodiac_sign && touched.zodiac_sign &&(
                   <p className={style.error_text}>{errors.zodiac_sign}</p>
-                )}
+                )} */}
               </div>
 
               <div>
-                <input
+                <Field
                   type="text"
-                  className={`${errors.location&&touched.location?`${style.input_error}`:''} form-control`}
-                  id="location"
-                  placeholder="City, Country"
-                  value={values.location} 
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                   />
-                {errors.location && touched.location &&(
+                  // className={`${errors.location&&touched.location?`${style.input_error}`:''} form-control`}
+                  name="location"
+                  placeholder="City, Country" />
+                <ErrorMessage name="location" />
+                {/* {errors.location && touched.location &&(
                   <p className={style.error_text}>{errors.location}</p>
-                )}
+                )} */}
               </div>
 
               <div>
-                <input
+                <Field
                   type="text"
                   className="form-control"
-                  id="location_born"
-                  placeholder="Where have you been born?"
-                  value={values.location_born} 
-                  onChange={handleChange}
-                  onBlur={handleBlur} />
+                  name="location_born"
+                  placeholder="Where have you been born?" />
               </div>
 
               <div>
-                <select
-                  id="gender"
-                  className={`${errors.gender&&touched.gender?`${style.input_error}`:''} form-select`}
-                  aria-label="Default select example"
-                  value={values.gender} 
-                  onChange={handleChange}
-                  onBlur={handleBlur}
+                <Field as="select"
+                  name="gender"
+                  // className={`${errors.gender&&touched.gender?`${style.input_error}`:''} form-select`}
                   >
                   <option >Pick a Gender</option>
                   <option value="Female">Female</option>
                   <option value="Male">Male</option>
                   <option value="Prefer not say">Prefer not say</option>
-                </select>
-                {errors.gender && touched.gender &&(
+                </Field>
+                <ErrorMessage name="gender" />
+                {/* {errors.gender && touched.gender &&(
                   <p className={style.error_text}>{errors.gender}</p>
-                )}
+                )} */}
               </div>
 
               <div>
-                <input
+                <Field
                   type="datetime-local"
-                  className={`${errors.date_born&&touched.date_born?`${style.input_error}`:''} form-control`}
-                  id="date_born"
-                  value={values.date_born}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                   />
-                {errors.date_born && touched.date_born &&(
+                  // className={`${errors.date_born&&touched.date_born?`${style.input_error}`:''} form-control`}
+                  name="date_born" />
+                <ErrorMessage name="date_born" />
+                {/* {errors.date_born && touched.date_born &&(
                   <p className={style.error_text}>{errors.date_born}</p>
-                )}
+                )} */}
               </div>
 
               <div>
-                <select
+                <Field as="select"
                   type="text"
-                  className={`${errors.love_interest&&touched.love_interest?`${style.input_error}`:''} form-select`}
-                  id="love_interest"
-                  value={values.love_interest}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                   >
+                  // className={`${errors.love_interest&&touched.love_interest?`${style.input_error}`:''} form-select`}
+                  name="love_interest" >
                   <option >Interested in</option>
                   <option value="Female">Female</option>
                   <option value="Male">Male</option>
                   <option value="Indifferent">Indifferent</option>
-                </select>
-                {errors.love_interest && touched.love_interest &&(
+                </Field>
+                <ErrorMessage name="love_interest" />
+                {/* {errors.love_interest && touched.love_interest &&(
                   <p className={style.error_text}>{errors.love_interest}</p>
-                )}
+                )} */}
               </div>
 
             </div>
@@ -201,7 +210,7 @@ export const Porfile = () => {
               </h4>
               <div className={style.foto_preview}>
                 <img
-                  id="uploadedimage"
+                  name="uploadedimage"
                   src={urlImage}
                   className={style.img_foto}
                   alt=""
@@ -219,13 +228,10 @@ export const Porfile = () => {
                 <RiUserHeartLine />
                 About Me
               </h4>
-                <textarea
+                <Field as="textarea"
                   className={style.textarea}
-                  id="description"
-                  value={values.description}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                ></textarea>
+                  name="description">
+                </Field>
             </div>
 
           </div>
@@ -237,8 +243,8 @@ export const Porfile = () => {
           </button>
         </div>
 
-      </form>
-      </div>
+      </Form>
+      </Formik>
 
     </div>
   );
