@@ -1,7 +1,8 @@
 .container_div{
   padding: 1rem;
   margin: 1rem 0;
-
+  box-shadow: 0 0 1.2rem white;
+  border: 2px solid #ffffff70;
   display: flex;
   flex-direction: column;
 
