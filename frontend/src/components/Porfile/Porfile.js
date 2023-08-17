@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 // import { useFormik } from 'formik';
+// import { useFormikContext } from 'formik';
 
 import { useAppContext } from '../../flux/AppContext'
 import CloudinaryUploadWidget from "./CloudinaryUploadWidget";
@@ -27,7 +28,20 @@ export const Porfile = () => {
 
   useEffect(() => {
     if (userData.profile !== undefined) {
-      // setFormValues(userData.profile)
+      const user = userData.profile
+      const date = new Date(user.date_born);
+      setUrlImage(user.profile_image);
+
+      setFormValues({
+        profile_image: user.profile_image,
+        zodiac_sign: user.zodiac_sign,
+        location: user.location,
+        gender: user.gender,
+        date_born: date.toISOString().slice(0, -8),
+        love_interest: user.love_interest,
+        height: user.height,
+        description: user.description
+      })
     }
   }, [userData])
   
@@ -35,7 +49,6 @@ export const Porfile = () => {
     profile_image: '',
     zodiac_sign: '',
     location: '',
-    location_born: '',
     gender: '',
     date_born: '',
     love_interest: '',
@@ -43,32 +56,17 @@ export const Porfile = () => {
     description: ''
   }
 
-  const onSubmit = (values, actions) => {
+  const onSubmit = (values) => {
     console.log(values);
-    // updateProfile(token, values, setToken);
-    actions.resetForm();
-    setUrlImage(defaultImage);
+    updateProfile(token, values, setToken);
   };
 
-  // const {values, errors, touched, handleBlur, handleChange, handleSubmit} = 
-  // useFormik({
-  //   initialValues: {
-  //     profile_image: '',
-  //     zodiac_sign: '',
-  //     location: '',
-  //     location_born: '',
-  //     gender: '',
-  //     date_born: '',
-  //     love_interest: '',
-  //     height: '',
-  //     description: ''
-  //   },
-  //   validationSchema:  profileSchema,
-  //   onSubmit
-  // });
+
 
   const onHandleImageUpload = (url) => {
-    // values.profile_image = url
+    setFormValues((prev) =>{
+      return {...prev, profile_image: url}
+    });
     setUrlImage(url);
   };
 
@@ -100,103 +98,112 @@ export const Porfile = () => {
               </h4>
 
               <div>
-                <Field
-                  type="number"
-                  // className={`${errors.height&&touched.height?`${style.input_error}`:''} form-control`}
-                  name="height"
-                  placeholder="Height (cm)" />
-                <ErrorMessage name="height" className={style.error_text}/>
-                {/* {errors.height && touched.height &&(
-                  <p className={style.error_text}>{errors.height}</p>
-                )} */}
+                <Field type="number" name="height" placeholder="Height (cm)" >
+                { props =>{
+                  const {field, meta} = props;
+                  return(
+                    <input 
+                      {...field}
+                      className={`${meta.error&&meta.touched?`${style.input_error}`:''} form-control`} />
+                  )
+                }}
+                </Field>
+                <ErrorMessage name="height" component='p' className={style.error_text}/>
               </div>
 
               <div>
-                <Field as="select"
-                  name="zodiac_sign"
-                  // className={`${errors.zodiac_sign&&touched.zodiac_sign?`${style.input_error}`:''} form-select`} 
-                  >
-                  <option >Zodiac Sign</option>
-                  <option value="Aries">Aries</option>
-                  <option value="Taurus">Taurus</option>
-                  <option value="Gemini">Gemini</option>
-                  <option value="Cancer">Cancer</option>
-                  <option value="Leo">Leo</option>
-                  <option value="Virgo">Virgo</option>
-                  <option value="Libra">Libra</option>
-                  <option value="Scorpio">Scorpio</option>
-                  <option value="Sagittarius">Sagittarius</option>
-                  <option value="Capricorn">Capricorn</option>
-                  <option value="Aquarius">Aquarius</option>
-                  <option value="Pisces">Pisces</option>
+                <Field as="select" name="zodiac_sign" >
+                { props =>{
+                  const {field, meta} = props;
+                  return(
+                    <select 
+                      {...field}
+                      className={`${meta.error&&meta.touched?`${style.input_error}`:''} form-select`} >
+                      <option >Zodiac Sign</option>
+                      <option value="Aries">Aries</option>
+                      <option value="Taurus">Taurus</option>
+                      <option value="Gemini">Gemini</option>
+                      <option value="Cancer">Cancer</option>
+                      <option value="Leo">Leo</option>
+                      <option value="Virgo">Virgo</option>
+                      <option value="Libra">Libra</option>
+                      <option value="Scorpio">Scorpio</option>
+                      <option value="Sagittarius">Sagittarius</option>
+                      <option value="Capricorn">Capricorn</option>
+                      <option value="Aquarius">Aquarius</option>
+                      <option value="Pisces">Pisces</option>
+                    </select>
+                  )
+                }}
                 </Field>
                 <ErrorMessage name="zodiac_sign" component='p' className={style.error_text}/>
-                {/* {errors.zodiac_sign && touched.zodiac_sign &&(
-                  <p className={style.error_text}>{errors.zodiac_sign}</p>
-                )} */}
               </div>
 
               <div>
-                <Field
-                  type="text"
-                  // className={`${errors.location&&touched.location?`${style.input_error}`:''} form-control`}
-                  name="location"
-                  placeholder="City, Country" />
-                <ErrorMessage name="location" />
-                {/* {errors.location && touched.location &&(
-                  <p className={style.error_text}>{errors.location}</p>
-                )} */}
-              </div>
-
-              <div>
-                <Field
-                  type="text"
-                  className="form-control"
-                  name="location_born"
-                  placeholder="Where have you been born?" />
-              </div>
-
-              <div>
-                <Field as="select"
-                  name="gender"
-                  // className={`${errors.gender&&touched.gender?`${style.input_error}`:''} form-select`}
-                  >
-                  <option >Pick a Gender</option>
-                  <option value="Female">Female</option>
-                  <option value="Male">Male</option>
-                  <option value="Prefer not say">Prefer not say</option>
+                <Field type="text" name="location" placeholder="City, Country">
+                { props =>{
+                  const {field, meta} = props;
+                  return(
+                    <input 
+                      {...field}
+                      className={`${meta.error&&meta.touched?`${style.input_error}`:''} form-control`} />
+                  )
+                }}
                 </Field>
-                <ErrorMessage name="gender" />
-                {/* {errors.gender && touched.gender &&(
-                  <p className={style.error_text}>{errors.gender}</p>
-                )} */}
+                <ErrorMessage name="location" component='p' className={style.error_text}/>
               </div>
 
               <div>
-                <Field
-                  type="datetime-local"
-                  // className={`${errors.date_born&&touched.date_born?`${style.input_error}`:''} form-control`}
-                  name="date_born" />
-                <ErrorMessage name="date_born" />
-                {/* {errors.date_born && touched.date_born &&(
-                  <p className={style.error_text}>{errors.date_born}</p>
-                )} */}
-              </div>
-
-              <div>
-                <Field as="select"
-                  type="text"
-                  // className={`${errors.love_interest&&touched.love_interest?`${style.input_error}`:''} form-select`}
-                  name="love_interest" >
-                  <option >Interested in</option>
-                  <option value="Female">Female</option>
-                  <option value="Male">Male</option>
-                  <option value="Indifferent">Indifferent</option>
+                <Field as="select" name="gender">
+                { props =>{
+                  const {field, meta} = props;
+                  return(
+                    <select 
+                      {...field}
+                      className={`${meta.error&&meta.touched?`${style.input_error}`:''} form-select`} >
+                      <option >Pick a Gender</option>
+                      <option value="Female">Female</option>
+                      <option value="Male">Male</option>
+                      <option value="Prefer not say">Prefer not say</option>
+                    </select>
+                  )
+                }}
                 </Field>
-                <ErrorMessage name="love_interest" />
-                {/* {errors.love_interest && touched.love_interest &&(
-                  <p className={style.error_text}>{errors.love_interest}</p>
-                )} */}
+                <ErrorMessage name="gender" component='p' className={style.error_text}/>
+              </div>
+
+              <div>
+                <Field name="date_born" >
+                { props =>{
+                  const {field, meta} = props;
+                  return(
+                    <input 
+                      {...field}
+                      type="datetime-local" 
+                      className={`${meta.error&&meta.touched?`${style.input_error}`:''} form-control`} />
+                  )
+                }}
+                </Field>
+                <ErrorMessage name="date_born" component='p' className={style.error_text}/>
+              </div>
+
+              <div>
+                <Field as="select" type="text" name="love_interest" >
+                { props =>{
+                  const {field, meta} = props;
+                  return(
+                    <select 
+                      {...field}
+                      className={`${meta.error&&meta.touched?`${style.input_error}`:''} form-select`} >
+                      <option >Interested in</option>
+                      <option value="Female">Female</option>
+                      <option value="Male">Male</option>
+                      <option value="Indifferent">Indifferent</option>
+                    </select>
+                  )
+                }}
+                </Field>
+                <ErrorMessage name="love_interest" component='p' className={style.error_text}/>
               </div>
 
             </div>
