@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useFormik } from 'formik';
+import { useEffect, useState } from "react";
+import { Formik, Form, Field, ErrorMessage } from 'formik';
 
 import { useAppContext } from '../../flux/AppContext'
 import CloudinaryUploadWidget from "./CloudinaryUploadWidget";
@@ -11,44 +11,68 @@ import { GoGear } from "react-icons/go";
 import { HiOutlineInformationCircle } from "react-icons/hi";
 import { PiUserSquare } from "react-icons/pi";
 import { RiUserHeartLine } from "react-icons/ri";
+import { CiRuler } from "react-icons/ci";
+import { GiStarSwirl } from "react-icons/gi";
+import { SlLocationPin } from "react-icons/sl";
+import { LiaTransgenderSolid } from "react-icons/lia";
+import { BsSearchHeart, BsCalendar2Date } from "react-icons/bs";
+import { RxCrossCircled } from "react-icons/rx";
 
 export const Porfile = () => {
-  const defaultImage = 'https://static.wixstatic.com/media/4151a5_7706b6198d164a3e947f4548166228ad~mv2.png'
-  const value = useAppContext();
+  const defaultImage = 'https://static.wixstatic.com/media/4151a5_7706b6198d164a3e947f4548166228ad~mv2.png';
+  const [formValues, setFormValues] = useState(null);
   const [urlImage, setUrlImage] = useState(defaultImage);
+  const [editMode, setEditMode] = useState(false);
+  const value = useAppContext();
 
 
   const token = value.store.token
   const setToken = value.actions.setToken
+  const userData = value.store.userData
 
 
-  const onSubmit = (values, actions) => {
+  useEffect(() => {
+    if (userData.profile !== undefined) {
+      const user = userData.profile
+      const date = new Date(user.date_born);
+      setUrlImage(user.profile_image);
+
+      setFormValues({
+        profile_image: user.profile_image,
+        zodiac_sign: user.zodiac_sign,
+        location: user.location,
+        gender: user.gender,
+        date_born: date.toISOString().slice(0, -14),
+        love_interest: user.love_interest,
+        height: user.height,
+        description: user.description
+      })
+    }
+  }, [userData])
+  
+  const initialValues = {
+    profile_image: '',
+    zodiac_sign: '',
+    location: '',
+    gender: '',
+    date_born: '',
+    love_interest: '',
+    height: '',
+    description: ''
+  }
+
+  const onSubmit = (values) => {
     updateProfile(token, values, setToken);
-    actions.resetForm();
-    setUrlImage(defaultImage);
+    setEditMode(false);
   };
-
-  const {values, errors, touched, handleBlur, handleChange, handleSubmit} = 
-  useFormik({
-    initialValues: {
-      profile_image: '',
-      zodiac_sign: '',
-      location: '',
-      location_born: '',
-      gender: '',
-      date_born: '',
-      love_interest: '',
-      height: '',
-      description: ''
-    },
-    validationSchema:  profileSchema,
-    onSubmit,
-  });
 
   const onHandleImageUpload = (url) => {
-    values.profile_image = url
+    setFormValues((prev) =>{
+      return {...prev, profile_image: url}
+    });
     setUrlImage(url);
   };
+
 
 
   return (
@@ -56,189 +80,195 @@ export const Porfile = () => {
 
       <div className={style.header_container}>
         <h2>Profile</h2>
-        <GoGear className={style.gear_icon}/>
+        {editMode ? (
+          <RxCrossCircled className={style.gear_icon} onClick={() => setEditMode(!editMode)}/>
+        ):(
+          <GoGear className={style.gear_icon} onClick={() => setEditMode(!editMode)}/>
+        )}
+        
       </div>
 
-      <div>
-      <form onSubmit={handleSubmit}>
-        <div className={style.form_body}>
+      <Formik
+        initialValues={formValues || initialValues}
+        validationSchema={profileSchema}
+        onSubmit={onSubmit}
+        enableReinitialize
+      >
+      {formik =>{
+        const {errors, touched} = formik
+        return(
+          <Form>
+          <div className={style.form_body}>
 
-          <div className={style.form_div}> 
-            <div className={style.form_card}>
-
-              <h4 className={style.sub_title}>
-                <HiOutlineInformationCircle />
-                Personal Info
-              </h4>
-
-              <div>
-                <input
-                  type="number"
-                  className={`${errors.height&&touched.height?`${style.input_error}`:''} form-control`}
-                  id="height"
-                  placeholder="Height (cm)"
-                  value={values.height}
-                  onChange={handleChange}
-                  onBlur={handleBlur} />
-                {errors.height && touched.height &&(
-                  <p className={style.error_text}>{errors.height}</p>
-                )}
+            <div className={style.form_div}>
+              <div className={style.form_card_aside}>
+                <h4 className={style.sub_title}>
+                  <PiUserSquare />
+                  Photos
+                </h4>
+                <div className={style.foto_preview}>
+                  <img
+                    name="uploadedimage"
+                    src={urlImage}
+                    className={style.img_foto}
+                    alt=""
+                  />
+                  {editMode ? (
+                    <div className={style.upload_widget}>
+                      <CloudinaryUploadWidget
+                        onHandleImageUpload={onHandleImageUpload}
+                      />
+                    </div>
+                  ):''}
+                </div>
               </div>
 
-              <div>
-                <select
-                  id="zodiac_sign"
-                  className={`${errors.zodiac_sign&&touched.zodiac_sign?`${style.input_error}`:''} form-select`}
-                  value={values.zodiac_sign}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                   >
-                  <option >Zodiac Sign</option>
-                  <option value="Aries">Aries</option>
-                  <option value="Taurus">Taurus</option>
-                  <option value="Gemini">Gemini</option>
-                  <option value="Cancer">Cancer</option>
-                  <option value="Leo">Leo</option>
-                  <option value="Virgo">Virgo</option>
-                  <option value="Libra">Libra</option>
-                  <option value="Scorpio">Scorpio</option>
-                  <option value="Sagittarius">Sagittarius</option>
-                  <option value="Capricorn">Capricorn</option>
-                  <option value="Aquarius">Aquarius</option>
-                  <option value="Pisces">Pisces</option>
-                </select>
-                {errors.zodiac_sign && touched.zodiac_sign &&(
-                  <p className={style.error_text}>{errors.zodiac_sign}</p>
-                )}
-              </div>
-
-              <div>
-                <input
-                  type="text"
-                  className={`${errors.location&&touched.location?`${style.input_error}`:''} form-control`}
-                  id="location"
-                  placeholder="City, Country"
-                  value={values.location} 
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                   />
-                {errors.location && touched.location &&(
-                  <p className={style.error_text}>{errors.location}</p>
-                )}
-              </div>
-
-              <div>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="location_born"
-                  placeholder="Where have you been born?"
-                  value={values.location_born} 
-                  onChange={handleChange}
-                  onBlur={handleBlur} />
-              </div>
-
-              <div>
-                <select
-                  id="gender"
-                  className={`${errors.gender&&touched.gender?`${style.input_error}`:''} form-select`}
-                  aria-label="Default select example"
-                  value={values.gender} 
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  >
-                  <option >Pick a Gender</option>
-                  <option value="Female">Female</option>
-                  <option value="Male">Male</option>
-                  <option value="Prefer not say">Prefer not say</option>
-                </select>
-                {errors.gender && touched.gender &&(
-                  <p className={style.error_text}>{errors.gender}</p>
-                )}
-              </div>
-
-              <div>
-                <input
-                  type="datetime-local"
-                  className={`${errors.date_born&&touched.date_born?`${style.input_error}`:''} form-control`}
-                  id="date_born"
-                  value={values.date_born}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                   />
-                {errors.date_born && touched.date_born &&(
-                  <p className={style.error_text}>{errors.date_born}</p>
-                )}
-              </div>
-
-              <div>
-                <select
-                  type="text"
-                  className={`${errors.love_interest&&touched.love_interest?`${style.input_error}`:''} form-select`}
-                  id="love_interest"
-                  value={values.love_interest}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                   >
-                  <option >Interested in</option>
-                  <option value="Female">Female</option>
-                  <option value="Male">Male</option>
-                  <option value="Indifferent">Indifferent</option>
-                </select>
-                {errors.love_interest && touched.love_interest &&(
-                  <p className={style.error_text}>{errors.love_interest}</p>
-                )}
+              <div className={style.form_card_aside}>
+                <h4 className={style.sub_title}>
+                  <RiUserHeartLine />
+                  About Me
+                </h4>
+                  <Field as="textarea"
+                    className={style.textarea}
+                    name="description"
+                    disabled={!editMode}>
+                  </Field>
               </div>
 
             </div>
+
+            <div className={style.form_div}> 
+              <div className={style.form_card}>
+
+                <h4 className={style.sub_title}>
+                  <HiOutlineInformationCircle />
+                  Personal Info
+                </h4>
+
+                <div className={style.info_container}>
+                  <div className={style.input_container}>
+                    <CiRuler className={style.icons_input}/>
+                    <div className="d-flex flex-column flex-grow-1 position-relative">
+                      <label htmlFor="height" className={style.label}>Height (cm):</label>
+                      <Field 
+                        type="number" 
+                        name="height" 
+                        className={`${errors.height&&touched.height?`${style.input_error}`:''} ${style.input}`} 
+                        placeholder="Height (cm)"
+                        disabled={!editMode} >
+                      </Field>
+                      <ErrorMessage name="height" component='p' className={style.error_text}/>
+                    </div>
+                  </div>
+
+                  <div className={style.input_container}>
+                    <GiStarSwirl className={style.icons_input}/>
+                    <div  className="d-flex flex-column flex-grow-1 position-relative">
+                      <label htmlFor="zodiac_sign" className={style.label}>Zodiac Sign:</label>
+                      <Field
+                        as="select" 
+                        className={`${errors.zodiac_sign&&touched.zodiac_sign?`${style.input_error}`:''} ${style.select}`}
+                        name="zodiac_sign"
+                        disabled={!editMode} >
+                            <option>Choose Zodiac Sign</option>
+                            <option value="Aries">Aries</option>
+                            <option value="Taurus">Taurus</option>
+                            <option value="Gemini">Gemini</option>
+                            <option value="Cancer">Cancer</option>
+                            <option value="Leo">Leo</option>
+                            <option value="Virgo">Virgo</option>
+                            <option value="Libra">Libra</option>
+                            <option value="Scorpio">Scorpio</option>
+                            <option value="Sagittarius">Sagittarius</option>
+                            <option value="Capricorn">Capricorn</option>
+                            <option value="Aquarius">Aquarius</option>
+                            <option value="Pisces">Pisces</option>
+                      </Field>
+                      <ErrorMessage name="zodiac_sign" component='p' className={style.error_text}/>
+                    </div>
+                  </div>
+
+                  <div className={style.input_container}>
+                    <SlLocationPin className={style.icons_input}/>
+                    <div className="d-flex flex-column flex-grow-1 position-relative">
+                      <label htmlFor="location" className={style.label}>Location:</label>
+                      <Field 
+                        type="text" 
+                        name="location" 
+                        className={`${errors.location&&touched.location?`${style.input_error}`:''} ${style.input}`}
+                        placeholder="City, Country"
+                        disabled={!editMode}>
+                      </Field>
+                      <ErrorMessage name="location" component='p' className={style.error_text}/>
+                    </div>
+                  </div>
+
+                  <div className={style.input_container}>
+                    <LiaTransgenderSolid className={style.icons_input}/>
+                    <div className="d-flex flex-column flex-grow-1 position-relative">
+                      <label htmlFor="gender" className={style.label}>Gender:</label>
+                      <Field as="select" 
+                        name="gender"
+                        className={`${errors.gender&&touched.gender?`${style.input_error}`:''} ${style.select}`}
+                        disabled={!editMode} >
+                        <option >Pick a Gender</option>
+                        <option value="Female">Female</option>
+                        <option value="Male">Male</option>
+                        <option value="Other">Other</option>
+                      </Field>
+                      <ErrorMessage name="gender" component='p' className={style.error_text}/>
+                    </div>
+                  </div>
+
+                  <div className={style.input_container}>
+                    <BsCalendar2Date className={style.icons_input}/>
+                    <div className="d-flex flex-column flex-grow-1 position-relative">
+                      <label htmlFor="date_born" className={style.label}>Date Born:</label>
+                      <Field 
+                        name="date_born" 
+                        type="date" 
+                        className={`${errors.date_born&&touched.date_born?`${style.input_error}`:''} ${style.input}`}
+                        disabled={!editMode}>
+                      </Field>
+                      <ErrorMessage name="date_born" component='p' className={style.error_text}/>
+                    </div>
+                  </div>
+
+                  <div className={style.input_container}>
+                    <BsSearchHeart className={style.icons_input}/>
+                    <div className="d-flex flex-column flex-grow-1 position-relative">
+                      <label htmlFor="love_interest" className={style.label}>Looking for:</label>
+                      <Field as="select" 
+                        type="text" 
+                        name="love_interest" 
+                        className={`${errors.love_interest&&touched.love_interest?`${style.input_error}`:''} ${style.select}`}
+                        disabled={!editMode} >
+                        <option >Interested in</option>
+                        <option value="Female">Female</option>
+                        <option value="Male">Male</option>
+                        <option value="Indifferent">Indifferent</option>
+                      </Field>
+                      <ErrorMessage name="love_interest" component='p' className={style.error_text}/>
+                    </div>
+                  </div>
+                </div>
+
+
+              </div>
+            </div>
+
           </div>
 
-          <div className={style.form_div}>
-            <div className={style.form_card_aside}>
-              <h4 className={style.sub_title}>
-                <PiUserSquare />
-                Photos
-              </h4>
-              <div className={style.foto_preview}>
-                <img
-                  id="uploadedimage"
-                  src={urlImage}
-                  className={style.img_foto}
-                  alt=""
-                />
-              </div>
-              <div>
-                <CloudinaryUploadWidget
-                  onHandleImageUpload={onHandleImageUpload}
-                />
-              </div>
+            <div className="d-flex justify-content-center">
+              <button type="submit" className={`${style.submit_button} ${editMode?'':style.hide}`}>
+                Save
+              </button>
             </div>
 
-            <div className={style.form_card_aside}>
-              <h4 className={style.sub_title}>
-                <RiUserHeartLine />
-                About Me
-              </h4>
-                <textarea
-                  className={style.textarea}
-                  id="description"
-                  value={values.description}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                ></textarea>
-            </div>
-
-          </div>
-        </div>
-
-        <div className="d-flex justify-content-center">
-          <button type="submit" className={`${style.submit_button} btn`}>
-            Send
-          </button>
-        </div>
-
-      </form>
-      </div>
+          </Form>
+        )
+      }}
+      </Formik>
 
     </div>
   );
