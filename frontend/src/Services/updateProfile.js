@@ -16,6 +16,7 @@ export const updateProfile = (token, profileData, updateTokenFuntion) => {
     .then((body) => {
       sessionStorage.setItem("token", body.refresh_token);
       updateTokenFuntion(body.refresh_token);
+      alert("Your profile has been updated!");
       return true;
     })
     .catch((error) => {

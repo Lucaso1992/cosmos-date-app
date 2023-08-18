@@ -100,39 +100,42 @@ export const Porfile = () => {
           <Form>
           <div className={style.form_body}>
 
-          <div className={style.form_div}>
-            <div className={style.form_card_aside}>
-              <h4 className={style.sub_title}>
-                <PiUserSquare />
-                Photos
-              </h4>
-              <div className={style.foto_preview}>
-                <img
-                  name="uploadedimage"
-                  src={urlImage}
-                  className={style.img_foto}
-                  alt=""
-                />
-                <div className={style.upload_widget}>
-                  <CloudinaryUploadWidget
-                    onHandleImageUpload={onHandleImageUpload}
+            <div className={style.form_div}>
+              <div className={style.form_card_aside}>
+                <h4 className={style.sub_title}>
+                  <PiUserSquare />
+                  Photos
+                </h4>
+                <div className={style.foto_preview}>
+                  <img
+                    name="uploadedimage"
+                    src={urlImage}
+                    className={style.img_foto}
+                    alt=""
                   />
+                  {editMode ? (
+                    <div className={style.upload_widget}>
+                      <CloudinaryUploadWidget
+                        onHandleImageUpload={onHandleImageUpload}
+                      />
+                    </div>
+                  ):''}
                 </div>
               </div>
-            </div>
 
-            <div className={style.form_card_aside}>
-              <h4 className={style.sub_title}>
-                <RiUserHeartLine />
-                About Me
-              </h4>
-                <Field as="textarea"
-                  className={style.textarea}
-                  name="description">
-                </Field>
-            </div>
+              <div className={style.form_card_aside}>
+                <h4 className={style.sub_title}>
+                  <RiUserHeartLine />
+                  About Me
+                </h4>
+                  <Field as="textarea"
+                    className={style.textarea}
+                    name="description"
+                    disabled={!editMode}>
+                  </Field>
+              </div>
 
-          </div>
+            </div>
 
             <div className={style.form_div}> 
               <div className={style.form_card}>
@@ -151,7 +154,8 @@ export const Porfile = () => {
                         type="number" 
                         name="height" 
                         className={`${errors.height&&touched.height?`${style.input_error}`:''} ${style.input}`} 
-                        placeholder="Height (cm)" >
+                        placeholder="Height (cm)"
+                        disabled={!editMode} >
                       </Field>
                       <ErrorMessage name="height" component='p' className={style.error_text}/>
                     </div>
@@ -164,8 +168,9 @@ export const Porfile = () => {
                       <Field
                         as="select" 
                         className={`${errors.zodiac_sign&&touched.zodiac_sign?`${style.input_error}`:''} ${style.select}`}
-                        name="zodiac_sign" >
-                            <option >Zodiac Sign</option>
+                        name="zodiac_sign"
+                        disabled={!editMode} >
+                            <option>Choose Zodiac Sign</option>
                             <option value="Aries">Aries</option>
                             <option value="Taurus">Taurus</option>
                             <option value="Gemini">Gemini</option>
@@ -191,7 +196,8 @@ export const Porfile = () => {
                         type="text" 
                         name="location" 
                         className={`${errors.location&&touched.location?`${style.input_error}`:''} ${style.input}`}
-                        placeholder="City, Country">
+                        placeholder="City, Country"
+                        disabled={!editMode}>
                       </Field>
                       <ErrorMessage name="location" component='p' className={style.error_text}/>
                     </div>
@@ -203,7 +209,8 @@ export const Porfile = () => {
                       <label htmlFor="gender" className={style.label}>Gender:</label>
                       <Field as="select" 
                         name="gender"
-                        className={`${errors.gender&&touched.gender?`${style.input_error}`:''} ${style.select}`}>
+                        className={`${errors.gender&&touched.gender?`${style.input_error}`:''} ${style.select}`}
+                        disabled={!editMode} >
                         <option >Pick a Gender</option>
                         <option value="Female">Female</option>
                         <option value="Male">Male</option>
@@ -220,7 +227,8 @@ export const Porfile = () => {
                       <Field 
                         name="date_born" 
                         type="date" 
-                        className={`${errors.date_born&&touched.date_born?`${style.input_error}`:''} ${style.input}`}>
+                        className={`${errors.date_born&&touched.date_born?`${style.input_error}`:''} ${style.input}`}
+                        disabled={!editMode}>
                       </Field>
                       <ErrorMessage name="date_born" component='p' className={style.error_text}/>
                     </div>
@@ -233,7 +241,8 @@ export const Porfile = () => {
                       <Field as="select" 
                         type="text" 
                         name="love_interest" 
-                        className={`${errors.love_interest&&touched.love_interest?`${style.input_error}`:''} ${style.select}`}>
+                        className={`${errors.love_interest&&touched.love_interest?`${style.input_error}`:''} ${style.select}`}
+                        disabled={!editMode} >
                         <option >Interested in</option>
                         <option value="Female">Female</option>
                         <option value="Male">Male</option>
@@ -245,21 +254,16 @@ export const Porfile = () => {
                 </div>
 
 
-
               </div>
             </div>
 
           </div>
 
-          {/* {
-            editMode ? ( */}
-              <div className="d-flex justify-content-center">
-                <button type="submit" className={`${style.submit_button} ${editMode?'':style.hide}`}>
-                  Save
-                </button>
-              </div>
-            {/* ):''
-          } */}
+            <div className="d-flex justify-content-center">
+              <button type="submit" className={`${style.submit_button} ${editMode?'':style.hide}`}>
+                Save
+              </button>
+            </div>
 
           </Form>
         )

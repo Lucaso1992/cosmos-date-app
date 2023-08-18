@@ -10,7 +10,6 @@
   flex-direction: column;
   background-color: rgb(247, 247, 247);
   padding: 1rem;
-  color: #063254;
   box-shadow: 0 0 1.2rem white;
   font-size: 16px;
   align-items: center;
@@ -35,7 +34,7 @@
     font-size: 1.1rem;
     font-weight: 500;
     transition: 0.4s;
-    color: #c2cad0;
+    color: White;
     background-color: #063254;
 }
 

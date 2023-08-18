@@ -7,6 +7,8 @@
 
   color: #063254;
   background-color: rgb(237, 237, 237);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 0 1rem white;
   border-radius: 40px;
   min-width: 100%;
 }
@@ -29,7 +31,7 @@
 
 
 .form_body{
-  padding-top: 1rem;
+  padding-top: 0.5rem;
   padding-bottom: 0.5rem;
   display: flex;
   flex-wrap: wrap;
@@ -62,7 +64,7 @@
   padding-bottom: 2rem;
   display: flex;
   flex-direction: column;
-  /* gap: 1.7rem; */
+  gap: 0.5rem;
 
   min-height: 100%;
   background: linear-gradient(to right, #4b79a1, #283e51);
@@ -215,6 +217,7 @@ select.error_text{
 .submit_button{
   background-color: #063254;
   color: white;
+  border: 1px solid transparent;
   border-radius: 25px;
   width: 7rem;
   height: 2.5rem;
