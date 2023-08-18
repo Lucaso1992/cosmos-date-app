@@ -58,7 +58,7 @@ def like_profile(user):
 
 def info_profile(user):
     profile_data = Profile.query.filter_by(user_id=user["id"]).first()
-    born_date = datetime.datetime.strptime(request.json.get("date_born"), "%Y-%m-%dT%H:%M")
+    born_date = datetime.datetime.strptime(request.json.get("date_born"), "%Y-%m-%d")
 
     if profile_data:
         profile_data.profile_image = request.json.get("profile_image")

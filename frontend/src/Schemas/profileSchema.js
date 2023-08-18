@@ -4,7 +4,7 @@ import * as yup from 'yup';
 export const profileSchema = yup.object().shape({
   height: yup
     .number()
-    .min(2),
+    .min(60),
   zodiac_sign: yup
     .string()
     .required("Zodiac sign name is required"),
