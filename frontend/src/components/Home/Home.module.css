@@ -7,12 +7,7 @@
   color: #063254;
   display: flex;
   flex-direction: column;
-}
-
-.horoscope_cards {
-  background-color: #008cff39;
-  width: 15rem;
-  height: 12rem;
+  align-items: center;
 }
 
 .cards_father {
@@ -24,6 +19,33 @@ justify-content: center;
 margin-bottom: 2rem;
 }
 
+.horoscope_cards {
+  background-color: #008cff39;
+  width: 80%;
+  height: 12rem;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  border-radius: 10px;
+}
+
+.horoscope_title{
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  border-bottom: 2px solid #063254;
+  width: 96%;
+  padding-left: 2.5rem; 
+  padding-bottom: .5rem;
+}
 @media(min-width:768px) {
-  
+  .horoscope_cards{
+    width: 15rem;
+  }
+
+  .horoscope_cards:hover{
+    box-shadow: 0 0 .8rem #008cff7b;
+    background-color: whitesmoke;
+  }
 }

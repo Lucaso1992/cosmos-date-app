@@ -84,7 +84,6 @@ select.error_text{
   display: flex;
   align-items: center;
   flex-direction: column;
-
   background-color: #008cff39;
   border-radius: 0.56rem;
 }
