@@ -1,3 +1,10 @@
+/* .img{
+display: none;
+}
+
+.trash_icon{
+  display: none;
+} */
 .chats_list{
   display: flex;
   flex-direction: column;
