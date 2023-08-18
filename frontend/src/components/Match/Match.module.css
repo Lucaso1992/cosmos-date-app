@@ -2,7 +2,6 @@
     position: relative;
     display: flex;
     flex-direction: column;
-
     box-shadow: 0 0 1.2rem white;
     border: 2px solid #ffffff70;
     width: 100%;
@@ -33,7 +32,6 @@
     position: absolute;
     top: 0;
     right: 0;
-
     margin: 1.5rem;
     font-size: 2rem;
     color: #063254c1;
@@ -87,7 +85,7 @@
 
 
 .first_infodiv{
-    background-color: rgb(237, 237, 237);
+    background-color: whitesmoke;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
