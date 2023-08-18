@@ -12,7 +12,7 @@ export const DataHome = [
     {
         horoscope: 'Gemini',
         zodical_sign: '♊︎',
-        text: 'Gemini is an adaptable and curious air sign. Communicative, intelligent, and versatile in interests.'
+        text: 'Gemini is an adaptable and curious air sign. Communicative, intelligent and versatile.'
     },
     {
         horoscope: 'Cancer',

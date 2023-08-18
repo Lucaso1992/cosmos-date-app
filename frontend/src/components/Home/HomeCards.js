@@ -5,7 +5,7 @@ export const HomeCards = ({ horoscope, zodical_sign, text }) => {
         <div className={style.horoscope_cards}>
             <h6>{horoscope}</h6>
             <div>{zodical_sign}</div>
-            <p>{text}</p>
+            <p className=''>{text}</p>
         </div>
     )
 }
