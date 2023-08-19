@@ -32,7 +32,7 @@ export const Porfile = () => {
 
 
   useEffect(() => {
-    if (userData.profile !== undefined) {
+    if (userData.profile !== undefined && Object.keys(userData.profile).length !== 0) {
       const user = userData.profile
       const date = new Date(user.date_born);
       setUrlImage(user.profile_image);

@@ -20,7 +20,7 @@ margin-bottom: 2rem;
 }
 
 .horoscope_cards {
-  background-color: #008cff39;
+  background: linear-gradient(to right, #4b79a1, #283e51);
   width: 80%;
   height: 12rem;
   display: flex;
@@ -29,6 +29,8 @@ margin-bottom: 2rem;
   align-items: center;
   text-align: center;
   border-radius: 10px;
+  color: whitesmoke;
+  transition: 0.4s;
 }
 
 .horoscope_title{
@@ -45,7 +47,8 @@ margin-bottom: 2rem;
   }
 
   .horoscope_cards:hover{
-    box-shadow: 0 0 .8rem #008cff7b;
-    background-color: whitesmoke;
+    box-shadow: 0 0 1.3rem #008cffa1;
+    color: #063254;
+    background: whitesmoke;
   }
 }
