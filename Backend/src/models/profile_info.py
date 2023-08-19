@@ -12,7 +12,6 @@ class Profile(db.Model):
     love_interest = db.Column(db.String(20), nullable=False)
     date_born = db.Column(db.DateTime, nullable=False)
     description = db.Column(db.String(300))
-    location_born = db.Column(db.String(80))
     height = db.Column(db.String(15))
 
     

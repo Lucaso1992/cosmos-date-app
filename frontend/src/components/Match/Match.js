@@ -10,11 +10,14 @@ import style from "./Match.module.css";
 import RingLoader from "react-spinners/RingLoader";
 import ClipLoader from "react-spinners/ClipLoader";
 import { FaRegFaceTired } from 'react-icons/fa6';
-import { BsFillArrowThroughHeartFill } from 'react-icons/bs';
+import { BsFillArrowThroughHeartFill, BsPerson } from 'react-icons/bs';
 import { RiHeartsFill } from 'react-icons/ri';
+import { AiOutlineCloseCircle } from 'react-icons/ai';
+import { GiWorld } from 'react-icons/gi';
 
 export const Match = () => {
   const [loading, setLoading] = useState(false);
+  const [moreInfo, setMoreInfo] = useState(false);
   const [matchData, setMatchData] = useState({});
   const value = useAppContext();
 
@@ -56,17 +59,34 @@ export const Match = () => {
 
   return (
     <div className={style.general_div}>
-      <div className={loading ? style.loading:style.hide}>
+      <div className={loading ? style.loading:style.hide_loding}>
         <ClipLoader
           color={"#fff"}
           size={100}
           speedMultiplier={0.7}
         />
       </div>
+
+      <div className={`${style.about_me} ${moreInfo?'':style.hide}`}>
+        <AiOutlineCloseCircle
+          className={style.close_about_me}
+          onClick={() => setMoreInfo(false)} />
+
+        <h2 className=''>
+          <strong>{matchData.user_name}</strong>, {matchData.profile.age} years old!
+        </h2>
+        <p className=''>{matchData.profile.location}</p>
+        <h2 className='mb-0'>About Me</h2>
+        <p className=''>
+          {matchData.profile.description}
+        </p>
+      </div>
+
       <BsFillArrowThroughHeartFill
         className={style.icons_favorite}  
         type="button" 
         onClick={() => handleLike("like")}/>
+
 
       <div className={style.img_div}>
         <img className={style.img} src={matchData.profile.profile_image} alt=""/>
@@ -76,9 +96,11 @@ export const Match = () => {
           <div className={style.name_zodiac_div}>
 
             <h2 className={style.user_name}>
+              <BsPerson className={style.icons_location}/>
               <strong>{matchData.user_name}</strong>, {matchData.profile.age}
             </h2>
             <p className={style.user_distance}>
+              <GiWorld className={style.icons_location}/>
               {matchData.profile.location}
             </p>
           </div>
@@ -104,34 +126,9 @@ export const Match = () => {
                 onClick={() => handleLike("like")} />
           </div>
           <div className={style.button_div}>
-            <button type="button" className={style.modal_button} data-bs-toggle="modal" data-bs-target="#exampleModal">
-              More Info
+            <button type="button" className={style.modal_button} onClick={() => setMoreInfo(true)}>
+              About Me
             </button>
-          </div>
-        </div>
-      </div>
-
-      
-      <div className={`${ style.modal_div} modal fade`} id="exampleModal" tabIndex="-1">
-        <div className={`${style.modal_last} modal-dialog`}>
-            <div className="modal-content">
-
-              <div className="modal-header">
-                <div className="d-flex flex-column">
-                  <h1 className="modal-title fs-1" id="exampleModalLabel">
-                    <strong>{matchData.user_name}</strong>, {matchData.profile.age}
-                  </h1>
-                  <p className="card-text">
-                    {matchData.profile.location}
-                  </p>
-                </div>
-                <button type="button" className="btn-close mb-auto" data-bs-dismiss="modal"></button>
-              </div>
-              <div className={`${style.modal_info} modal-body`}>
-                <h5>About Me</h5>
-                <p>{matchData.profile.description}</p>
-              </div>
-
           </div>
         </div>
       </div>

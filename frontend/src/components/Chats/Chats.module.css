@@ -1,5 +1,5 @@
 .hide{
-  transform:scale(0); 
+  transform: scaleY(0); 
   position: absolute; 
 }
 
