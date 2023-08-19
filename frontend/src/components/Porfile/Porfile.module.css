@@ -165,12 +165,8 @@ select.error_text{
   display: flex;
   align-items: center;
   flex-direction: column;
-<<<<<<< HEAD
-  background-color: #008cff39;
-=======
 
   background: linear-gradient(to right, #283e51, #4b79a1);
->>>>>>> 2ff41c768f3429e8c40e5f2418c97f9c96145764
   border-radius: 0.56rem;
 }
 
