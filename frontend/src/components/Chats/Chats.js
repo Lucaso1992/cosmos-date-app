@@ -7,8 +7,8 @@ import { getChatsUser } from '../../Services/getChatsUser'
 
 
 import style from "./Chats.module.css"
-// import { IoArrowBackSharp } from "react-icons/io5";
-import { AiOutlineClose, AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai";
+import { AiOutlineClose } from "react-icons/ai";
+import { MdKeyboardDoubleArrowLeft, MdKeyboardDoubleArrowRight } from "react-icons/md";
 import { PiWechatLogoFill } from "react-icons/pi";
 
 
@@ -18,6 +18,7 @@ export const Chats = () => {
   const [chats, setChats] = useState([]);
   const [codeRoom, setCodeRoom] = useState('');
   const [chatName, setChatName] = useState('');
+  const [chatPhoto, setChatPhoto] = useState('');
   const [messages, setMessages] = useState([]);
   const [showChats, setShowChats] = useState(true);
   const value = useAppContext();
@@ -38,6 +39,7 @@ export const Chats = () => {
       socket.on('room_joined', (data) => {
         setCodeRoom(data.room);
         setChatName(data.receiver_name);
+        setChatPhoto(data.reciever_photo);
         setMessages(data.messages);
       });
       socket.on('chat_message', setMessages);
@@ -56,7 +58,7 @@ export const Chats = () => {
 
           <div className={style.chat_container}>
             <button className={style.icon_back} type='button' onClick={()=>setShowChats(!showChats)}>
-              {showChats?<AiOutlineArrowLeft />:<AiOutlineArrowRight />}
+              {showChats?<MdKeyboardDoubleArrowLeft />:<MdKeyboardDoubleArrowRight />}
             </button>
             <button className={style.icon_close} type='button' onClick={changeVisibility}>
               <AiOutlineClose />
@@ -77,6 +79,7 @@ export const Chats = () => {
               <ChatMessage
                 codeRoom={codeRoom}
                 chatName={chatName}
+                chatPhoto={chatPhoto}
                 messages={messages}/>
             </div>
           </div>

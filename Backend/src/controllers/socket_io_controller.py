@@ -8,6 +8,7 @@ from models.chats import Chat
 from models.users import User
 from models.messages import Message
 from models.user_chat import User_chat
+from models.profile_info import Profile
 
 
 def get_chats(userData):
@@ -30,6 +31,7 @@ def get_chats(userData):
       for user in users_chat_db:
         if user.user_id != user_db.id:
           recieverUserName = User.query.get(user.user_id).user_name
+          recieverPhoto = Profile.query.get(user.user_id).profile_image
         else:
           for message in messages_db:
             if message.user_name != user_db.user_name:
@@ -39,7 +41,7 @@ def get_chats(userData):
       chats.append({
         "chat": chat.chat_id, 
         "messages": messages, 
-        "user_name": recieverUserName
+        "reciever_user": {"user_name":recieverUserName, "photo_url":recieverPhoto}
         })
 
     return jsonify(chats)
@@ -65,7 +67,8 @@ def handle_join(userData):
     emit('room_joined', {
         "room": chat_db.id, 
         "messages": messages, 
-        "receiver_name":userData['receiver_name']
+        "receiver_name": userData['receiver_name'],
+        "reciever_photo": userData['reciever_photo']
       }, room=chat_db.id)
 
 

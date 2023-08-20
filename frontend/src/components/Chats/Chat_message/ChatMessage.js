@@ -8,7 +8,7 @@ import { BiPhoneCall } from "react-icons/bi";
 import { SlOptionsVertical } from "react-icons/sl";
 
 
-export const ChatMessage = ({codeRoom, chatName, messages}) => {
+export const ChatMessage = ({codeRoom, chatName, chatPhoto, messages}) => {
   const [inputData, setInputData] = useState('');
   const value = useAppContext();
   const scrollableDivRef = useRef(null);
@@ -57,7 +57,7 @@ export const ChatMessage = ({codeRoom, chatName, messages}) => {
             <div className={style.img_div}>
               <img
                 className={style.img}
-                src='https://static.wixstatic.com/media/4151a5_7706b6198d164a3e947f4548166228ad~mv2.png' alt='' />
+                src={chatPhoto} alt='' />
             </div>
             <span>{chatName}</span>
             <div className={style.icon_div}>

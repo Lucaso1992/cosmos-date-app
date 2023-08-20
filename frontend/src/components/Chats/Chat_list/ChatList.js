@@ -23,7 +23,8 @@ export const ChatList = ({rooms, setRooms, setCodeRoom, setMessages, setShowChat
     setShowChats(false);
     socket.emit('join_room', {
       'room': chat_data.chat,
-      'receiver_name': chat_data.user_name,
+      'receiver_name': chat_data.reciever_user.user_name,
+      'reciever_photo': chat_data.reciever_user.photo_url,
       'sender_id':userData.id,
       'sender_name':userData.user_name
     });
@@ -75,10 +76,10 @@ export const ChatList = ({rooms, setRooms, setCodeRoom, setMessages, setShowChat
               <div className={style.img_div}>
                 <img
                   className={style.img}
-                  src='https://static.wixstatic.com/media/4151a5_7706b6198d164a3e947f4548166228ad~mv2.png' alt='' />
+                  src={room.reciever_user.photo_url} alt='' />
               </div>
               <span className={style.room_name} onClick={()=>handleSwitchRoom(room)}>
-                {room.user_name}
+                {room.reciever_user.user_name}
               </span>
               <BsFillTrash2Fill className={style.trash_icon} onClick={()=>handleShowDelete(room.chat)}/>
 
