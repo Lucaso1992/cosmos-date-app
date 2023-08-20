@@ -1,7 +1,7 @@
-import style from "./Home.module.css";
-import { DataHome } from "./DataHome";
-import { HomeCards } from "./HomeCards";
+import { DataHome } from "./utils/DataHome";
+import { HorscopeCards } from "./utils/HorscopeCards";
 
+import style from "./Home.module.css";
 
 export const Home = () => {
   return (
@@ -10,7 +10,15 @@ export const Home = () => {
         Horoscopes
       </h2>
       <div className={style.cards_father}>
-      {DataHome.map(item => <HomeCards horoscope={item.horoscope} zodical_sign={item.zodical_sign} text={item.text}/>)}
+      {DataHome.map(item => {
+        return (
+          <HorscopeCards 
+            key={item.horoscope}
+            horoscope={item.horoscope}
+            zodical_sign={item.zodical_sign}
+            text={item.text} />
+        )
+      })}
       </div>
     </div>
   );

@@ -26,5 +26,8 @@ export const profileSchema = yup.object().shape({
     .required("Love interest is required")
     .oneOf(["Male", "Female", "Indifferent"], "Invalid love interest"),
   description: yup
+    .string(),
+  profile_image: yup
     .string()
+    .required("Profile image is required")
 })

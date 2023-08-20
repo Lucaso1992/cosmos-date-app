@@ -1,5 +1,3 @@
-// import React, { Component } from "react";
-
 const CloudinaryUploadWidget = ({onHandleImageUpload}) => {
    
     const cloudName = "ddpsqyjbc"; // replace with your own cloud name

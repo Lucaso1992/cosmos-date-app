@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 
 import { useAppContext } from '../../flux/AppContext'
@@ -24,6 +24,7 @@ export const Porfile = () => {
   const [urlImage, setUrlImage] = useState(defaultImage);
   const [editMode, setEditMode] = useState(false);
   const value = useAppContext();
+  const formikRef = useRef(null);
 
 
   const token = value.store.token
@@ -66,12 +67,11 @@ export const Porfile = () => {
     setEditMode(false);
   };
 
-  const onHandleImageUpload = (url) => {
-    setFormValues((prev) =>{
-      return {...prev, profile_image: url}
-    });
-    setUrlImage(url);
-  };
+  const cancelChange = () => {
+    setUrlImage(userData.profile.profile_image || defaultImage);
+    formikRef.current.resetForm({ values: formValues || initialValues });
+    setEditMode(false);
+  }
 
 
 
@@ -81,9 +81,15 @@ export const Porfile = () => {
       <div className={style.header_container}>
         <h2>Profile</h2>
         {editMode ? (
-          <RxCrossCircled className={style.gear_icon} onClick={() => setEditMode(!editMode)}/>
+          <button className={style.edit_btn}  onClick={cancelChange}>
+            <span>Cancel</span>
+            <RxCrossCircled className={style.gear_icon} />
+          </button>
         ):(
-          <GoGear className={style.gear_icon} onClick={() => setEditMode(!editMode)}/>
+          <button className={style.edit_btn} onClick={() => setEditMode(!editMode)}>
+            <span>Edit</span>
+            <GoGear className={style.gear_icon} />
+          </button>
         )}
         
       </div>
@@ -93,9 +99,16 @@ export const Porfile = () => {
         validationSchema={profileSchema}
         onSubmit={onSubmit}
         enableReinitialize
+        innerRef={formikRef}
       >
       {formik =>{
-        const {errors, touched} = formik
+        const {errors, touched, values} = formik
+
+        const onHandleImageUpload = (url) => {
+          values.profile_image = url
+          setUrlImage(url);
+        };
+
         return(
           <Form>
           <div className={style.form_body}>

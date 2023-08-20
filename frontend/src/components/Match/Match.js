@@ -1,8 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { useAppContext } from '../../flux/AppContext'
 import { mapZodiacSign } from './utills/mapZodiacSign.js';
-import { getMatch } from '../../Services/getMatch';
 import { updateLikes } from "../../Services/updateLikes";
 import { updateDislikes } from '../../Services/updateDislikes';
 
@@ -18,19 +17,12 @@ import { GiWorld } from 'react-icons/gi';
 export const Match = () => {
   const [loading, setLoading] = useState(false);
   const [moreInfo, setMoreInfo] = useState(false);
-  const [matchData, setMatchData] = useState({});
   const value = useAppContext();
 
   const token = value.store.token
+  const matchData = value.store.matchData
   const setToken = value.actions.setToken
-  
-
-  useEffect(() => {
-    if (token !== undefined && token !== "" && Object.keys(matchData).length === 0) {
-      getMatch(token, setMatchData)
-    }
-    else return
-  }, [token, matchData])
+  const setMatchData = value.actions.setMatchData
 
 
   const handleLike = (status) => {
@@ -72,12 +64,16 @@ export const Match = () => {
           className={style.close_about_me}
           onClick={() => setMoreInfo(false)} />
 
-        <h2 className=''>
-          <strong>{matchData.user_name}</strong>, {matchData.profile.age} years old!
+        <h2 className={style.modal_zodiac_sign}>
+          {mapZodiacSign[matchData.profile.zodiac_sign]}
         </h2>
-        <p className=''>{matchData.profile.location}</p>
+        <h2>
+          <strong>{matchData.user_name}</strong>, age: {matchData.profile.age}
+        </h2>
+        <p>Location: <strong>{matchData.profile.location}</strong></p>
+        <p>Height: <strong>{matchData.profile.height} cm.</strong></p>
         <h2 className='mb-0'>About Me</h2>
-        <p className=''>
+        <p>
           {matchData.profile.description}
         </p>
       </div>
