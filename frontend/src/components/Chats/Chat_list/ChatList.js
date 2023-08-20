@@ -8,7 +8,7 @@ import { BiSearchAlt } from "react-icons/bi";
 import { BsFillTrash2Fill } from "react-icons/bs";
 import { IoSadOutline } from "react-icons/io5";
 
-export const ChatList = ({rooms, setRooms, setCodeRoom, setMessages}) => {
+export const ChatList = ({rooms, setRooms, setCodeRoom, setMessages, setShowChats}) => {
   const [showDelete, setShowDelete] = useState(false)
   const [chat, setChat] = useState('');
   const [inputRoom, setInputRoom] = useState('');
@@ -20,6 +20,7 @@ export const ChatList = ({rooms, setRooms, setCodeRoom, setMessages}) => {
 
   const handleSwitchRoom = (chat_data) => {
     setCodeRoom(chat_data.chat);
+    setShowChats(false);
     socket.emit('join_room', {
       'room': chat_data.chat,
       'receiver_name': chat_data.user_name,

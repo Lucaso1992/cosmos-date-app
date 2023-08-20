@@ -7,7 +7,8 @@ import { getChatsUser } from '../../Services/getChatsUser'
 
 
 import style from "./Chats.module.css"
-import { AiOutlineClose } from "react-icons/ai";
+// import { IoArrowBackSharp } from "react-icons/io5";
+import { AiOutlineClose, AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai";
 import { PiWechatLogoFill } from "react-icons/pi";
 
 
@@ -18,11 +19,12 @@ export const Chats = () => {
   const [codeRoom, setCodeRoom] = useState('');
   const [chatName, setChatName] = useState('');
   const [messages, setMessages] = useState([]);
+  const [showChats, setShowChats] = useState(true);
   const value = useAppContext();
 
   const socket = value.store.socket
   const token = value.store.token
-  // const userData = value.store.userData
+
   
   const changeVisibility = () => {
     setVisibility(!visibility);
@@ -53,18 +55,24 @@ export const Chats = () => {
         <div className={`${visibility ? style.chat_view : style.hide} container`}>
 
           <div className={style.chat_container}>
+            <button className={style.icon_back} type='button' onClick={()=>setShowChats(!showChats)}>
+              {showChats?<AiOutlineArrowLeft />:<AiOutlineArrowRight />}
+            </button>
             <button className={style.icon_close} type='button' onClick={changeVisibility}>
               <AiOutlineClose />
             </button>
 
             <h1>Chats</h1>
             <div className={style.body_container}>
-              <ChatList
-                rooms={chats} 
-                setRooms={setChats}
-                codeRoom={codeRoom}
-                setCodeRoom={setCodeRoom}
-                setMessages={setMessages} />
+              <div className={`${style.chat_list} ${showChats? style.show_chatList : ''}`}>
+                <ChatList
+                  rooms={chats} 
+                  setRooms={setChats}
+                  codeRoom={codeRoom}
+                  setCodeRoom={setCodeRoom}
+                  setMessages={setMessages}
+                  setShowChats={setShowChats} />
+              </div>
 
               <ChatMessage
                 codeRoom={codeRoom}

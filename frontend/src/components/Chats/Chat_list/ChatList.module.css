@@ -1,4 +1,5 @@
 .chats_list{
+  flex-grow: 1;
   display: flex;
   flex-direction: column;
   gap: 0.6rem;
@@ -6,9 +7,8 @@
   padding: 0.8rem 0.5rem;
   color: black;
   border: 1px solid white;
-  background-color: #fbfbfb80;
+  background-color: #9f9f9ff3;
   border-radius: 1rem;
-  width: 30%;
 }
 
 .find_chat{
@@ -74,7 +74,7 @@
   transition: 0.4s;
 }
 .room_div:hover{
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: rgba(255, 255, 255, 0.308);
 }
 
 .img_div{
