@@ -1,4 +1,5 @@
 import os
+# import psycopg2
 from dotenv import load_dotenv
 from flask import Flask, send_from_directory
 from flask_jwt_extended import JWTManager
@@ -31,6 +32,7 @@ app.config["JWT_SECRET_KEY"] = os.getenv('JWT_SECRET_KEY')
 jwt = JWTManager(app)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('SQLALCHEMY_DATABASE_URI')
+
 
 mail.init_app(app)
 db.init_app(app)
