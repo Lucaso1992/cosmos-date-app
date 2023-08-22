@@ -1,8 +1,8 @@
 import * as yup from 'yup';
 
 
-const passwordRules = /^(?=.*\d).{4,}$/;
-// const passwordRules = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{5,}$/;
+// const passwordRules = /^(?=.*\d).{4,}$/;
+const passwordRules = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{5,}$/;
 
 export const loginSchema = yup.object().shape({
   email: yup
@@ -11,7 +11,7 @@ export const loginSchema = yup.object().shape({
     .required("Email is required"),
   password: yup
     .string()
-    // .min(5)
+    .min(5)
     .matches(passwordRules, {message: "Password with min. 1 number, capital character."})
     .required("Password is required")
 })
