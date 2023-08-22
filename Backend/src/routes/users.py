@@ -105,7 +105,6 @@ def update_user_dislikes():
         else:
             user_updated = dislike_profile(user)
             posible_match = get_match(user)
-            print(posible_match)
             refresh_token = create_refresh_token(identity=user_updated)
 
             return jsonify(refresh_token=refresh_token, posible_match=posible_match), 200

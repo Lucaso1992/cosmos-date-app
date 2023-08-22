@@ -6,6 +6,7 @@ export const getMatch = (token, updateFunction) => {
       }
     })
     .then(resp =>{
+      console.log(resp.status)
       if (resp.status===404){
         throw new Error("There is no posible match found");
       }
@@ -16,6 +17,7 @@ export const getMatch = (token, updateFunction) => {
       else return resp.json();
     })
     .then(body => {
+      console.log(body);
       updateFunction(body);
       return true
     })

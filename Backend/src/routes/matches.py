@@ -11,5 +11,8 @@ matches = Blueprint('matches',__name__)
 def handle_get_matches():
     user = get_jwt_identity()
     posible_match = get_match(user)
-    
-    return posible_match
+
+    if len(posible_match)==0:
+        return jsonify({"message": "No matches"}), 404
+    else:
+        return jsonify(posible_match), 200
