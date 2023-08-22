@@ -33,7 +33,8 @@ def get_match(user):
 
 
     if posible_match_db is None:
-        return jsonify({"message": "Match not found"}), 400
+        return jsonify({"message": "Match not found"}), 404
+    
     else:
         posible_match = posible_match_db.serialize_for_match()
 
@@ -43,4 +44,4 @@ def get_match(user):
             )
         posible_match["profile"]["age"]=diference.years
 
-        return posible_match
+        return jsonify(posible_match), 200

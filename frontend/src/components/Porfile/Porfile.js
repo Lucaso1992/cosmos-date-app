@@ -52,7 +52,7 @@ export const Porfile = () => {
   }, [userData])
   
   const initialValues = {
-    profile_image: '',
+    profile_image: urlImage!==defaultImage?urlImage:'',
     zodiac_sign: '',
     location: '',
     gender: '',
@@ -105,8 +105,8 @@ export const Porfile = () => {
         const {errors, touched, values} = formik
 
         const onHandleImageUpload = (url) => {
-          values.profile_image = url
           setUrlImage(url);
+          values.profile_image = url
         };
 
         return(

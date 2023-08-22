@@ -1,5 +1,4 @@
 import os
-# import psycopg2
 from dotenv import load_dotenv
 from flask import Flask, send_from_directory
 from flask_jwt_extended import JWTManager
@@ -9,6 +8,15 @@ from flask_migrate import Migrate
 from utils.db import db
 from utils.mail import mail
 from controllers.socket_io_controller import socketio
+
+# from models.users import User
+# from models.chats import Chat
+# from models.messages import Message
+# from models.profile_likes import Profile_Like
+# from models.profile_dislikes import Profile_Dislike
+# from models.token import Token
+# from models.profile_info import Profile
+
 from models.user_chat import User_chat
 from routes.api import api
 
@@ -31,6 +39,7 @@ app.config["MAIL_USE_SSL"] = True
 app.config["JWT_SECRET_KEY"] = os.getenv('JWT_SECRET_KEY')
 jwt = JWTManager(app)
 
+
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('SQLALCHEMY_DATABASE_URI')
 
 
@@ -49,6 +58,7 @@ app.register_blueprint(api)
 def serve_any_other_file(path='index.html'):
     response = send_from_directory(static_file_dir, path)
     return response
+
 
 with app.app_context():
     db.create_all()

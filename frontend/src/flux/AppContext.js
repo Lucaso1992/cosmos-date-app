@@ -34,12 +34,16 @@ export const AppProvider = ({children}) => {
     }
   },[login])
 
+  
   useEffect(() => {
-    if (token !== undefined && token !== "" && Object.keys(matchData).length === 0) {
-      getMatch(token, setMatchData)
-    }
+    if (token !== undefined && token !== "" && userData.profile!==undefined){
+      if ( Object.keys(userData.profile).length>0 && Object.keys(matchData).length===0){
+        getMatch(token, setMatchData);
+      }
+      return
+    } 
     else return
-  }, [token, matchData])
+  }, [token, userData, matchData])
 
 
 

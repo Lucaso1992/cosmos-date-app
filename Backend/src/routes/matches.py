@@ -12,4 +12,4 @@ def handle_get_matches():
     user = get_jwt_identity()
     posible_match = get_match(user)
     
-    return jsonify(posible_match), 200
+    return posible_match
