@@ -80,7 +80,7 @@ export const ForgotPassword = ({handle_ForgotMode}) => {
             <p>
               Don't have an account?
               <button type='button' className={style.register_link} onClick={handle_ForgotMode}>
-                Sing in
+                Sign Up
               </button>
             </p>
           </div>

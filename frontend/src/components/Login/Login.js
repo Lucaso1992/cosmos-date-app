@@ -117,7 +117,7 @@ export const Login = () => {
                   </>
                 ):(
                   <>
-                  <h2>{loginMode?'Login':'Sing In'}</h2>
+                  <h2>{loginMode?'Login':'Sign Up'}</h2>
                   
                   <form onSubmit={handleSubmit}>
 
@@ -196,7 +196,7 @@ export const Login = () => {
                       <p>
                         {loginMode?"Don't have an account?":"You already have an account?"}
                         <button type='button' className={style.register_link} onClick={changeLoginForm}>
-                          {loginMode?'Sing in':'Login'}
+                          {loginMode?'Sign Up':'Login'}
                         </button>
                       </p>
                     </div>

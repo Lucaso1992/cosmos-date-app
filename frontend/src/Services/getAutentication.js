@@ -18,6 +18,9 @@ export const getAutentication = (email, password, updateTokenFuntion) => {
       else if (resp.status===404){
         alert("This email don't exist on data base.");
       } 
+      else if (resp.status===403){
+        alert("This email isn't verified.");
+      }
       else if (resp.status!==200){
         alert("There has been an error");
       }

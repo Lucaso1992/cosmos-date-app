@@ -1,7 +1,7 @@
 const CloudinaryUploadWidget = ({onHandleImageUpload}) => {
    
-    const cloudName = "ddpsqyjbc"; // replace with your own cloud name
-    const uploadPreset = "geeft3j6"; // replace with your own upload preset
+    const cloudName = "dxyd5o0uw"; // replace with your own cloud name
+    const uploadPreset = "zkyeilz6"; // replace with your own upload preset
 
     var myWidget = window.cloudinary.createUploadWidget(
       {

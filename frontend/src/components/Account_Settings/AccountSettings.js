@@ -24,6 +24,7 @@ export const AccountSettings = () => {
   const userData = value.store.userData
   const token = value.store.token;
   const socket = value.store.socket
+  const setMatchData = value.actions.setMatchData
 
 
   const logOut = () =>{
@@ -31,6 +32,7 @@ export const AccountSettings = () => {
     socket.disconnect();
     value.actions.setToken('');
     value.actions.setUserData({});
+    setMatchData({});
     navigate('/');
   }
 
@@ -43,6 +45,7 @@ export const AccountSettings = () => {
         socket.disconnect();
         value.actions.setToken('');
         value.actions.setUserData({});
+        setMatchData({});
         navigate('/');
       }
       else return
@@ -55,6 +58,7 @@ export const AccountSettings = () => {
     socket.disconnect();
     value.actions.setToken('');
     value.actions.setUserData({});
+    setMatchData({});
     setShowDelete(false);
     navigate('/');
   }

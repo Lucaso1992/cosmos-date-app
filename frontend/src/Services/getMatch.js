@@ -17,7 +17,6 @@ export const getMatch = (token, updateFunction) => {
       else return resp.json();
     })
     .then(body => {
-      console.log(body);
       updateFunction(body);
       return true
     })
