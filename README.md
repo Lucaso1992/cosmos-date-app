@@ -1,8 +1,7 @@
-# proyecto-final-4geeks
+# final-project-4geeks
 
-Proyecto final de @Geo504, @Lucaso1992 y @dasktorm
 
-## Backend desde ./Backend:
+## Backend from ./Backend:
 
 ```
 pipenv install
@@ -10,7 +9,7 @@ pipenv shell
 pipenv run python src/app.py
 ```
 
-## Frontend desde ./front-end:
+## Frontend from ./front-end:
 
 ```
 npm install
